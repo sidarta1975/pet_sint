@@ -15,7 +15,7 @@ from typing import Any
 
 from pydantic import BaseModel
 
-from fabrica import matriz
+from fabrica import ficticios, matriz
 from fabrica.comum import normalizacao as norm
 from fabrica.comum.formatos import (
     Configuracao,
@@ -23,13 +23,29 @@ from fabrica.comum.formatos import (
     Endereco,
     EstruturaMontada,
     Extracao,
+    FeriadosNacionais,
+    Ficha,
+    FichaEmbargos,
     FichaInicial,
+    FichaManifestacao,
     FichaQualquer,
     ItemPrograma,
     Perfil,
+    ReaisPermitidos,
+    ReaisProibidos,
     ResultadoItem,
+    ResultadoProgramas,
+    TabelaNormas,
     TermosInequivocos,
     ValorExtraido,
+)
+from fabrica.conferencia import citacoes
+from fabrica.conferencia.dados_reais import Detector
+from fabrica.conferencia.extracao import (
+    caminho_etapa,
+    caminho_ficha,
+    caminho_rascunho,
+    tipo_do_catalogo,
 )
 
 MARCA = "DOCUMENTO SINTÉTICO — FICTÍCIO"
@@ -369,3 +385,108 @@ def conferir(
     if desconhecidos:
         raise ErroRegras(f"não é item de regras.py: {', '.join(desconhecidos)}")
     return [funcoes[i]() for i in itens]
+
+
+# ---------------------------------------------------------------------------
+# Etapa "programas" (brief 017): regras, citações e dado real sobre o rascunho
+# ---------------------------------------------------------------------------
+
+ITENS_DE_REGRAS = ("estrutura", "coerencia_ficha", "alcada", "prazo", "termos_inequivocos", "marca")
+
+
+def _textos_da_ficha(ficha: FichaQualquer) -> tuple[list[str], list[str]]:
+    """Ruas e outros textos de endereço e de processo da ficha (para o detector)."""
+    enderecos = [p.endereco for p in ficha.partes] + [ficha.advogado.endereco_escritorio]
+    if isinstance(ficha, FichaManifestacao):
+        enderecos.append(ficha.endereco_tentado)
+        if ficha.novo_endereco is not None:
+            enderecos.append(ficha.novo_endereco)
+    ruas = sorted({e.rua for e in enderecos})
+    termos = {e.bairro for e in enderecos} | {e.cidade for e in enderecos}
+    termos |= {ficha.processo.comarca, ficha.processo.juizo, ficha.local_peca}
+    if isinstance(ficha, FichaEmbargos):
+        termos.add(ficha.decisao_embargada.juizo)
+    return ruas, sorted(termos)
+
+
+def dado_real(
+    rascunho: str,
+    ficha: FichaQualquer,
+    montada: EstruturaMontada,
+    arquivos: Any,
+    config: Configuracao,
+) -> ResultadoItem:
+    """O item `dado_real`: qualquer achado do detector de 5.2 reprova."""
+    permitidos = arquivos.ler_json("dados/ficticios/reais_permitidos.json", ReaisPermitidos)
+    proibidos = arquivos.ler_json("dados/ficticios/reais_proibidos.json", ReaisProibidos)
+    ruas, termos = _textos_da_ficha(ficha)
+    detector = Detector(
+        marcadores=sorted(ficticios.MARCADORES),
+        ruas=ruas,
+        termos_da_ficha=termos,
+        permitidos=[n.nome for n in permitidos.nomes],
+        proibidos=[n.nome for n in proibidos.nomes],
+        titulos=[b.titulo for b in montada.blocos],
+        ddds=config.ddds.inexistentes,
+        codigos_banco=[],  # lista oficial vazia no MVP (pendência do brief 009)
+    )
+    achados = detector.detectar(rascunho)
+    divergencias = [_div("dado real", f"{a.tipo}: {a.trecho}", "nenhum dado real") for a in achados]
+    return _resultado("dado_real", divergencias, "nenhum dado real")
+
+
+class EtapaProgramas:
+    """Aplica `regras.py`, `citacoes.py` e `dados_reais.py` ao rascunho e grava
+    `saida/conferencias/<peça>_v<k>_programas.json`. Não chama modelo."""
+
+    nome = "programas"
+
+    def aplica(self, peca: Any, servicos: Any) -> bool:
+        return bool(servicos.arquivos.existe(caminho_etapa(peca, "extracao")))
+
+    def arquivo_resultado(self, peca: Any) -> str:
+        return caminho_etapa(peca, self.nome)
+
+    def pedir(self, peca: Any, servicos: Any) -> str | None:
+        arquivos = servicos.arquivos
+        config: Configuracao = servicos.config.geral
+        catalogo = tipo_do_catalogo(peca.tipo, servicos)
+        rascunho = arquivos.ler_texto(caminho_rascunho(peca))
+        extracao = arquivos.ler_json(caminho_etapa(peca, "extracao"), Extracao)
+        ficha = arquivos.ler_json(caminho_ficha(peca), Ficha).root
+        montada = arquivos.ler_json(
+            f"saida/preparacao/{peca.tipo}_estrutura.json", EstruturaMontada
+        )
+        perfil = arquivos.ler_json(f"dados/estruturas/perfis/{catalogo.perfil}.json", Perfil)
+        termos = arquivos.ler_json("dados/conferencia/termos_inequivocos.json", TermosInequivocos)
+        feriados = arquivos.ler_json("dados/conferencia/feriados_nacionais.json", FeriadosNacionais)
+        tabela = arquivos.ler_json("dados/normas/tabela_normas.json", TabelaNormas)
+        pedidos = [i for i in catalogo.itens_conferencia if i in ITENS_DE_REGRAS]
+        de_regras = conferir(
+            rascunho,
+            extracao,
+            ficha,
+            montada,
+            perfil,
+            termos,
+            [f.data for f in feriados.feriados],
+            config,
+            pedidos,
+        )
+        por_item = {r.item: r for r in de_regras}
+        cit = citacoes.conferir(rascunho, tabela)
+        por_item["citacao_fora_da_tabela"] = cit.item
+        if "dado_real" in catalogo.itens_conferencia:
+            por_item["dado_real"] = dado_real(rascunho, ficha, montada, arquivos, config)
+        itens = [por_item[i] for i in catalogo.itens_conferencia if i in por_item]
+        resultado = ResultadoProgramas(
+            itens=itens,
+            alertas=list(cit.alertas),
+            citacoes_resolvidas=list(cit.resolvidas),
+            citacoes_nao_resolvidas=list(cit.nao_resolvidas),
+        )
+        arquivos.gravar_json(caminho_etapa(peca, self.nome), resultado)
+        return None
+
+    def receber(self, peca: Any, resposta: Any, servicos: Any) -> str | None:
+        raise ErroRegras("a etapa programas não faz pedido e não recebe resposta")

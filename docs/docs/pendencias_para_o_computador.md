@@ -44,6 +44,9 @@ Cada linha: o ponto, o valor provisório em uso e o brief onde ele aparece. Nada
 | Resposta da ficha fora do formato duas vezes | Descarte e ficha nova na casa, sem o retorno com motivo | 015 |
 | Número da ficha nova da casa | O seguinte do tipo na rodada (011, 012...; no ensaio, 002, 003) | 015 |
 | Rodar `preparar` antes do `ensaio`: a redação lê a estrutura de `saida/preparacao/<tipo>_estrutura.json` | Sem a estrutura, `avancar` para na redação com o arquivo que falta | 016 |
+| Teto de saída do conferente local (a configuração não tem `[tarefas.conferente_local]`) | 2000 tokens, constante em `fabrica/conferencia/local.py` | 017 |
+| Lista oficial dos códigos de banco para o detector | Vazia: nenhum código é acusado | 009, 017 |
+| Manifestação do ensaio passa pelo conferente local só se a casa 1 for uma das 2 sorteadas | Sem exceção para o ensaio | 017 |
 
 ## Briefs que esperam o computador
 
