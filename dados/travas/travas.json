@@ -1,0 +1,369 @@
+{
+  "travas": [
+    {
+      "condicoes": [
+        {
+          "campo": "processo.rito",
+          "op": "igual",
+          "valor": "juizado_especial_civel",
+          "outro_campo": null
+        },
+        {
+          "campo": "autor.categoria",
+          "op": "fora_da_lista",
+          "valor": [
+            "pessoa_fisica",
+            "mei",
+            "microempresa",
+            "empresa_pequeno_porte"
+          ],
+          "outro_campo": null
+        }
+      ],
+      "efeito": "proibe",
+      "campo_exigido": null,
+      "base_legal": "Art. 8º, § 1º, da Lei 9.099/1995 (OSCIP e sociedade de crédito ao microempreendedor ficam fora da matriz por simplicidade)",
+      "dispositivos": [
+        "lei_9099_1995_art8_p1"
+      ]
+    },
+    {
+      "condicoes": [
+        {
+          "campo": "processo.rito",
+          "op": "igual",
+          "valor": "juizado_especial_civel",
+          "outro_campo": null
+        },
+        {
+          "campo": "autor.categoria",
+          "op": "na_lista",
+          "valor": [
+            "pessoa_juridica_direito_publico",
+            "empresa_publica_uniao",
+            "massa_falida"
+          ],
+          "outro_campo": null
+        }
+      ],
+      "efeito": "proibe",
+      "campo_exigido": null,
+      "base_legal": "Art. 8º, caput, da Lei 9.099/1995 (o autor como parte)",
+      "dispositivos": [
+        "lei_9099_1995_art8"
+      ]
+    },
+    {
+      "condicoes": [
+        {
+          "campo": "processo.rito",
+          "op": "igual",
+          "valor": "juizado_especial_civel",
+          "outro_campo": null
+        },
+        {
+          "campo": "autor.capaz",
+          "op": "igual",
+          "valor": false,
+          "outro_campo": null
+        }
+      ],
+      "efeito": "proibe",
+      "campo_exigido": null,
+      "base_legal": "Art. 8º, caput, da Lei 9.099/1995 (incapaz: o autor)",
+      "dispositivos": [
+        "lei_9099_1995_art8"
+      ]
+    },
+    {
+      "condicoes": [
+        {
+          "campo": "processo.rito",
+          "op": "igual",
+          "valor": "juizado_especial_civel",
+          "outro_campo": null
+        },
+        {
+          "campo": "autor.preso",
+          "op": "igual",
+          "valor": true,
+          "outro_campo": null
+        }
+      ],
+      "efeito": "proibe",
+      "campo_exigido": null,
+      "base_legal": "Art. 8º, caput, da Lei 9.099/1995 (preso: o autor)",
+      "dispositivos": [
+        "lei_9099_1995_art8"
+      ]
+    },
+    {
+      "condicoes": [
+        {
+          "campo": "processo.rito",
+          "op": "igual",
+          "valor": "juizado_especial_civel",
+          "outro_campo": null
+        },
+        {
+          "campo": "reu.categoria",
+          "op": "na_lista",
+          "valor": [
+            "pessoa_juridica_direito_publico",
+            "empresa_publica_uniao",
+            "massa_falida"
+          ],
+          "outro_campo": null
+        }
+      ],
+      "efeito": "proibe",
+      "campo_exigido": null,
+      "base_legal": "Art. 8º, caput, da Lei 9.099/1995 (o réu como parte)",
+      "dispositivos": [
+        "lei_9099_1995_art8"
+      ]
+    },
+    {
+      "condicoes": [
+        {
+          "campo": "processo.rito",
+          "op": "igual",
+          "valor": "juizado_especial_civel",
+          "outro_campo": null
+        },
+        {
+          "campo": "reu.capaz",
+          "op": "igual",
+          "valor": false,
+          "outro_campo": null
+        }
+      ],
+      "efeito": "proibe",
+      "campo_exigido": null,
+      "base_legal": "Art. 8º, caput, da Lei 9.099/1995 (incapaz: o réu)",
+      "dispositivos": [
+        "lei_9099_1995_art8"
+      ]
+    },
+    {
+      "condicoes": [
+        {
+          "campo": "processo.rito",
+          "op": "igual",
+          "valor": "juizado_especial_civel",
+          "outro_campo": null
+        },
+        {
+          "campo": "reu.preso",
+          "op": "igual",
+          "valor": true,
+          "outro_campo": null
+        }
+      ],
+      "efeito": "proibe",
+      "campo_exigido": null,
+      "base_legal": "Art. 8º, caput, da Lei 9.099/1995 (preso: o réu)",
+      "dispositivos": [
+        "lei_9099_1995_art8"
+      ]
+    },
+    {
+      "condicoes": [
+        {
+          "campo": "processo.rito",
+          "op": "igual",
+          "valor": "juizado_especial_civel",
+          "outro_campo": null
+        },
+        {
+          "campo": "materia",
+          "op": "na_lista",
+          "valor": [
+            "alimentos",
+            "falencia",
+            "fiscal",
+            "interesse_fazenda_publica",
+            "acidente_de_trabalho",
+            "residuos",
+            "estado_e_capacidade"
+          ],
+          "outro_campo": null
+        }
+      ],
+      "efeito": "proibe",
+      "campo_exigido": null,
+      "base_legal": "Art. 3º, § 2º, da Lei 9.099/1995",
+      "dispositivos": [
+        "lei_9099_1995_art3_p2"
+      ]
+    },
+    {
+      "condicoes": [
+        {
+          "campo": "processo.rito",
+          "op": "igual",
+          "valor": "juizado_especial_civel",
+          "outro_campo": null
+        },
+        {
+          "campo": "valor_causa_centavos",
+          "op": "maior",
+          "valor": null,
+          "outro_campo": "alcada_centavos"
+        }
+      ],
+      "efeito": "proibe",
+      "campo_exigido": null,
+      "base_legal": "Art. 3º, I, da Lei 9.099/1995",
+      "dispositivos": [
+        "lei_9099_1995_art3"
+      ]
+    },
+    {
+      "condicoes": [
+        {
+          "campo": "tipo",
+          "op": "igual",
+          "valor": "Embargos de Declaração",
+          "outro_campo": null
+        },
+        {
+          "campo": "processo.rito",
+          "op": "igual",
+          "valor": "juizado_especial_civel",
+          "outro_campo": null
+        }
+      ],
+      "efeito": "proibe",
+      "campo_exigido": null,
+      "base_legal": "Rótulo próprio na lista consolidada (\"Embargos de Declaração em Juizado Especial\"); no juizado, art. 48 da Lei 9.099/1995",
+      "dispositivos": [
+        "lei_9099_1995_art48"
+      ]
+    },
+    {
+      "condicoes": [
+        {
+          "campo": "tipo",
+          "op": "igual",
+          "valor": "Embargos de Declaração",
+          "outro_campo": null
+        },
+        {
+          "campo": "defeito.tipo",
+          "op": "na_lista",
+          "valor": [
+            "omissao_total",
+            "omissao_parcial"
+          ],
+          "outro_campo": null
+        }
+      ],
+      "efeito": "exige",
+      "campo_exigido": "defeito.ancora.argumento_id",
+      "base_legal": "Art. 1.022, II, e parágrafo único, do CPC",
+      "dispositivos": [
+        "cpc_art1022",
+        "cpc_art1022_pu"
+      ]
+    },
+    {
+      "condicoes": [
+        {
+          "campo": "tipo",
+          "op": "igual",
+          "valor": "Embargos de Declaração",
+          "outro_campo": null
+        },
+        {
+          "campo": "defeito.tipo",
+          "op": "igual",
+          "valor": "omissao_parcial",
+          "outro_campo": null
+        }
+      ],
+      "efeito": "exige",
+      "campo_exigido": "defeito.trecho_mencao",
+      "base_legal": "Art. 489, § 1º, IV, do CPC",
+      "dispositivos": [
+        "cpc_art489_p1"
+      ]
+    },
+    {
+      "condicoes": [
+        {
+          "campo": "tipo",
+          "op": "igual",
+          "valor": "Manifestação sobre Aviso de Recebimento Negativo",
+          "outro_campo": null
+        },
+        {
+          "campo": "pedido_ar",
+          "op": "igual",
+          "valor": "informar_novo_endereco",
+          "outro_campo": null
+        }
+      ],
+      "efeito": "exige",
+      "campo_exigido": "novo_endereco",
+      "base_legal": "Art. 319, II, do CPC, quanto ao endereço do réu",
+      "dispositivos": [
+        "cpc_art319"
+      ]
+    },
+    {
+      "condicoes": [
+        {
+          "campo": "tipo",
+          "op": "igual",
+          "valor": "Manifestação sobre Aviso de Recebimento Negativo",
+          "outro_campo": null
+        },
+        {
+          "campo": "aviso_recebimento.motivo_devolucao",
+          "op": "na_lista",
+          "valor": [
+            "mudou_se",
+            "desconhecido",
+            "numero_inexistente",
+            "endereco_insuficiente"
+          ],
+          "outro_campo": null
+        },
+        {
+          "campo": "pedido_ar",
+          "op": "igual",
+          "valor": "renovar_mesmo_endereco",
+          "outro_campo": null
+        }
+      ],
+      "efeito": "proibe",
+      "campo_exigido": null,
+      "base_legal": "Coerência: a carta não chegará ao mesmo endereço",
+      "dispositivos": []
+    },
+    {
+      "condicoes": [
+        {
+          "campo": "tipo",
+          "op": "igual",
+          "valor": "Manifestação sobre Aviso de Recebimento Negativo",
+          "outro_campo": null
+        },
+        {
+          "campo": "nova_diligencia",
+          "op": "igual",
+          "valor": true,
+          "outro_campo": null
+        }
+      ],
+      "efeito": "exige",
+      "campo_exigido": "meio_nova_diligencia",
+      "base_legal": "Art. 249 do CPC; art. 18 da Lei 9.099/1995",
+      "dispositivos": [
+        "cpc_art249",
+        "lei_9099_1995_art18"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,138 @@
+{
+  "tipo": "embargos_declaracao",
+  "quantidade": 10,
+  "momento": "depois_da_decisao_embargada",
+  "materias": [
+    {
+      "materia": "negativacao_indevida",
+      "teses": [
+        "inscrição em cadastro de inadimplentes por dívida inexistente",
+        "inscrição sem a comunicação prévia por escrito ao consumidor",
+        "manutenção da inscrição depois da quitação da dívida"
+      ],
+      "quantidade": null
+    },
+    {
+      "materia": "voo_atrasado_cancelado",
+      "teses": [
+        "atraso de voo superior a quatro horas sem assistência ao passageiro",
+        "cancelamento de voo sem reacomodação adequada"
+      ],
+      "quantidade": null
+    },
+    {
+      "materia": "vicio_produto",
+      "teses": [
+        "vício do produto não sanado no prazo de trinta dias",
+        "produto entregue diferente do anunciado"
+      ],
+      "quantidade": null
+    },
+    {
+      "materia": "cobranca_indevida_telefonia_internet",
+      "teses": [
+        "cobrança por serviço não contratado",
+        "cobrança mantida depois do cancelamento do plano"
+      ],
+      "quantidade": null
+    },
+    {
+      "materia": "falha_servico_bancario",
+      "teses": [
+        "desconto em conta não autorizado pelo cliente",
+        "cobrança de tarifa não contratada"
+      ],
+      "quantidade": null
+    }
+  ],
+  "teto_por_materia": 2,
+  "eixos_fixos": [
+    {
+      "eixo": "complexidade",
+      "contagens": [
+        {
+          "valor": "simples",
+          "quantidade": 5
+        },
+        {
+          "valor": "media",
+          "quantidade": 5
+        }
+      ]
+    },
+    {
+      "eixo": "estilo",
+      "contagens": [
+        {
+          "valor": "conciso",
+          "quantidade": 5
+        },
+        {
+          "valor": "detalhado",
+          "quantidade": 5
+        }
+      ]
+    },
+    {
+      "eixo": "polo",
+      "contagens": [
+        {
+          "valor": "autor",
+          "quantidade": 5
+        },
+        {
+          "valor": "reu",
+          "quantidade": 5
+        }
+      ]
+    },
+    {
+      "eixo": "defeito",
+      "contagens": [
+        {
+          "valor": "omissao_total",
+          "quantidade": 2
+        },
+        {
+          "valor": "omissao_parcial",
+          "quantidade": 3
+        },
+        {
+          "valor": "contradicao",
+          "quantidade": 2
+        },
+        {
+          "valor": "obscuridade",
+          "quantidade": 2
+        },
+        {
+          "valor": "erro_material",
+          "quantidade": 1
+        }
+      ]
+    },
+    {
+      "eixo": "tipo_decisao",
+      "contagens": [
+        {
+          "valor": "sentenca",
+          "quantidade": 7
+        },
+        {
+          "valor": "decisao_interlocutoria",
+          "quantidade": 3
+        }
+      ]
+    }
+  ],
+  "categorias_autor": [
+    "pessoa_fisica",
+    "microempresa",
+    "empresa_pequeno_porte"
+  ],
+  "categorias_reu": [
+    "pessoa_juridica_privada"
+  ],
+  "motivos_devolucao": [],
+  "pedidos_ar": []
+}

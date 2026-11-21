@@ -1,0 +1,40 @@
+{
+  "id": "peticao_intermediaria",
+  "blocos": [
+    {
+      "nome": "enderecamento",
+      "titulo": "Endereçamento",
+      "ordem": 10,
+      "obrigatorio": true,
+      "descricao": "O juízo onde corre o processo."
+    },
+    {
+      "nome": "identificacao",
+      "titulo": "Identificação do Processo e das Partes",
+      "ordem": 20,
+      "obrigatorio": true,
+      "descricao": "Número do processo e quem se manifesta."
+    },
+    {
+      "nome": "exposicao",
+      "titulo": "Da Exposição",
+      "ordem": 30,
+      "obrigatorio": true,
+      "descricao": "O que aconteceu no processo e motiva a petição."
+    },
+    {
+      "nome": "pedidos",
+      "titulo": "Dos Pedidos",
+      "ordem": 60,
+      "obrigatorio": true,
+      "descricao": "Os pedidos da ficha."
+    },
+    {
+      "nome": "fecho",
+      "titulo": "Encerramento",
+      "ordem": 90,
+      "obrigatorio": true,
+      "descricao": "Pedido de deferimento, local, data, nome e OAB do advogado (marcadores)."
+    }
+  ]
+}

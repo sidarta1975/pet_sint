@@ -1,0 +1,19 @@
+{
+  "termos": [
+    {
+      "termo": "prazo em quádruplo",
+      "motivo": "O Código de Processo Civil de 2015 não tem prazo em quádruplo: a Fazenda Pública tem prazo em dobro. O quádruplo para contestar era do código de 1973 (art. 188), revogado.",
+      "norma": "Art. 183 do CPC (Lei 13.105/2015)"
+    },
+    {
+      "termo": "exceção de incompetência",
+      "motivo": "No processo civil de hoje, a incompetência, absoluta ou relativa, é alegada como preliminar de contestação; a exceção de incompetência era do código de 1973 (arts. 112 e 304), revogado.",
+      "norma": "Art. 64 do CPC (Lei 13.105/2015)"
+    },
+    {
+      "termo": "pedido juridicamente impossível",
+      "motivo": "A impossibilidade jurídica do pedido deixou de ser causa de inépcia da petição inicial no código de 2015, que lista as hipóteses de inépcia sem ela.",
+      "norma": "Art. 330, § 1º, do CPC (Lei 13.105/2015)"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "tipo": "embargos_declaracao",
+  "blocos": [
+    {
+      "nome": "vicio",
+      "titulo": "Do Vício da Decisão",
+      "ordem": 45,
+      "obrigatorio": true,
+      "descricao": "A omissão, a contradição, a obscuridade ou o erro material da decisão, com o trecho da âncora (art. 1.022 do CPC)."
+    },
+    {
+      "nome": "efeito_modificativo",
+      "titulo": "Do Efeito Modificativo",
+      "ordem": 58,
+      "obrigatorio": false,
+      "descricao": "Só quando a ficha pede que a correção mude o resultado (art. 1.023, § 2º)."
+    }
+  ],
+  "retirar": [
+    "preparo"
+  ],
+  "ajustar": [
+    {
+      "nome": "tempestividade",
+      "titulo": "Da Tempestividade",
+      "ordem": 30,
+      "obrigatorio": true,
+      "descricao": "Embargos opostos em 5 dias úteis da intimação (arts. 219 e 1.023 do CPC), sem preparo."
+    }
+  ]
+}

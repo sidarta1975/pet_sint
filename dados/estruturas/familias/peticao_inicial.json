@@ -1,0 +1,82 @@
+{
+  "id": "peticao_inicial",
+  "blocos": [
+    {
+      "nome": "enderecamento",
+      "titulo": "Endereçamento",
+      "ordem": 10,
+      "obrigatorio": true,
+      "descricao": "O juízo a que a petição é dirigida (art. 319, I, do CPC)."
+    },
+    {
+      "nome": "qualificacao",
+      "titulo": "Qualificação das Partes",
+      "ordem": 20,
+      "obrigatorio": true,
+      "descricao": "Autor e réu com os dados da ficha (art. 319, II, do CPC)."
+    },
+    {
+      "nome": "fatos",
+      "titulo": "Dos Fatos",
+      "ordem": 30,
+      "obrigatorio": true,
+      "descricao": "Os fatos do caso, em ordem, com datas e valores da ficha (art. 319, III)."
+    },
+    {
+      "nome": "fundamentos",
+      "titulo": "Do Direito",
+      "ordem": 40,
+      "obrigatorio": true,
+      "descricao": "Os fundamentos jurídicos do pedido, só com dispositivos do trecho da tabela (art. 319, III)."
+    },
+    {
+      "nome": "tutela_urgencia",
+      "titulo": "Da Tutela de Urgência",
+      "ordem": 50,
+      "obrigatorio": false,
+      "descricao": "Só quando a ficha pede tutela de urgência (art. 300 do CPC)."
+    },
+    {
+      "nome": "pedidos",
+      "titulo": "Dos Pedidos",
+      "ordem": 60,
+      "obrigatorio": true,
+      "descricao": "Os pedidos da ficha, com as especificações (art. 319, IV)."
+    },
+    {
+      "nome": "citacao_por_edital",
+      "titulo": "Da Citação por Edital",
+      "ordem": 65,
+      "obrigatorio": false,
+      "descricao": "Pedido de citação por edital, quando cabível no rito."
+    },
+    {
+      "nome": "provas",
+      "titulo": "Das Provas",
+      "ordem": 70,
+      "obrigatorio": true,
+      "descricao": "As provas com que o autor pretende demonstrar os fatos (art. 319, VI)."
+    },
+    {
+      "nome": "audiencia_conciliacao",
+      "titulo": "Da Audiência de Conciliação",
+      "ordem": 75,
+      "obrigatorio": false,
+      "descricao": "A opção pela audiência de conciliação ou de mediação (art. 319, VII)."
+    },
+    {
+      "nome": "valor_causa",
+      "titulo": "Do Valor da Causa",
+      "ordem": 80,
+      "obrigatorio": true,
+      "descricao": "O valor da causa da ficha (arts. 291 e 292 do CPC)."
+    },
+    {
+      "nome": "fecho",
+      "titulo": "Encerramento",
+      "ordem": 90,
+      "obrigatorio": true,
+      "descricao": "Pedido de deferimento, local, data, nome e OAB do advogado (marcadores)."
+    }
+  ]
+}

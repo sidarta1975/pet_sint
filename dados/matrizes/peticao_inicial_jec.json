@@ -1,0 +1,90 @@
+{
+  "tipo": "peticao_inicial_jec",
+  "quantidade": 10,
+  "momento": "antes_da_citacao",
+  "materias": [
+    {
+      "materia": "negativacao_indevida",
+      "teses": [
+        "inscrição em cadastro de inadimplentes por dívida inexistente",
+        "inscrição sem a comunicação prévia por escrito ao consumidor",
+        "manutenção da inscrição depois da quitação da dívida"
+      ],
+      "quantidade": 2
+    },
+    {
+      "materia": "voo_atrasado_cancelado",
+      "teses": [
+        "atraso de voo superior a quatro horas sem assistência ao passageiro",
+        "cancelamento de voo sem reacomodação adequada"
+      ],
+      "quantidade": 2
+    },
+    {
+      "materia": "vicio_produto",
+      "teses": [
+        "vício do produto não sanado no prazo de trinta dias",
+        "produto entregue diferente do anunciado"
+      ],
+      "quantidade": 2
+    },
+    {
+      "materia": "cobranca_indevida_telefonia_internet",
+      "teses": [
+        "cobrança por serviço não contratado",
+        "cobrança mantida depois do cancelamento do plano"
+      ],
+      "quantidade": 2
+    },
+    {
+      "materia": "falha_servico_bancario",
+      "teses": [
+        "desconto em conta não autorizado pelo cliente",
+        "cobrança de tarifa não contratada"
+      ],
+      "quantidade": 2
+    }
+  ],
+  "teto_por_materia": 2,
+  "eixos_fixos": [
+    {
+      "eixo": "complexidade",
+      "contagens": [
+        {
+          "valor": "simples",
+          "quantidade": 5
+        },
+        {
+          "valor": "media",
+          "quantidade": 5
+        }
+      ]
+    },
+    {
+      "eixo": "estilo",
+      "contagens": [
+        {
+          "valor": "conciso",
+          "quantidade": 5
+        },
+        {
+          "valor": "detalhado",
+          "quantidade": 5
+        }
+      ]
+    }
+  ],
+  "categorias_autor": [
+    "pessoa_fisica",
+    "mei",
+    "microempresa",
+    "empresa_pequeno_porte"
+  ],
+  "categorias_reu": [
+    "pessoa_juridica_privada",
+    "microempresa",
+    "empresa_pequeno_porte"
+  ],
+  "motivos_devolucao": [],
+  "pedidos_ar": []
+}

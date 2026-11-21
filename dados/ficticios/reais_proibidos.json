@@ -1,0 +1,520 @@
+{
+  "nomes": [
+    {
+      "nome": "Banco do Brasil",
+      "categoria": "banco"
+    },
+    {
+      "nome": "Caixa Econômica Federal",
+      "categoria": "banco"
+    },
+    {
+      "nome": "Bradesco",
+      "categoria": "banco"
+    },
+    {
+      "nome": "Banco Bradesco",
+      "categoria": "banco"
+    },
+    {
+      "nome": "Itaú",
+      "categoria": "banco"
+    },
+    {
+      "nome": "Itaú Unibanco",
+      "categoria": "banco"
+    },
+    {
+      "nome": "Santander",
+      "categoria": "banco"
+    },
+    {
+      "nome": "Banco Santander",
+      "categoria": "banco"
+    },
+    {
+      "nome": "Nubank",
+      "categoria": "banco"
+    },
+    {
+      "nome": "Nu Pagamentos",
+      "categoria": "banco"
+    },
+    {
+      "nome": "Banco Inter",
+      "categoria": "banco"
+    },
+    {
+      "nome": "BTG Pactual",
+      "categoria": "banco"
+    },
+    {
+      "nome": "C6 Bank",
+      "categoria": "banco"
+    },
+    {
+      "nome": "Sicredi",
+      "categoria": "banco"
+    },
+    {
+      "nome": "Sicoob",
+      "categoria": "banco"
+    },
+    {
+      "nome": "Banrisul",
+      "categoria": "banco"
+    },
+    {
+      "nome": "Banco do Nordeste",
+      "categoria": "banco"
+    },
+    {
+      "nome": "Banco Safra",
+      "categoria": "banco"
+    },
+    {
+      "nome": "Agibank",
+      "categoria": "banco"
+    },
+    {
+      "nome": "Neon",
+      "categoria": "banco"
+    },
+    {
+      "nome": "PicPay",
+      "categoria": "banco"
+    },
+    {
+      "nome": "Mercado Pago",
+      "categoria": "banco"
+    },
+    {
+      "nome": "PagBank",
+      "categoria": "banco"
+    },
+    {
+      "nome": "PagSeguro",
+      "categoria": "banco"
+    },
+    {
+      "nome": "Will Bank",
+      "categoria": "banco"
+    },
+    {
+      "nome": "Latam",
+      "categoria": "companhia_aerea"
+    },
+    {
+      "nome": "LATAM Airlines",
+      "categoria": "companhia_aerea"
+    },
+    {
+      "nome": "Gol",
+      "categoria": "companhia_aerea"
+    },
+    {
+      "nome": "Gol Linhas Aéreas",
+      "categoria": "companhia_aerea"
+    },
+    {
+      "nome": "Azul",
+      "categoria": "companhia_aerea"
+    },
+    {
+      "nome": "Azul Linhas Aéreas",
+      "categoria": "companhia_aerea"
+    },
+    {
+      "nome": "Voepass",
+      "categoria": "companhia_aerea"
+    },
+    {
+      "nome": "TAP",
+      "categoria": "companhia_aerea"
+    },
+    {
+      "nome": "American Airlines",
+      "categoria": "companhia_aerea"
+    },
+    {
+      "nome": "Air France",
+      "categoria": "companhia_aerea"
+    },
+    {
+      "nome": "KLM",
+      "categoria": "companhia_aerea"
+    },
+    {
+      "nome": "Emirates",
+      "categoria": "companhia_aerea"
+    },
+    {
+      "nome": "Copa Airlines",
+      "categoria": "companhia_aerea"
+    },
+    {
+      "nome": "Aerolíneas Argentinas",
+      "categoria": "companhia_aerea"
+    },
+    {
+      "nome": "Vivo",
+      "categoria": "telefonia_internet"
+    },
+    {
+      "nome": "Telefônica",
+      "categoria": "telefonia_internet"
+    },
+    {
+      "nome": "Claro",
+      "categoria": "telefonia_internet"
+    },
+    {
+      "nome": "TIM",
+      "categoria": "telefonia_internet"
+    },
+    {
+      "nome": "Oi",
+      "categoria": "telefonia_internet"
+    },
+    {
+      "nome": "Sky",
+      "categoria": "telefonia_internet"
+    },
+    {
+      "nome": "Net",
+      "categoria": "telefonia_internet"
+    },
+    {
+      "nome": "Embratel",
+      "categoria": "telefonia_internet"
+    },
+    {
+      "nome": "Nextel",
+      "categoria": "telefonia_internet"
+    },
+    {
+      "nome": "Brisanet",
+      "categoria": "telefonia_internet"
+    },
+    {
+      "nome": "Desktop",
+      "categoria": "telefonia_internet"
+    },
+    {
+      "nome": "Vero",
+      "categoria": "telefonia_internet"
+    },
+    {
+      "nome": "Ligga",
+      "categoria": "telefonia_internet"
+    },
+    {
+      "nome": "Magazine Luiza",
+      "categoria": "varejo"
+    },
+    {
+      "nome": "Magalu",
+      "categoria": "varejo"
+    },
+    {
+      "nome": "Casas Bahia",
+      "categoria": "varejo"
+    },
+    {
+      "nome": "Via Varejo",
+      "categoria": "varejo"
+    },
+    {
+      "nome": "Americanas",
+      "categoria": "varejo"
+    },
+    {
+      "nome": "Lojas Americanas",
+      "categoria": "varejo"
+    },
+    {
+      "nome": "Mercado Livre",
+      "categoria": "varejo"
+    },
+    {
+      "nome": "Amazon",
+      "categoria": "varejo"
+    },
+    {
+      "nome": "Shopee",
+      "categoria": "varejo"
+    },
+    {
+      "nome": "Shein",
+      "categoria": "varejo"
+    },
+    {
+      "nome": "AliExpress",
+      "categoria": "varejo"
+    },
+    {
+      "nome": "Carrefour",
+      "categoria": "varejo"
+    },
+    {
+      "nome": "Pão de Açúcar",
+      "categoria": "varejo"
+    },
+    {
+      "nome": "Assaí",
+      "categoria": "varejo"
+    },
+    {
+      "nome": "Atacadão",
+      "categoria": "varejo"
+    },
+    {
+      "nome": "Ponto Frio",
+      "categoria": "varejo"
+    },
+    {
+      "nome": "Extra",
+      "categoria": "varejo"
+    },
+    {
+      "nome": "Fast Shop",
+      "categoria": "varejo"
+    },
+    {
+      "nome": "Leroy Merlin",
+      "categoria": "varejo"
+    },
+    {
+      "nome": "Renner",
+      "categoria": "varejo"
+    },
+    {
+      "nome": "Riachuelo",
+      "categoria": "varejo"
+    },
+    {
+      "nome": "C&A",
+      "categoria": "varejo"
+    },
+    {
+      "nome": "Centauro",
+      "categoria": "varejo"
+    },
+    {
+      "nome": "Netshoes",
+      "categoria": "varejo"
+    },
+    {
+      "nome": "Kabum",
+      "categoria": "varejo"
+    },
+    {
+      "nome": "Submarino",
+      "categoria": "varejo"
+    },
+    {
+      "nome": "Dafiti",
+      "categoria": "varejo"
+    },
+    {
+      "nome": "Porto Seguro",
+      "categoria": "seguros_saude"
+    },
+    {
+      "nome": "SulAmérica",
+      "categoria": "seguros_saude"
+    },
+    {
+      "nome": "Bradesco Seguros",
+      "categoria": "seguros_saude"
+    },
+    {
+      "nome": "Mapfre",
+      "categoria": "seguros_saude"
+    },
+    {
+      "nome": "Allianz",
+      "categoria": "seguros_saude"
+    },
+    {
+      "nome": "Tokio Marine",
+      "categoria": "seguros_saude"
+    },
+    {
+      "nome": "Unimed",
+      "categoria": "seguros_saude"
+    },
+    {
+      "nome": "Amil",
+      "categoria": "seguros_saude"
+    },
+    {
+      "nome": "Hapvida",
+      "categoria": "seguros_saude"
+    },
+    {
+      "nome": "NotreDame Intermédica",
+      "categoria": "seguros_saude"
+    },
+    {
+      "nome": "Stone",
+      "categoria": "pagamento_credito"
+    },
+    {
+      "nome": "Rede",
+      "categoria": "pagamento_credito"
+    },
+    {
+      "nome": "Getnet",
+      "categoria": "pagamento_credito"
+    },
+    {
+      "nome": "Visa",
+      "categoria": "pagamento_credito"
+    },
+    {
+      "nome": "Mastercard",
+      "categoria": "pagamento_credito"
+    },
+    {
+      "nome": "Elo",
+      "categoria": "pagamento_credito"
+    },
+    {
+      "nome": "American Express",
+      "categoria": "pagamento_credito"
+    },
+    {
+      "nome": "Hipercard",
+      "categoria": "pagamento_credito"
+    },
+    {
+      "nome": "Boa Vista SCPC",
+      "categoria": "pagamento_credito"
+    },
+    {
+      "nome": "Quod",
+      "categoria": "pagamento_credito"
+    },
+    {
+      "nome": "Uber",
+      "categoria": "outros"
+    },
+    {
+      "nome": "99",
+      "categoria": "outros"
+    },
+    {
+      "nome": "iFood",
+      "categoria": "outros"
+    },
+    {
+      "nome": "Rappi",
+      "categoria": "outros"
+    },
+    {
+      "nome": "Booking",
+      "categoria": "outros"
+    },
+    {
+      "nome": "Airbnb",
+      "categoria": "outros"
+    },
+    {
+      "nome": "Decolar",
+      "categoria": "outros"
+    },
+    {
+      "nome": "123milhas",
+      "categoria": "outros"
+    },
+    {
+      "nome": "Hurb",
+      "categoria": "outros"
+    },
+    {
+      "nome": "CVC",
+      "categoria": "outros"
+    },
+    {
+      "nome": "Enel",
+      "categoria": "outros"
+    },
+    {
+      "nome": "Light",
+      "categoria": "outros"
+    },
+    {
+      "nome": "Cemig",
+      "categoria": "outros"
+    },
+    {
+      "nome": "Copel",
+      "categoria": "outros"
+    },
+    {
+      "nome": "Sabesp",
+      "categoria": "outros"
+    },
+    {
+      "nome": "Neoenergia",
+      "categoria": "outros"
+    },
+    {
+      "nome": "Energisa",
+      "categoria": "outros"
+    },
+    {
+      "nome": "Equatorial",
+      "categoria": "outros"
+    },
+    {
+      "nome": "Netflix",
+      "categoria": "outros"
+    },
+    {
+      "nome": "Spotify",
+      "categoria": "outros"
+    },
+    {
+      "nome": "Google",
+      "categoria": "outros"
+    },
+    {
+      "nome": "Apple",
+      "categoria": "outros"
+    },
+    {
+      "nome": "Samsung",
+      "categoria": "outros"
+    },
+    {
+      "nome": "Motorola",
+      "categoria": "outros"
+    },
+    {
+      "nome": "LG",
+      "categoria": "outros"
+    },
+    {
+      "nome": "Xiaomi",
+      "categoria": "outros"
+    },
+    {
+      "nome": "Philips",
+      "categoria": "outros"
+    },
+    {
+      "nome": "Brastemp",
+      "categoria": "outros"
+    },
+    {
+      "nome": "Consul",
+      "categoria": "outros"
+    },
+    {
+      "nome": "Electrolux",
+      "categoria": "outros"
+    }
+  ]
+}

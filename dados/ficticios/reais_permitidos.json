@@ -1,0 +1,1040 @@
+{
+  "nomes": [
+    {
+      "nome": "Tribunal de Justiça do Estado de Bahia",
+      "categoria": "tribunal"
+    },
+    {
+      "nome": "Tribunal de Justiça do Estado de Ceará",
+      "categoria": "tribunal"
+    },
+    {
+      "nome": "Tribunal de Justiça do Estado de Goiás",
+      "categoria": "tribunal"
+    },
+    {
+      "nome": "Tribunal de Justiça do Estado de Minas Gerais",
+      "categoria": "tribunal"
+    },
+    {
+      "nome": "Tribunal de Justiça do Estado de Pará",
+      "categoria": "tribunal"
+    },
+    {
+      "nome": "Tribunal de Justiça do Estado de Pernambuco",
+      "categoria": "tribunal"
+    },
+    {
+      "nome": "Tribunal de Justiça do Estado de Paraná",
+      "categoria": "tribunal"
+    },
+    {
+      "nome": "Tribunal de Justiça do Estado de Rio de Janeiro",
+      "categoria": "tribunal"
+    },
+    {
+      "nome": "Tribunal de Justiça do Estado de Rio Grande do Sul",
+      "categoria": "tribunal"
+    },
+    {
+      "nome": "Tribunal de Justiça do Estado de Santa Catarina",
+      "categoria": "tribunal"
+    },
+    {
+      "nome": "Tribunal de Justiça do Estado de São Paulo",
+      "categoria": "tribunal"
+    },
+    {
+      "nome": "Tribunal de Justiça do Distrito Federal e dos Territórios",
+      "categoria": "tribunal"
+    },
+    {
+      "nome": "Superior Tribunal de Justiça",
+      "categoria": "tribunal"
+    },
+    {
+      "nome": "Supremo Tribunal Federal",
+      "categoria": "tribunal"
+    },
+    {
+      "nome": "Turma Recursal",
+      "categoria": "tribunal"
+    },
+    {
+      "nome": "Turmas Recursais",
+      "categoria": "tribunal"
+    },
+    {
+      "nome": "Juizado Especial Cível da Comarca de São Paulo",
+      "categoria": "juizado"
+    },
+    {
+      "nome": "1ª Vara Cível da Comarca de São Paulo",
+      "categoria": "vara"
+    },
+    {
+      "nome": "2ª Vara Cível da Comarca de São Paulo",
+      "categoria": "vara"
+    },
+    {
+      "nome": "3ª Vara Cível da Comarca de São Paulo",
+      "categoria": "vara"
+    },
+    {
+      "nome": "Comarca de São Paulo",
+      "categoria": "comarca"
+    },
+    {
+      "nome": "São Paulo",
+      "categoria": "comarca"
+    },
+    {
+      "nome": "Juizado Especial Cível da Comarca de Campinas",
+      "categoria": "juizado"
+    },
+    {
+      "nome": "1ª Vara Cível da Comarca de Campinas",
+      "categoria": "vara"
+    },
+    {
+      "nome": "2ª Vara Cível da Comarca de Campinas",
+      "categoria": "vara"
+    },
+    {
+      "nome": "3ª Vara Cível da Comarca de Campinas",
+      "categoria": "vara"
+    },
+    {
+      "nome": "Comarca de Campinas",
+      "categoria": "comarca"
+    },
+    {
+      "nome": "Campinas",
+      "categoria": "comarca"
+    },
+    {
+      "nome": "Juizado Especial Cível da Comarca de Rio de Janeiro",
+      "categoria": "juizado"
+    },
+    {
+      "nome": "1ª Vara Cível da Comarca de Rio de Janeiro",
+      "categoria": "vara"
+    },
+    {
+      "nome": "2ª Vara Cível da Comarca de Rio de Janeiro",
+      "categoria": "vara"
+    },
+    {
+      "nome": "3ª Vara Cível da Comarca de Rio de Janeiro",
+      "categoria": "vara"
+    },
+    {
+      "nome": "Comarca de Rio de Janeiro",
+      "categoria": "comarca"
+    },
+    {
+      "nome": "Rio de Janeiro",
+      "categoria": "comarca"
+    },
+    {
+      "nome": "Juizado Especial Cível da Comarca de Belo Horizonte",
+      "categoria": "juizado"
+    },
+    {
+      "nome": "1ª Vara Cível da Comarca de Belo Horizonte",
+      "categoria": "vara"
+    },
+    {
+      "nome": "2ª Vara Cível da Comarca de Belo Horizonte",
+      "categoria": "vara"
+    },
+    {
+      "nome": "3ª Vara Cível da Comarca de Belo Horizonte",
+      "categoria": "vara"
+    },
+    {
+      "nome": "Comarca de Belo Horizonte",
+      "categoria": "comarca"
+    },
+    {
+      "nome": "Belo Horizonte",
+      "categoria": "comarca"
+    },
+    {
+      "nome": "Juizado Especial Cível da Comarca de Curitiba",
+      "categoria": "juizado"
+    },
+    {
+      "nome": "1ª Vara Cível da Comarca de Curitiba",
+      "categoria": "vara"
+    },
+    {
+      "nome": "2ª Vara Cível da Comarca de Curitiba",
+      "categoria": "vara"
+    },
+    {
+      "nome": "3ª Vara Cível da Comarca de Curitiba",
+      "categoria": "vara"
+    },
+    {
+      "nome": "Comarca de Curitiba",
+      "categoria": "comarca"
+    },
+    {
+      "nome": "Curitiba",
+      "categoria": "comarca"
+    },
+    {
+      "nome": "Juizado Especial Cível da Comarca de Porto Alegre",
+      "categoria": "juizado"
+    },
+    {
+      "nome": "1ª Vara Cível da Comarca de Porto Alegre",
+      "categoria": "vara"
+    },
+    {
+      "nome": "2ª Vara Cível da Comarca de Porto Alegre",
+      "categoria": "vara"
+    },
+    {
+      "nome": "3ª Vara Cível da Comarca de Porto Alegre",
+      "categoria": "vara"
+    },
+    {
+      "nome": "Comarca de Porto Alegre",
+      "categoria": "comarca"
+    },
+    {
+      "nome": "Porto Alegre",
+      "categoria": "comarca"
+    },
+    {
+      "nome": "Juizado Especial Cível da Comarca de Salvador",
+      "categoria": "juizado"
+    },
+    {
+      "nome": "1ª Vara Cível da Comarca de Salvador",
+      "categoria": "vara"
+    },
+    {
+      "nome": "2ª Vara Cível da Comarca de Salvador",
+      "categoria": "vara"
+    },
+    {
+      "nome": "3ª Vara Cível da Comarca de Salvador",
+      "categoria": "vara"
+    },
+    {
+      "nome": "Comarca de Salvador",
+      "categoria": "comarca"
+    },
+    {
+      "nome": "Salvador",
+      "categoria": "comarca"
+    },
+    {
+      "nome": "Juizado Especial Cível da Comarca de Recife",
+      "categoria": "juizado"
+    },
+    {
+      "nome": "1ª Vara Cível da Comarca de Recife",
+      "categoria": "vara"
+    },
+    {
+      "nome": "2ª Vara Cível da Comarca de Recife",
+      "categoria": "vara"
+    },
+    {
+      "nome": "3ª Vara Cível da Comarca de Recife",
+      "categoria": "vara"
+    },
+    {
+      "nome": "Comarca de Recife",
+      "categoria": "comarca"
+    },
+    {
+      "nome": "Recife",
+      "categoria": "comarca"
+    },
+    {
+      "nome": "Juizado Especial Cível da Comarca de Fortaleza",
+      "categoria": "juizado"
+    },
+    {
+      "nome": "1ª Vara Cível da Comarca de Fortaleza",
+      "categoria": "vara"
+    },
+    {
+      "nome": "2ª Vara Cível da Comarca de Fortaleza",
+      "categoria": "vara"
+    },
+    {
+      "nome": "3ª Vara Cível da Comarca de Fortaleza",
+      "categoria": "vara"
+    },
+    {
+      "nome": "Comarca de Fortaleza",
+      "categoria": "comarca"
+    },
+    {
+      "nome": "Fortaleza",
+      "categoria": "comarca"
+    },
+    {
+      "nome": "Juizado Especial Cível da Comarca de Goiânia",
+      "categoria": "juizado"
+    },
+    {
+      "nome": "1ª Vara Cível da Comarca de Goiânia",
+      "categoria": "vara"
+    },
+    {
+      "nome": "2ª Vara Cível da Comarca de Goiânia",
+      "categoria": "vara"
+    },
+    {
+      "nome": "3ª Vara Cível da Comarca de Goiânia",
+      "categoria": "vara"
+    },
+    {
+      "nome": "Comarca de Goiânia",
+      "categoria": "comarca"
+    },
+    {
+      "nome": "Goiânia",
+      "categoria": "comarca"
+    },
+    {
+      "nome": "Juizado Especial Cível da Comarca de Florianópolis",
+      "categoria": "juizado"
+    },
+    {
+      "nome": "1ª Vara Cível da Comarca de Florianópolis",
+      "categoria": "vara"
+    },
+    {
+      "nome": "2ª Vara Cível da Comarca de Florianópolis",
+      "categoria": "vara"
+    },
+    {
+      "nome": "3ª Vara Cível da Comarca de Florianópolis",
+      "categoria": "vara"
+    },
+    {
+      "nome": "Comarca de Florianópolis",
+      "categoria": "comarca"
+    },
+    {
+      "nome": "Florianópolis",
+      "categoria": "comarca"
+    },
+    {
+      "nome": "Juizado Especial Cível da Comarca de Belém",
+      "categoria": "juizado"
+    },
+    {
+      "nome": "1ª Vara Cível da Comarca de Belém",
+      "categoria": "vara"
+    },
+    {
+      "nome": "2ª Vara Cível da Comarca de Belém",
+      "categoria": "vara"
+    },
+    {
+      "nome": "3ª Vara Cível da Comarca de Belém",
+      "categoria": "vara"
+    },
+    {
+      "nome": "Comarca de Belém",
+      "categoria": "comarca"
+    },
+    {
+      "nome": "Belém",
+      "categoria": "comarca"
+    },
+    {
+      "nome": "Juizado Especial Cível",
+      "categoria": "juizado"
+    },
+    {
+      "nome": "Juizados Especiais Cíveis",
+      "categoria": "juizado"
+    },
+    {
+      "nome": "Vara Cível",
+      "categoria": "juizado"
+    },
+    {
+      "nome": "Vara da Fazenda Pública",
+      "categoria": "juizado"
+    },
+    {
+      "nome": "Acre",
+      "categoria": "estado"
+    },
+    {
+      "nome": "Alagoas",
+      "categoria": "estado"
+    },
+    {
+      "nome": "Amapá",
+      "categoria": "estado"
+    },
+    {
+      "nome": "Amazonas",
+      "categoria": "estado"
+    },
+    {
+      "nome": "Bahia",
+      "categoria": "estado"
+    },
+    {
+      "nome": "Ceará",
+      "categoria": "estado"
+    },
+    {
+      "nome": "Distrito Federal",
+      "categoria": "estado"
+    },
+    {
+      "nome": "Espírito Santo",
+      "categoria": "estado"
+    },
+    {
+      "nome": "Goiás",
+      "categoria": "estado"
+    },
+    {
+      "nome": "Maranhão",
+      "categoria": "estado"
+    },
+    {
+      "nome": "Mato Grosso",
+      "categoria": "estado"
+    },
+    {
+      "nome": "Mato Grosso do Sul",
+      "categoria": "estado"
+    },
+    {
+      "nome": "Minas Gerais",
+      "categoria": "estado"
+    },
+    {
+      "nome": "Paraná",
+      "categoria": "estado"
+    },
+    {
+      "nome": "Paraíba",
+      "categoria": "estado"
+    },
+    {
+      "nome": "Pará",
+      "categoria": "estado"
+    },
+    {
+      "nome": "Pernambuco",
+      "categoria": "estado"
+    },
+    {
+      "nome": "Piauí",
+      "categoria": "estado"
+    },
+    {
+      "nome": "Rio Grande do Norte",
+      "categoria": "estado"
+    },
+    {
+      "nome": "Rio Grande do Sul",
+      "categoria": "estado"
+    },
+    {
+      "nome": "Rondônia",
+      "categoria": "estado"
+    },
+    {
+      "nome": "Roraima",
+      "categoria": "estado"
+    },
+    {
+      "nome": "Santa Catarina",
+      "categoria": "estado"
+    },
+    {
+      "nome": "Sergipe",
+      "categoria": "estado"
+    },
+    {
+      "nome": "Tocantins",
+      "categoria": "estado"
+    },
+    {
+      "nome": "Brasil",
+      "categoria": "ente_publico"
+    },
+    {
+      "nome": "República Federativa do Brasil",
+      "categoria": "ente_publico"
+    },
+    {
+      "nome": "União",
+      "categoria": "ente_publico"
+    },
+    {
+      "nome": "Estado",
+      "categoria": "ente_publico"
+    },
+    {
+      "nome": "Município",
+      "categoria": "ente_publico"
+    },
+    {
+      "nome": "Fazenda Pública",
+      "categoria": "ente_publico"
+    },
+    {
+      "nome": "Instituto Nacional do Seguro Social",
+      "categoria": "ente_publico"
+    },
+    {
+      "nome": "INSS",
+      "categoria": "ente_publico"
+    },
+    {
+      "nome": "Ministério Público",
+      "categoria": "ente_publico"
+    },
+    {
+      "nome": "Defensoria Pública",
+      "categoria": "ente_publico"
+    },
+    {
+      "nome": "Procon",
+      "categoria": "ente_publico"
+    },
+    {
+      "nome": "Banco Central do Brasil",
+      "categoria": "ente_publico"
+    },
+    {
+      "nome": "Receita Federal",
+      "categoria": "ente_publico"
+    },
+    {
+      "nome": "Agência Nacional de Telecomunicações",
+      "categoria": "ente_publico"
+    },
+    {
+      "nome": "Anatel",
+      "categoria": "ente_publico"
+    },
+    {
+      "nome": "Agência Nacional de Aviação Civil",
+      "categoria": "ente_publico"
+    },
+    {
+      "nome": "ANAC",
+      "categoria": "ente_publico"
+    },
+    {
+      "nome": "Empresa Brasileira de Correios e Telégrafos",
+      "categoria": "ente_publico"
+    },
+    {
+      "nome": "Correios",
+      "categoria": "ente_publico"
+    },
+    {
+      "nome": "ECT",
+      "categoria": "ente_publico"
+    },
+    {
+      "nome": "Poder Judiciário",
+      "categoria": "ente_publico"
+    },
+    {
+      "nome": "SISBAJUD",
+      "categoria": "sistema"
+    },
+    {
+      "nome": "RENAJUD",
+      "categoria": "sistema"
+    },
+    {
+      "nome": "INFOJUD",
+      "categoria": "sistema"
+    },
+    {
+      "nome": "Serasa",
+      "categoria": "sistema"
+    },
+    {
+      "nome": "SPC",
+      "categoria": "sistema"
+    },
+    {
+      "nome": "PJe",
+      "categoria": "sistema"
+    },
+    {
+      "nome": "Processo Judicial Eletrônico",
+      "categoria": "sistema"
+    },
+    {
+      "nome": "Diário da Justiça Eletrônico",
+      "categoria": "sistema"
+    },
+    {
+      "nome": "Cadastro de Pessoas Físicas",
+      "categoria": "sistema"
+    },
+    {
+      "nome": "Cadastro Nacional da Pessoa Jurídica",
+      "categoria": "sistema"
+    },
+    {
+      "nome": "Registrato",
+      "categoria": "sistema"
+    },
+    {
+      "nome": "Consumidor.gov.br",
+      "categoria": "sistema"
+    },
+    {
+      "nome": "CNJ",
+      "categoria": "orgao_sigla"
+    },
+    {
+      "nome": "Conselho Nacional de Justiça",
+      "categoria": "orgao_sigla"
+    },
+    {
+      "nome": "OAB",
+      "categoria": "orgao_sigla"
+    },
+    {
+      "nome": "Ordem dos Advogados do Brasil",
+      "categoria": "orgao_sigla"
+    },
+    {
+      "nome": "STF",
+      "categoria": "orgao_sigla"
+    },
+    {
+      "nome": "STJ",
+      "categoria": "orgao_sigla"
+    },
+    {
+      "nome": "TJ",
+      "categoria": "orgao_sigla"
+    },
+    {
+      "nome": "FONAJE",
+      "categoria": "orgao_sigla"
+    },
+    {
+      "nome": "CPF",
+      "categoria": "orgao_sigla"
+    },
+    {
+      "nome": "CNPJ",
+      "categoria": "orgao_sigla"
+    },
+    {
+      "nome": "CEP",
+      "categoria": "orgao_sigla"
+    },
+    {
+      "nome": "SAC",
+      "categoria": "orgao_sigla"
+    },
+    {
+      "nome": "Código de Processo Civil",
+      "categoria": "lei"
+    },
+    {
+      "nome": "Novo Código de Processo Civil",
+      "categoria": "lei"
+    },
+    {
+      "nome": "Código de Defesa do Consumidor",
+      "categoria": "lei"
+    },
+    {
+      "nome": "Código Civil",
+      "categoria": "lei"
+    },
+    {
+      "nome": "Constituição Federal",
+      "categoria": "lei"
+    },
+    {
+      "nome": "Constituição da República",
+      "categoria": "lei"
+    },
+    {
+      "nome": "Lei dos Juizados Especiais",
+      "categoria": "lei"
+    },
+    {
+      "nome": "Lei dos Juizados Especiais Cíveis e Criminais",
+      "categoria": "lei"
+    },
+    {
+      "nome": "Código Eleitoral",
+      "categoria": "lei"
+    },
+    {
+      "nome": "Lei Complementar",
+      "categoria": "lei"
+    },
+    {
+      "nome": "Juiz de Direito",
+      "categoria": "cargo"
+    },
+    {
+      "nome": "Juíza de Direito",
+      "categoria": "cargo"
+    },
+    {
+      "nome": "Juiz de Direito Substituto",
+      "categoria": "cargo"
+    },
+    {
+      "nome": "Juíza de Direito Substituta",
+      "categoria": "cargo"
+    },
+    {
+      "nome": "Juiz Leigo",
+      "categoria": "cargo"
+    },
+    {
+      "nome": "Juíza Leiga",
+      "categoria": "cargo"
+    },
+    {
+      "nome": "Conciliador",
+      "categoria": "cargo"
+    },
+    {
+      "nome": "Conciliadora",
+      "categoria": "cargo"
+    },
+    {
+      "nome": "Escrivão",
+      "categoria": "cargo"
+    },
+    {
+      "nome": "Escrivã",
+      "categoria": "cargo"
+    },
+    {
+      "nome": "Chefe de Secretaria",
+      "categoria": "cargo"
+    },
+    {
+      "nome": "Diretor de Secretaria",
+      "categoria": "cargo"
+    },
+    {
+      "nome": "Oficial de Justiça",
+      "categoria": "cargo"
+    },
+    {
+      "nome": "Promotor de Justiça",
+      "categoria": "cargo"
+    },
+    {
+      "nome": "Defensor Público",
+      "categoria": "cargo"
+    },
+    {
+      "nome": "Desembargador",
+      "categoria": "cargo"
+    },
+    {
+      "nome": "Desembargadora",
+      "categoria": "cargo"
+    },
+    {
+      "nome": "Advogado",
+      "categoria": "cargo"
+    },
+    {
+      "nome": "Advogada",
+      "categoria": "cargo"
+    },
+    {
+      "nome": "Excelentíssimo Senhor Doutor",
+      "categoria": "tratamento"
+    },
+    {
+      "nome": "Excelentíssima Senhora Doutora",
+      "categoria": "tratamento"
+    },
+    {
+      "nome": "Excelentíssimo Senhor Doutor Juiz de Direito",
+      "categoria": "tratamento"
+    },
+    {
+      "nome": "Excelentíssima Senhora Doutora Juíza de Direito",
+      "categoria": "tratamento"
+    },
+    {
+      "nome": "Meritíssimo",
+      "categoria": "tratamento"
+    },
+    {
+      "nome": "Meritíssima",
+      "categoria": "tratamento"
+    },
+    {
+      "nome": "Vossa Excelência",
+      "categoria": "tratamento"
+    },
+    {
+      "nome": "Doutor Juiz",
+      "categoria": "tratamento"
+    },
+    {
+      "nome": "Doutora Juíza",
+      "categoria": "tratamento"
+    },
+    {
+      "nome": "Senhor Escrivão",
+      "categoria": "tratamento"
+    },
+    {
+      "nome": "data venia",
+      "categoria": "latim"
+    },
+    {
+      "nome": "data maxima venia",
+      "categoria": "latim"
+    },
+    {
+      "nome": "inaudita altera pars",
+      "categoria": "latim"
+    },
+    {
+      "nome": "ad judicia",
+      "categoria": "latim"
+    },
+    {
+      "nome": "ad judicia et extra",
+      "categoria": "latim"
+    },
+    {
+      "nome": "ex officio",
+      "categoria": "latim"
+    },
+    {
+      "nome": "in verbis",
+      "categoria": "latim"
+    },
+    {
+      "nome": "in casu",
+      "categoria": "latim"
+    },
+    {
+      "nome": "fumus boni iuris",
+      "categoria": "latim"
+    },
+    {
+      "nome": "periculum in mora",
+      "categoria": "latim"
+    },
+    {
+      "nome": "ex tunc",
+      "categoria": "latim"
+    },
+    {
+      "nome": "ex nunc",
+      "categoria": "latim"
+    },
+    {
+      "nome": "erga omnes",
+      "categoria": "latim"
+    },
+    {
+      "nome": "quantum",
+      "categoria": "latim"
+    },
+    {
+      "nome": "ultra petita",
+      "categoria": "latim"
+    },
+    {
+      "nome": "extra petita",
+      "categoria": "latim"
+    },
+    {
+      "nome": "citra petita",
+      "categoria": "latim"
+    },
+    {
+      "nome": "error in judicando",
+      "categoria": "latim"
+    },
+    {
+      "nome": "error in procedendo",
+      "categoria": "latim"
+    },
+    {
+      "nome": "ad cautelam",
+      "categoria": "latim"
+    },
+    {
+      "nome": "pacta sunt servanda",
+      "categoria": "latim"
+    },
+    {
+      "nome": "venire contra factum proprium",
+      "categoria": "latim"
+    },
+    {
+      "nome": "in re ipsa",
+      "categoria": "latim"
+    },
+    {
+      "nome": "Representante Legal",
+      "categoria": "designacao"
+    },
+    {
+      "nome": "Requerente",
+      "categoria": "designacao"
+    },
+    {
+      "nome": "Requerido",
+      "categoria": "designacao"
+    },
+    {
+      "nome": "Requerida",
+      "categoria": "designacao"
+    },
+    {
+      "nome": "Embargante",
+      "categoria": "designacao"
+    },
+    {
+      "nome": "Embargado",
+      "categoria": "designacao"
+    },
+    {
+      "nome": "Embargada",
+      "categoria": "designacao"
+    },
+    {
+      "nome": "Autor",
+      "categoria": "designacao"
+    },
+    {
+      "nome": "Autora",
+      "categoria": "designacao"
+    },
+    {
+      "nome": "Réu",
+      "categoria": "designacao"
+    },
+    {
+      "nome": "Ré",
+      "categoria": "designacao"
+    },
+    {
+      "nome": "Parte Autora",
+      "categoria": "designacao"
+    },
+    {
+      "nome": "Parte Ré",
+      "categoria": "designacao"
+    },
+    {
+      "nome": "Demandante",
+      "categoria": "designacao"
+    },
+    {
+      "nome": "Demandado",
+      "categoria": "designacao"
+    },
+    {
+      "nome": "Demandada",
+      "categoria": "designacao"
+    },
+    {
+      "nome": "Promovente",
+      "categoria": "designacao"
+    },
+    {
+      "nome": "Promovido",
+      "categoria": "designacao"
+    },
+    {
+      "nome": "Promovida",
+      "categoria": "designacao"
+    },
+    {
+      "nome": "Exequente",
+      "categoria": "designacao"
+    },
+    {
+      "nome": "Executado",
+      "categoria": "designacao"
+    },
+    {
+      "nome": "Executada",
+      "categoria": "designacao"
+    },
+    {
+      "nome": "Citando",
+      "categoria": "designacao"
+    },
+    {
+      "nome": "Citanda",
+      "categoria": "designacao"
+    },
+    {
+      "nome": "Peticionante",
+      "categoria": "designacao"
+    },
+    {
+      "nome": "Consumidor",
+      "categoria": "designacao"
+    },
+    {
+      "nome": "Fornecedor",
+      "categoria": "designacao"
+    },
+    {
+      "nome": "Petição Inicial",
+      "categoria": "designacao"
+    },
+    {
+      "nome": "Embargos de Declaração",
+      "categoria": "designacao"
+    },
+    {
+      "nome": "Manifestação",
+      "categoria": "designacao"
+    },
+    {
+      "nome": "Aviso de Recebimento",
+      "categoria": "designacao"
+    },
+    {
+      "nome": "Aviso de Recebimento Negativo",
+      "categoria": "designacao"
+    },
+    {
+      "nome": "Termos em que",
+      "categoria": "designacao"
+    },
+    {
+      "nome": "Pede Deferimento",
+      "categoria": "designacao"
+    },
+    {
+      "nome": "Nestes Termos",
+      "categoria": "designacao"
+    }
+  ]
+}
