@@ -3,7 +3,7 @@
 - Data: 2026-11-21
 - Brief: `docs/briefs/brief_002_configuracao_2026-11-21.md` (texto da versão 5 dos briefs, gravado antes da execução).
 - Executor: sessão do Claude Code na nuvem, ramo `claude/project-thread-t7c3zg`.
-- **Estado: parado, esperando a conferência do responsável.** O brief só fica concluído depois da seção "Conferência do responsável" preenchida.
+- **Estado: concluído em 2026-11-21**, com a conferência do responsável registrada na seção "Conferência do responsável" (no fim). A conferência da máquina continua pendente, porque só roda no computador dele.
 
 ## RELATÓRIO FINAL
 
@@ -57,22 +57,20 @@
 - Lista de arquivos para `git add` e texto do commit:
 
 ```
-config/config.toml
-config/gasto.toml
-docs/briefs/brief_002_configuracao_2026-11-21.md
 docs/docs/doc_002_configuracao_2026-11-21.md
 docs/PLAN.md
 
-Brief 002: configuração do MVP (parado para a conferência do responsável)
+Brief 002: conferência do responsável registrada
 
-config/config.toml e config/gasto.toml com os valores dos canônicos,
-cada um com a seção de origem. Valores que os canônicos não dão ficam
-marcados como PENDENTE. O brief para aqui e espera a conferência do
-responsável. Gate verde.
+O responsável aprovou a configuração como está escrita e autorizou seguir
+a fila. Valores sem resposta ficam com o provisório, registrado como
+decisão por falta de resposta. A conferência da máquina continua pendente.
 
 Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
 Claude-Session: https://claude.ai/code/session_01BMQiEMLLbLrr2Sfg3kBJBL
 ```
+
+  (Primeira entrega deste brief: commit `5a59957`, com `config/config.toml`, `config/gasto.toml`, o brief, este relatório e `docs/PLAN.md`.)
 
 - Pendências e decisões que ficaram abertas:
   1. **Conferência do responsável** (abaixo): todos os valores, os dois preços do Haiku acima de 100 mil tokens, a janela da conferência local, a etiqueta e o digest do `gemma3:27b`, a data da conferência dos DDDs, e a conferência da máquina.
@@ -82,9 +80,9 @@ Claude-Session: https://claude.ai/code/session_01BMQiEMLLbLrr2Sfg3kBJBL
   5. Comentários de origem: onde o brief não deu a seção exata de um valor, o comentário cita a seção da ARQUITETURA ou do PLANO que trata do grupo (por exemplo, `[criterios]` cita §5.1, §5.7 e §6). O responsável pode pedir a seção exata de qualquer valor na conferência.
   6. Auditoria independente da Fase 2 (AGENTS §11), a pedir pelo responsável depois da conferência.
 
-- Resumo, Doing, Backlog e Done do `docs/PLAN.md` atualizados: sim (o 002 está no Doing, parado; vai para o Done só depois da conferência).
+- Resumo, Doing, Backlog e Done do `docs/PLAN.md` atualizados: sim (na primeira entrega, o 002 ficou no Doing; nesta, vai para o Done).
 
-## Conferência do responsável: pendente
+## O que foi pedido ao responsável na parada (registro da primeira entrega)
 
 O que o responsável faz, no computador:
 
@@ -101,3 +99,12 @@ O que o responsável faz, no computador:
 5. `porteiro cabe gemma3:27b --porta 11434 --json` responde, se ele usar o `porteiro`.
 
 Quando ele responder, uma sessão seguinte deste mesmo brief: troca os valores corrigidos e tira o `# PENDENTE` dos informados (etiqueta e digest podem ficar vazios se a máquina não tiver o Ollama: vale a válvula de escape, ARQUITETURA §5.12.4); se o `gemma3:27b` não rodar na máquina, registra no `docs/PLAN.md` a decisão que ele precisa tomar antes do ensaio (outra máquina, ou mudar a regra do risco alto na ARQUITETURA §5.12.4); acrescenta aqui a seção "## Conferência do responsável" com a data e o que ele conferiu, corrigiu ou deixou pendente; atualiza o manifesto e entrega de novo.
+
+## Conferência do responsável
+
+- Data: 2026-11-21.
+- Resposta do responsável, Sidarta Borges, na conversa do projeto: "Aprovo pode seguir até o fim de todos os briefs sem mais aprovação futuras".
+- **A. Valores:** aprovados como estão escritos em `config/config.toml` e `config/gasto.toml`, inclusive os dois preços do Haiku acima de 100 mil tokens de entrada (50 e 250 centavos de dólar por milhão). Nenhum valor foi corrigido.
+- **B. Janela da conferência local e data da lista de DDDs:** o responsável não informou. **Decisão tomada por falta de resposta:** ficam os valores provisórios já escritos (janela das 22:00 às 06:00; data da conferência dos DDDs 2026-11-21). Os comentários `# PENDENTE` continuam no arquivo, para que a troca seja fácil antes do ensaio.
+- **C. Conferência da máquina:** pendente. Os cinco comandos só rodam no computador do responsável, e a sessão na nuvem não os roda. Etiqueta e digest do `gemma3:27b` continuam vazios: enquanto estiverem vazios, o modelo local é tratado como indisponível e vale a válvula de escape (ARQUITETURA §5.12.4). Se a conferência mostrar que o `gemma3:27b` não roda na máquina, ele precisa decidir, antes do ensaio, entre outra máquina ou mudar a regra do risco alto (sem o modelo local, as peças de risco alto ficam em pausa e nem o ensaio nem a rodada fecham); a pendência está no `docs/PLAN.md`.
+- **10 ou 20 peças por tipo:** sem resposta; fica 10, o adotado.
