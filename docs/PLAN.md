@@ -11,10 +11,10 @@
 
 - Fase atual: Fase 4 — Clientes e condutor (PLANO, seção 4). As Fases 1 a 3 terminaram com os briefs 001 a 005.
 - Repositório: `sidarta1975/pet_sint` (https://github.com/sidarta1975/pet_sint), criado pelo responsável em 2026-11-21. A construção (os briefs 001 a 023) roda em sessões do Claude Code na nuvem, que clonam o repositório; os testes na máquina do responsável e o ensaio ficam para quando ele estiver no computador.
-- Último brief concluído: 005 · Gasto, estatística e congelamento (2026-11-21), entregue por `scripts/entregar.sh 005` no ramo `claude/project-thread-t7c3zg`, no mesmo pedido de integração para `main` (#2).
+- Último brief concluído: 006 · API da Claude em dois passos (2026-11-21), entregue por `scripts/entregar.sh 006` no ramo `claude/project-thread-t7c3zg`, no mesmo pedido de integração para `main` (#2).
 - Em execução: nada.
-- Próximos três: 006 · API da Claude em dois passos; 007 · Modelo local; 008 · Condutor das peças.
-- Último commit: `6802157` (brief 004). O do 005 entra no Done pelo brief seguinte.
+- Próximos três: 007 · Modelo local; 008 · Condutor das peças; 009 · Dados fictícios e nomes reservados do teste.
+- Último commit: `52ac72a` (brief 005). O do 006 entra no Done pelo brief seguinte.
 - Bloqueios: nenhum. O responsável autorizou, em 2026-11-21, seguir até o fim da fila sem novas aprovações; onde um brief pede resposta dele e ela não veio, vale o provisório escrito, registrado no relatório como decisão por falta de resposta.
 - Documentos de origem: arquitetura do MVP, versão 10 (2026-11-21); plano v15 (fechado); lista consolidada de peças. Arquitetura dada como pronta para virar instruções na revisão de 2026-11-21. Fila de briefs revista em 2026-11-21 (de 19 para 25 briefs).
 
@@ -31,7 +31,6 @@ Briefs previstos pela ordem de construção (PLANO, seção 4). Ainda não escri
 - Param pelo responsável: 002 (conferir a configuração), 014 (aprovar os dados e a estrutura montada), 024 (ensaio) e 025 (rodada). Dentro do 024 e do 025 há ainda a resposta às amostras pelo comando `revisar`, antes do teste dos conferentes; os briefs 021 e 022 só constroem o código, com dados falsos, e não esperam por ele.
 - Depois do ensaio aprovado, qualquer mudança em código, dados, instruções, `config.toml` ou `gasto.toml` obriga a um ensaio novo (ARQUITETURA 5.12.1): o comando `fichas` recusa a rodada. A conferência da configuração no 002 vale, portanto, para a rodada inteira.
 
-- 006 · API da Claude em dois passos: api_claude.py e test_api_claude (Fase 4) · não iniciado · — · —
 - 007 · Modelo local: modelo_local.py e test_modelo_local (Fase 4) · não iniciado · — · —
 - 008 · Condutor das peças: estado.py com a interface fixa das etapas, comando `avancar` e montagem dos três clientes, test_estado (Fase 4) · não iniciado · — · —
 - 009 · Dados fictícios e nomes reservados do teste: ficticios.py, test_ficticios (com listas de exemplo) e testes/dados/reais_reservados.json (Fase 5) · não iniciado · — · —
@@ -54,7 +53,8 @@ Briefs previstos pela ordem de construção (PLANO, seção 4). Ainda não escri
 
 ## Done — últimos 30 dias
 
-- 005 · Gasto, estatística e congelamento: gasto.py, estatistica.py, congelamento.py, test_gasto, test_estatistica e test_congelamento (Fase 3) · concluído · — · 2026-11-21
+- 006 · API da Claude em dois passos: api_claude.py e test_api_claude (Fase 4) · concluído · — · 2026-11-21
+- 005 · Gasto, estatística e congelamento: gasto.py, estatistica.py, congelamento.py, test_gasto, test_estatistica e test_congelamento (Fase 3) · concluído · 52ac72a · 2026-11-21
 - 004 · Disco, configuração e registro: arquivos.py, config.py, registro.py e test_config (Fase 3) · concluído · 6802157 · 2026-11-21
 - 003 · Contratos de dados: formatos.py com o Anexo A e test_formatos (Fase 3) · concluído · c54e877 · 2026-11-21
 - 001 · Fundação do repositório: AGENTS, docs, modelo de brief, gate, script de entrega, trava de git, .gitignore, pyproject, LEIA-ME inicial, pacote `fabrica` com `__main__.py` mínimo, test_entrega (Fase 1) · concluído · 2fb2f12 · 2026-11-21
