@@ -56,6 +56,11 @@ Cada linha: o ponto, o valor provisório em uso e o brief onde ele aparece. Nada
 | "Bloco de fundamentos" onde entra a frase do `termo_inequivoco` | O primeiro presente entre `fundamentos`, `razoes`, `novo_endereco` e `exposicao` (os embargos e a manifestação não têm bloco `fundamentos`) | 019 |
 | `valor_trocado` nos embargos "com valor na decisão" | Só quando a extração da original traz algum valor da ficha; sem valor, os embargos recebem outro erro de regra | 019 |
 | Erro de regra sorteado que não cabe na peça (por exemplo, sem citação para trocar) | O sorteio só oferece a cada peça os erros que cabem nela; a peça em que nenhum cabe fica sem cópia por programa | 019 |
+| Nomes dos cartões de amostra e de leitura | `saida/cartoes/<rodada>_amostra_copias.md`, `<rodada>_amostra_descartadas.md` e `<peça>_v<k>_leitura_publicacao.md`; o do ensaio, `<peça>_ensaio.md`; as amostras sorteadas em `saida/erros/<rodada>_amostras.json` | 020 |
+| Peça com "sim" na pergunta de dado real (no cartão ou na leitura) | Não é publicada | 020 |
+| Versão publicada no ensaio | A aprovada pela fábrica; sem versão aprovada, a primeira | 020 |
+| `publicar` rodado de novo | Não regrava o que já existe (nem o índice) | 020 |
+| Respostas das amostras: `dado_real` | Gravado como "não", porque a pergunta não é feita nesses cartões | 020 |
 
 ## Briefs que esperam o computador
 

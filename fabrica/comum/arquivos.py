@@ -88,6 +88,11 @@ class Arquivos:
         caminho = self._caminho(relativo, (PASTA_DE_GRAVACAO,))
         self._gravar(caminho, texto.encode("utf-8"))
 
+    def gravar_bytes(self, relativo: str, conteudo: bytes) -> None:
+        """Arquivo binário (o `.docx` do pacote, brief 020), com as mesmas regras."""
+        caminho = self._caminho(relativo, (PASTA_DE_GRAVACAO,))
+        self._gravar(caminho, conteudo)
+
     def regravar_rodadas(self, rodadas: Rodadas) -> None:
         """Único arquivo regravado; a versão anterior vai para rodadas_anteriores/."""
         caminho = self._caminho(RODADAS, (PASTA_DE_GRAVACAO,))

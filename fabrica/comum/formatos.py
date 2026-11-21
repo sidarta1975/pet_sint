@@ -1150,6 +1150,16 @@ class RespostasCartao(Modelo):
     data_confirmacao: datetime.datetime
 
 
+class Amostras(Modelo):
+    """As duas amostras sorteadas de uma rodada (`saida/erros/<rodada>_amostras.json`):
+    gravado pelo brief 021, lido pelos cartões do brief 020."""
+
+    rodada: str
+    copias: list[str]
+    descartadas: list[str]
+    sorteado_em: datetime.datetime
+
+
 class Rodada(Modelo):
     id: Annotated[str, Field(pattern=r"^[er]\d{2}$")]
     semente: int

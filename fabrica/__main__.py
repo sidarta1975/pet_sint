@@ -18,7 +18,7 @@ from typing import Any
 
 import anthropic
 
-from fabrica import erros_plantados, estado, estruturas, fichas, redacao
+from fabrica import erros_plantados, estado, estruturas, fichas, publicacao, redacao, revisao
 from fabrica.comum import config
 from fabrica.comum.api_claude import ApiClaude
 from fabrica.comum.arquivos import Arquivos
@@ -183,12 +183,41 @@ def comando_erros(argumentos: Sequence[str], servicos: Servicos, ler_linha: LerL
     return 0
 
 
+def comando_revisar(argumentos: Sequence[str], servicos: Servicos, ler_linha: LerLinha) -> int:
+    """Única entrada das respostas do responsável (brief 020)."""
+    if list(argumentos) == ["--resumo"]:
+        revisao.resumo(servicos)
+        return 0
+    if argumentos:
+        print("uso: python -m fabrica revisar [--resumo]", file=sys.stderr)
+        return 2
+    revisao.revisar(servicos, ler_linha)
+    return 0
+
+
+def comando_publicar(argumentos: Sequence[str], servicos: Servicos, ler_linha: LerLinha) -> int:
+    """Monta o pacote das peças publicáveis da rodada (brief 020)."""
+    opcoes = _opcoes(argumentos, ["--rodada"])
+    if opcoes is None or "--rodada" not in opcoes:
+        print("uso: python -m fabrica publicar --rodada <rodada>", file=sys.stderr)
+        return 2
+    try:
+        gravadas = publicacao.publicar(opcoes["--rodada"], servicos)
+    except (publicacao.ErroPublicacao, ErroCongelamento) as erro:
+        print(f"publicar recusado: {erro}", file=sys.stderr)
+        return 1
+    print(f"publicar: {len(gravadas)} peça(s) no pacote.")
+    return 0
+
+
 COMANDOS: dict[str, Comando] = {
     "avancar": comando_avancar,
     "erros": comando_erros,
     "ensaio": comando_ensaio,
     "fichas": comando_fichas,
     "preparar": comando_preparar,
+    "publicar": comando_publicar,
+    "revisar": comando_revisar,
 }
 
 
