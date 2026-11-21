@@ -1160,6 +1160,61 @@ class Amostras(Modelo):
     sorteado_em: datetime.datetime
 
 
+class TaxaTeste(Modelo):
+    """Uma taxa com a margem de Wilson; sem casos, taxa e margem ficam vazias."""
+
+    sucessos: int
+    total: int
+    taxa: float | None
+    inferior: float | None
+    superior: float | None
+
+
+class BancoTeste(Modelo):
+    copias: int
+    copias_ia: int
+    rejeitadas: list[str]
+    descartadas: int
+    descartadas_com_erro: list[str]
+    nao_confiavel: bool
+    filtrado_pelo_verificador: bool
+
+
+class CopiaTeste(Modelo):
+    copia: str
+    original: str
+    origem: OrigemErro
+    tipo_erro: TipoErro
+    sutil: bool
+    pego: bool
+    pego_sem_opus: bool
+    itens_pegos: list[ItemConferencia]
+    conferentes: list[Conferente]
+    formato: bool
+
+
+class ResultadoTeste(Modelo):
+    """O teste dos conferentes (`saida/relatorios/teste_conferentes.json`; brief 022)."""
+
+    rodada: str
+    gravado_em: datetime.datetime
+    banco: BancoTeste
+    criterio_central: TaxaTeste
+    sem_opus: TaxaTeste
+    julgamento_programa: TaxaTeste
+    julgamento_inconclusivo: bool
+    regra_programa: TaxaTeste
+    regra_sanidade_ok: bool
+    reprovacao_pecas_boas: TaxaTeste
+    decisao_criterio_central: Literal["passa", "nao_passa", "inconclusivo", "nao_decide"]
+    dependente_do_opus: bool
+    nao_pegas_formato: list[str]
+    copias: list[CopiaTeste]
+    por_conferente: dict[str, TaxaTeste]
+    por_tipo_erro: dict[str, TaxaTeste]
+    por_origem: dict[str, TaxaTeste]
+
+
 class Rodada(Modelo):
     id: Annotated[str, Field(pattern=r"^[er]\d{2}$")]
     semente: int

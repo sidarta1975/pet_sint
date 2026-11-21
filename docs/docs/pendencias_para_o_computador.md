@@ -69,6 +69,13 @@ Cada linha: o ponto, o valor provisório em uso e o brief onde ele aparece. Nada
 | O Opus recebe a ficha? | Não: recebe o tipo do erro, a descrição, se é sutil e a primeira versão da original | 021 |
 | Marca do critério central inconclusivo e da faixa média do plano B | Ocorrência no registro (`criterio_central_inconclusivo`, `plano_b_faixa_media`) | 021 |
 | Custo das descartadas à parte | Ocorrência `custo_copia_descartada` por descarte; as chamadas do banco têm `peca` `<cópia>_banco` | 021 |
+| `avancar` também leva as peças do teste dos conferentes (fora da parte de `__main__.py` que o brief libera) | `avancar` chama `teste_conferentes.coletar` com a lista `ETAPAS`, em modo de teste | 022 |
+| Nomes do banco fechado | `saida/erros/<rodada>_gabarito.json` e `<rodada>_descartadas.json` (ensaio e rodada fecham bancos diferentes) | 022 |
+| Resultado do teste no ensaio | `saida/relatorios/teste_conferentes_ensaio_<rodada>.json`; na rodada, `teste_conferentes.json` | 022 |
+| Modelos das listas do banco fechado | Em `teste_conferentes.py` (o brief só libera `ResultadoTeste` em `formatos.py`) | 022 |
+| Amostra de cópias "rejeitada" | O erro não existe, ou existe mas não é o do gabarito | 022 |
+| Original sem veredito no teste (formato) | As cópias dela ficam não pegas; ela conta como reprovada | 022 |
+| Diagnóstico por conferente | "Não passa" do conferente num item pego, sobre todas as cópias do banco | 022 |
 
 ## Briefs que esperam o computador
 

@@ -18,7 +18,16 @@ from typing import Any
 
 import anthropic
 
-from fabrica import erros_plantados, estado, estruturas, fichas, publicacao, redacao, revisao
+from fabrica import (
+    erros_plantados,
+    estado,
+    estruturas,
+    fichas,
+    publicacao,
+    redacao,
+    revisao,
+    teste_conferentes,
+)
 from fabrica.comum import config
 from fabrica.comum.api_claude import ApiClaude
 from fabrica.comum.arquivos import Arquivos
@@ -91,6 +100,13 @@ def comando_avancar(argumentos: Sequence[str], servicos: Servicos, ler_linha: Le
             resumo.parada = banco.parada
             resumo.esperando += banco.esperando
             resumo.alerta_de_gasto = resumo.alerta_de_gasto or banco.alerta_de_gasto
+        if resumo.parada is None:
+            # Brief 022: as peças do teste dos conferentes, em modo de teste.
+            teste = teste_conferentes.coletar(ETAPAS, servicos)
+            resumo.passos += teste.passos
+            resumo.parada = teste.parada
+            resumo.esperando += teste.esperando
+            resumo.alerta_de_gasto = resumo.alerta_de_gasto or teste.alerta_de_gasto
     except estado.ErroServicos as erro:
         print(f"avancar parou: {erro}", file=sys.stderr)
         return 2
@@ -237,6 +253,45 @@ def comando_publicar(argumentos: Sequence[str], servicos: Servicos, ler_linha: L
     return 0
 
 
+def comando_testar(argumentos: Sequence[str], servicos: Servicos, ler_linha: LerLinha) -> int:
+    """Teste dos conferentes, retomável (brief 022)."""
+    opcoes = _opcoes(argumentos, ["--rodada"])
+    if opcoes is None or "--rodada" not in opcoes:
+        print("uso: python -m fabrica testar --rodada <rodada>", file=sys.stderr)
+        return 2
+    rodada = opcoes["--rodada"]
+    try:
+        situacao = teste_conferentes.testar(rodada, ETAPAS, servicos)
+    except (teste_conferentes.ErroTeste, erros_plantados.ErroErros) as erro:
+        print(f"testar recusado: {erro}", file=sys.stderr)
+        return 1
+    if situacao.recusa:
+        for falta in situacao.recusa:
+            print(f"testar recusado: {falta}", file=sys.stderr)
+        return 1
+    if situacao.faltam:
+        print(
+            f"testar: banco fechado; faltam {situacao.faltam} conferência(s) do teste. "
+            "Rode `avancar` e depois `testar` de novo."
+        )
+        return 0
+    r = situacao.resultado
+    assert r is not None
+    central = r.criterio_central
+    print(f"testar: resultado em {situacao.relatorio}.")
+    print(
+        f"critério central: {central.sucessos} de {central.total} "
+        f"({r.decisao_criterio_central}); sem o Opus: {r.sem_opus.sucessos} de {r.sem_opus.total}."
+    )
+    if r.banco.nao_confiavel:
+        print("banco não confiável: o critério central é calculado, mas não decide.")
+    if r.banco.filtrado_pelo_verificador:
+        print("banco filtrado pelo verificador: a decisão de escalar registra a ressalva.")
+    if r.dependente_do_opus:
+        print("dependente do Opus: a taxa sem o Opus fica mais de 15 pontos abaixo.")
+    return 0
+
+
 COMANDOS: dict[str, Comando] = {
     "avancar": comando_avancar,
     "erros": comando_erros,
@@ -245,6 +300,7 @@ COMANDOS: dict[str, Comando] = {
     "preparar": comando_preparar,
     "publicar": comando_publicar,
     "revisar": comando_revisar,
+    "testar": comando_testar,
 }
 
 
