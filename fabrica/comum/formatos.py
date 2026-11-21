@@ -455,6 +455,53 @@ class Ficha(RootModel[Annotated[FichaQualquer, Field(discriminator="tipo")]]):
 
 
 # ---------------------------------------------------------------------------
+# Base da ficha: o que o programa sorteia antes do pedido ao Haiku (brief 015)
+# ---------------------------------------------------------------------------
+
+
+class BaseFicha(Modelo):
+    """Casa da matriz, combinação sorteada, dados fictícios e número da tentativa.
+
+    Gravada em `saida/fichas/<peça>_base.json` antes do pedido. `casa` é a posição
+    da casa no sorteio do tipo (1 a 10); `tentativa` é 1 na ficha original e 2 ou 3
+    nas fichas novas da mesma casa.
+    """
+
+    peca: str
+    rodada: str
+    tipo: RotuloTipo
+    classe_risco: ClasseRisco
+    semente: int
+    casa: Annotated[int, Field(ge=1)]
+    tentativa: Annotated[int, Field(ge=1)]
+    casa_matriz: CasaMatriz
+    rito: Rito
+    categoria_autor: Categoria
+    categoria_reu: Categoria
+    defeito: TipoDefeito | None
+    tipo_decisao: TipoDecisao | None
+    motivo_devolucao: MotivoDevolucao | None
+    pedido_ar: PedidoAR | None
+    processo: Processo
+    partes: list[Parte]
+    advogado: Advogado
+    identificadores: list[str]
+    salario_minimo_referencia: Centavos
+    limite_fatos: datetime.date
+    data_decisao: datetime.date | None
+    data_intimacao: datetime.date | None
+    data_juntada_aviso: datetime.date | None
+    fase: str
+    prazo: PrazoProcessual | None
+    data_peca: datetime.date
+    local_peca: str
+    endereco_tentado: Endereco | None
+    novo_endereco: Endereco | None
+    meio_nova_diligencia: MeioDiligencia | None
+    prazo_pedido_dias: Annotated[int, Field(ge=10, le=30)] | None
+
+
+# ---------------------------------------------------------------------------
 # Resposta do Haiku para a ficha (só a parte que o programa não sorteia)
 # ---------------------------------------------------------------------------
 

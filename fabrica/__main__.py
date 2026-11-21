@@ -18,10 +18,11 @@ from typing import Any
 
 import anthropic
 
-from fabrica import estado, estruturas
+from fabrica import estado, estruturas, fichas
 from fabrica.comum import config
 from fabrica.comum.api_claude import ApiClaude
 from fabrica.comum.arquivos import Arquivos
+from fabrica.comum.congelamento import ErroCongelamento
 from fabrica.comum.gasto import ControleGasto
 from fabrica.comum.modelo_local import ModeloLocal
 from fabrica.comum.registro import Registro
@@ -34,7 +35,7 @@ LerLinha = Callable[[str], str]
 Comando = Callable[[Sequence[str], Servicos, LerLinha], int]
 
 # A ordem das etapas do fluxo das peças (registro de decisão 002, item 5).
-ETAPAS: list[Any] = []
+ETAPAS: list[Any] = [fichas.EtapaFicha(), fichas.EtapaRetorno()]
 
 
 def _agora() -> datetime.datetime:
@@ -68,6 +69,7 @@ def montar_servicos(raiz: Path) -> Servicos:
 def comando_avancar(argumentos: Sequence[str], servicos: Servicos, ler_linha: LerLinha) -> int:
     """Leva cada peça à próxima etapa possível (ARQUITETURA §8)."""
     try:
+        fichas.repor_falhas_de_formato(servicos)
         resumo = estado.avancar(ETAPAS, servicos)
     except estado.ErroServicos as erro:
         print(f"avancar parou: {erro}", file=sys.stderr)
@@ -104,8 +106,59 @@ def comando_preparar(argumentos: Sequence[str], servicos: Servicos, ler_linha: L
     return 0 if prep.passou else 1
 
 
+def _opcoes(argumentos: Sequence[str], aceitas: Sequence[str]) -> dict[str, str] | None:
+    """Pares `--nome valor`; None se algo não estiver nesse formato."""
+    if len(argumentos) % 2:
+        return None
+    lidas = dict(zip(argumentos[::2], argumentos[1::2], strict=True))
+    if any(nome not in aceitas for nome in lidas) or len(lidas) * 2 != len(argumentos):
+        return None
+    return lidas
+
+
+def _semente(opcoes: dict[str, str]) -> int | None | bool:
+    texto = opcoes.get("--semente")
+    if texto is None:
+        return None
+    return int(texto) if texto.isdigit() else False
+
+
+def comando_ensaio(argumentos: Sequence[str], servicos: Servicos, ler_linha: LerLinha) -> int:
+    """Abre a rodada de ensaio seguinte e grava uma ficha por tipo (brief 015)."""
+    opcoes = _opcoes(argumentos, ["--semente"])
+    semente = _semente(opcoes) if opcoes is not None else False
+    if opcoes is None or semente is False:
+        print("uso: python -m fabrica ensaio [--semente N]", file=sys.stderr)
+        return 2
+    try:
+        rodada, pecas = fichas.abrir_ensaio(servicos, semente)
+    except (fichas.ErroFichas, ErroCongelamento) as erro:
+        print(f"ensaio não abriu: {erro}", file=sys.stderr)
+        return 1
+    print(f"ensaio {rodada}: {len(pecas)} pedido(s) de ficha gravado(s): {', '.join(pecas)}")
+    return 0
+
+
+def comando_fichas(argumentos: Sequence[str], servicos: Servicos, ler_linha: LerLinha) -> int:
+    """Sorteia as combinações e grava os pedidos de ficha do tipo (brief 015)."""
+    opcoes = _opcoes(argumentos, ["--tipo", "--semente"])
+    semente = _semente(opcoes) if opcoes is not None else False
+    if opcoes is None or semente is False or "--tipo" not in opcoes:
+        print("uso: python -m fabrica fichas --tipo <tipo> [--semente N]", file=sys.stderr)
+        return 2
+    try:
+        rodada, pecas = fichas.abrir_fichas(servicos, opcoes["--tipo"], semente)
+    except (fichas.ErroFichas, ErroCongelamento) as erro:
+        print(f"fichas recusado: {erro}", file=sys.stderr)
+        return 1
+    print(f"rodada {rodada}: {len(pecas)} pedido(s) de ficha gravado(s).")
+    return 0
+
+
 COMANDOS: dict[str, Comando] = {
     "avancar": comando_avancar,
+    "ensaio": comando_ensaio,
+    "fichas": comando_fichas,
     "preparar": comando_preparar,
 }
 

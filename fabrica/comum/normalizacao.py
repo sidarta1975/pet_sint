@@ -2,13 +2,14 @@
 
 Todas as funções recebem texto e devolvem uma cópia normalizada: nenhuma altera
 o texto guardado (AGENTS §4). As regras da âncora e dos termos principais do
-Anexo E entram aqui no brief 015.
+Anexo E (brief 015) ficam no fim do arquivo.
 """
 
 from __future__ import annotations
 
 import re
 import unicodedata
+from collections.abc import Iterable
 
 MARCAS_DE_APROXIMACAO = ("cerca de", "aproximadamente", "mais de")
 NUMEROS_POR_EXTENSO = frozenset(
@@ -129,3 +130,87 @@ def contem_termo(texto: str, termo: str) -> bool:
     if not alvo:
         return False
     return re.search(rf"(?<!\w){re.escape(alvo)}(?!\w)", comparavel(texto)) is not None
+
+
+# ---------------------------------------------------------------------------
+# Âncora e termos principais (ARQUITETURA, Anexo E.2; brief 015)
+# ---------------------------------------------------------------------------
+
+_SEPARADOR_DE_NUMERO = re.compile(r"(?<=\d)[.,](?=\d)")
+_NAO_PALAVRA = re.compile(r"[^0-9a-z]+")
+LETRAS_DO_RADICAL = 6
+LETRAS_MINIMAS = 4
+
+
+def normalizar_termos(texto: str) -> str:
+    """Minúsculas, sem acentos e sem pontuação; números sem pontos e vírgulas internos."""
+    t = sem_acento(texto).casefold()
+    t = _SEPARADOR_DE_NUMERO.sub("", t)
+    return _NAO_PALAVRA.sub(" ", t).strip()
+
+
+def palavras_normalizadas(texto: str) -> list[str]:
+    return normalizar_termos(texto).split()
+
+
+def radical(palavra: str, letras: int = LETRAS_DO_RADICAL) -> str:
+    """Corte simples nas primeiras letras; palavras menores ficam inteiras."""
+    return palavra[:letras]
+
+
+def radicais(texto: str, letras: int = LETRAS_DO_RADICAL) -> frozenset[str]:
+    """Os radicais de todas as palavras do texto, sem tirar nenhuma."""
+    return frozenset(radical(p, letras) for p in palavras_normalizadas(texto))
+
+
+def _sem_ignoradas(texto: str, ignoradas: Iterable[str]) -> list[str]:
+    normalizadas = [normalizar_termos(i) for i in ignoradas]
+    simples = {i for i in normalizadas if i and " " not in i}
+    compostas = sorted((i for i in normalizadas if " " in i), key=len, reverse=True)
+    t = f" {normalizar_termos(texto)} "
+    for composta in compostas:
+        t = t.replace(f" {composta} ", "  ")
+    return [p for p in t.split() if p not in simples]
+
+
+def termos_principais(
+    trecho: str,
+    contexto: Iterable[str],
+    ignoradas: Iterable[str],
+    letras_minimas: int = LETRAS_MINIMAS,
+    letras_do_radical: int = LETRAS_DO_RADICAL,
+) -> list[str]:
+    """Os termos principais do trecho, sem repetição e na ordem em que aparecem.
+
+    Saem as palavras ignoradas, as com menos de `letras_minimas` letras (menos os
+    números) e os radicais que também aparecem no contexto (os fatos da ficha e os
+    outros argumentos).
+    """
+    comuns: set[str] = set()
+    for texto in contexto:
+        comuns |= radicais(texto, letras_do_radical)
+    termos: list[str] = []
+    for palavra in _sem_ignoradas(trecho, ignoradas):
+        if len(palavra) < letras_minimas and not palavra.isdigit():
+            continue
+        r = radical(palavra, letras_do_radical)
+        if r not in comuns and r not in termos:
+            termos.append(r)
+    return termos
+
+
+def presentes(termos: Iterable[str], texto: str, letras_do_radical: int = LETRAS_DO_RADICAL) -> int:
+    """Quantos termos aparecem no texto, pelo mesmo corte."""
+    achados = radicais(texto, letras_do_radical)
+    return sum(1 for t in termos if t in achados)
+
+
+def contem_trecho(texto: str, trecho: str) -> bool:
+    """O trecho está no texto, letra por letra, depois da normalização de espaços."""
+    alvo = compactar_espacos(trecho)
+    return bool(alvo) and alvo in compactar_espacos(texto)
+
+
+def sem_trecho(texto: str, trecho: str) -> str:
+    """O texto sem a primeira ocorrência do trecho (espaços normalizados)."""
+    return compactar_espacos(texto).replace(compactar_espacos(trecho), " ", 1)

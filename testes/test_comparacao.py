@@ -13,6 +13,7 @@ from typing import Any
 
 import pytest
 
+from fabrica import fichas
 from fabrica.comum import config
 from fabrica.comum.arquivos import Arquivos
 from fabrica.comum.formatos import (
@@ -25,6 +26,7 @@ from fabrica.comum.formatos import (
     NomeExtraido,
     PedidoExtraido,
     Perfil,
+    Valor,
     ValorExtraido,
 )
 from fabrica.conferencia import regras
@@ -232,3 +234,29 @@ def test_varios_erros_juntos_viram_varias_divergencias() -> None:
     resultado = regras.coerencia_ficha(extracao, ficha_base(), perfil(), configuracao())
     assert resultado.resposta == "nao_passa"
     assert [d.regra for d in resultado.divergencias] == ["valor", "data", "comarca", "juizo"]
+
+
+# ---------------------------------------------------------------------------
+# Casos "verificado_por": "fichas" (brief 015): recusados por fichas.py
+# ---------------------------------------------------------------------------
+
+CASOS_FICHAS = [c for c in EXEMPLOS["casos"] if c["verificado_por"] == "fichas"]
+
+
+def test_ficha_sem_valor_legal_nao_tem_essa_falha() -> None:
+    contexto = fichas.carregar_contexto(Arquivos(RAIZ), config.carregar(Arquivos(RAIZ)))
+    codigos = [f.codigo for f in fichas.conferir_pronta(ficha_base(), contexto)]
+    assert fichas.VALOR_LEGAL not in codigos
+
+
+@pytest.mark.parametrize("caso", CASOS_FICHAS, ids=[c["id"] for c in CASOS_FICHAS])
+def test_caso_das_fichas(caso: dict[str, Any]) -> None:
+    assert caso["esperado"] == "recusa_ficha"
+    contexto = fichas.carregar_contexto(Arquivos(RAIZ), config.carregar(Arquivos(RAIZ)))
+    base = ficha_base()
+    extra = Valor(
+        id="vx", descricao="valor", centavos=caso["entrada"]["centavos"], data_referencia=None
+    )
+    ficha = base.model_copy(update={"valores": [*base.valores, extra]})
+    codigos = [f.codigo for f in fichas.conferir_pronta(ficha, contexto)]
+    assert fichas.VALOR_LEGAL in codigos

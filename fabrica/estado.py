@@ -306,8 +306,10 @@ def _ocorrencia(
 def _gravar_t2(caminho: str, servicos: Servicos) -> str:
     """O pedido `t2`, idêntico ao `t1`. Não existe `t3`."""
     pedido = servicos.arquivos.ler_json(caminho, Pedido)
-    meio = f"_v{pedido.versao}" if pedido.versao is not None else ""
-    nome = f"{pedido.peca}{meio}_{pedido.tarefa}_t{TENTATIVA_MAXIMA}"
+    # O nome do t2 sai do nome do t1 (brief 015: `<peça>_ficha_retorno_t1` vira `_t2`).
+    if not pedido.nome.endswith("_t1"):
+        raise ErroEstado(f"{pedido.nome}: o t2 sai só de um pedido t1")
+    nome = f"{pedido.nome.removesuffix('_t1')}_t{TENTATIVA_MAXIMA}"
     novo = pedido.model_copy(
         update={"nome": nome, "tentativa": TENTATIVA_MAXIMA, "criado_em": servicos.relogio()}
     )
