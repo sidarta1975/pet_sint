@@ -11,7 +11,7 @@ from __future__ import annotations
 import datetime
 from typing import Annotated, Any, Literal
 
-from pydantic import BaseModel, ConfigDict, Field, RootModel, model_validator
+from pydantic import BaseModel, BeforeValidator, ConfigDict, Field, RootModel, model_validator
 
 
 class Modelo(BaseModel):
@@ -1205,3 +1205,204 @@ def esquema_resposta(modelo: type[BaseModel]) -> dict[str, Any]:
     esquema = modelo.model_json_schema()
     _proibir_campo_a_mais(esquema)
     return esquema
+
+
+# ---------------------------------------------------------------------------
+# Configuração (brief 004): espelho exato de config/config.toml e config/gasto.toml
+# ---------------------------------------------------------------------------
+
+
+def _vazio_e_ausente(valor: Any) -> Any:
+    """Valor pendente e vazio no config.toml é lido como ausente."""
+    return None if valor == "" else valor
+
+
+TextoOuAusente = Annotated[str | None, BeforeValidator(_vazio_e_ausente)]
+NomeModelo = Literal["opus", "sonnet", "haiku"]
+Esforco = Literal["low", "medium", "high", "xhigh", "max"]
+
+
+class PrecoModelo(Modelo):
+    id: str
+    preco_entrada_centavos_por_milhao: Centavos
+    preco_saida_centavos_por_milhao: Centavos
+
+
+class PrecoModeloComFaixa(PrecoModelo):
+    limite_entrada_tokens_do_preco: int
+    preco_entrada_acima_do_limite_centavos_por_milhao: Centavos
+    preco_saida_acima_do_limite_centavos_por_milhao: Centavos
+
+
+class ConfigModelos(Modelo):
+    data_conferencia: datetime.date
+    opus: PrecoModelo
+    sonnet: PrecoModelo
+    haiku: PrecoModeloComFaixa
+
+
+class ConfigTarefa(Modelo):
+    modelo: NomeModelo
+    esforco: Esforco
+    teto_saida_tokens: int
+
+
+class ConfigTarefas(Modelo):
+    ficha: ConfigTarefa
+    redacao_risco_baixo: ConfigTarefa
+    extracao: ConfigTarefa
+    checklist: ConfigTarefa
+    redacao_risco_medio: ConfigTarefa
+    redacao_risco_alto: ConfigTarefa
+    conferencia_opus: ConfigTarefa
+    copia_com_erro: ConfigTarefa
+    verificacao_copia: ConfigTarefa
+
+
+class ConfigApi(Modelo):
+    modo_chamada: str
+    esperas_novas_tentativas_segundos: list[int]
+
+
+class ConfigVolume(Modelo):
+    pecas_por_tipo: int
+    copias_opus_por_peca_boa: int
+    copias_programa_por_peca_boa: int
+    fracao_copias_opus_sutis: float
+    versoes_maximas: int
+
+
+class ConfigPlanoB(Modelo):
+    normal_a_partir_de_pecas_boas: int
+    faixa_media_de: int
+    faixa_media_ate: int
+    copias_opus_por_peca_boa_faixa_media: int
+    inconclusivo_abaixo_de: int
+
+
+class ConfigSemelhanca(Modelo):
+    limite: float
+    palavras_por_trecho: int
+
+
+class ConfigModeloLocal(Modelo):
+    nome: str
+    etiqueta_completa: TextoOuAusente
+    digest: TextoOuAusente
+    porta: int
+    num_ctx: int
+    num_ctx_alternativo: int
+    fracao_limite_contexto_ensaio: float
+    divisor_caracteres_por_token: int
+    porteiro_intervalo_segundos: int
+    porteiro_espera_maxima_minutos: int
+    fracao_pecas_risco_baixo: float
+
+
+class ConfigJanelaLocal(Modelo):
+    inicio: datetime.time
+    fim: datetime.time
+
+
+class ConfigValvula(Modelo):
+    espera_risco_medio_horas: int
+    espera_risco_alto_dias: int
+    fracao_sem_local_para_ressalva: float
+
+
+class ConfigReferenciasLegais(Modelo):
+    ano_das_fichas: int
+    salario_minimo_centavos: Centavos
+    salario_minimo_norma: str
+    salario_minimo_data_conferencia: datetime.date
+    alcada_em_salarios_minimos: int
+
+
+class ConfigDdds(Modelo):
+    inexistentes: list[int]
+    data_conferencia: datetime.date
+
+
+class ConfigCriterios(Modelo):
+    taxa_minima: float
+    limite_inferior_minimo: float
+    confianca: float
+    pontos_dependencia_opus: int
+    minimo_copias_julgamento: int
+    fracao_maxima_pecas_boas_reprovadas: float
+    custo_marginal_maximo_centavos: Centavos
+    piso_pecas_por_tipo: int
+    fracao_fichas_reprovadas_por_tipo: float
+    rejeitadas_para_banco_nao_confiavel: int
+    existentes_para_banco_filtrado: int
+
+
+class ConfigAmostras(Modelo):
+    copias_aceitas: int
+    descartadas_nao_viu_erro: int
+    ensaio_copias_aceitas_maximo: int
+    ensaio_descartadas_maximo: int
+
+
+class ConfigMatriz(Modelo):
+    tentativas_maximas: int
+    fracao_maxima_por_materia: float
+    dias_uteis_de_folga: int
+    anos_maximos_dos_fatos: int
+
+
+class ConfigFichas(Modelo):
+    retornos_ao_haiku: int
+    fichas_novas_por_casa: int
+
+
+class ConfigTrecho(Modelo):
+    teto_tokens: int
+
+
+class ConfigAncora(Modelo):
+    termos_minimos: int
+    letras_do_radical: int
+    letras_minimas: int
+    fracao_maxima_fora_da_mencao: float
+    palavras_maximas_mencao: int
+
+
+class ConfigErros(Modelo):
+    fracao_maxima_regiao: float
+    diferenca_minima_valor_trocado: float
+
+
+class ConfigComparacao(Modelo):
+    diferenca_maxima_arredondamento: float
+
+
+class Configuracao(Modelo):
+    """Espelho exato de config/config.toml (brief 002)."""
+
+    modelos: ConfigModelos
+    tarefas: ConfigTarefas
+    api: ConfigApi
+    volume: ConfigVolume
+    plano_b: ConfigPlanoB
+    semelhanca: ConfigSemelhanca
+    modelo_local: ConfigModeloLocal
+    janela_local: ConfigJanelaLocal
+    valvula: ConfigValvula
+    referencias_legais: ConfigReferenciasLegais
+    ddds: ConfigDdds
+    criterios: ConfigCriterios
+    amostras: ConfigAmostras
+    matriz: ConfigMatriz
+    fichas: ConfigFichas
+    trecho: ConfigTrecho
+    ancora: ConfigAncora
+    erros: ConfigErros
+    comparacao: ConfigComparacao
+
+
+class Gasto(Modelo):
+    """Espelho exato de config/gasto.toml (brief 002)."""
+
+    alerta_centavos: Centavos
+    corte_centavos: Centavos
