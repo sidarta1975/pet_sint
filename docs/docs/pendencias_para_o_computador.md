@@ -47,6 +47,11 @@ Cada linha: o ponto, o valor provisório em uso e o brief onde ele aparece. Nada
 | Teto de saída do conferente local (a configuração não tem `[tarefas.conferente_local]`) | 2000 tokens, constante em `fabrica/conferencia/local.py` | 017 |
 | Lista oficial dos códigos de banco para o detector | Vazia: nenhum código é acusado | 009, 017 |
 | Manifestação do ensaio passa pelo conferente local só se a casa 1 for uma das 2 sorteadas | Sem exceção para o ensaio | 017 |
+| Veredito da categoria formato: o condutor grava só o destino `reprovada_formato` e encerra a versão antes da etapa de decisão | O destino é a fonte; `decisao.veredito_de_formato` monta o veredito para quem lê o destino (relatório do 023) | 018 |
+| O Opus, no risco alto, recebe as respostas do Haiku e do modelo local? | Não: só na discordância ele as recebe; no risco alto e no médio sem local responde sozinho | 018 |
+| Citação não resolvida que o checklist responde "não passa" | Reprova pelo item `citacao_fora_da_tabela` | 018 |
+| Peça aprovada em modo de teste vai para `saida/aprovadas/`? | Não (só fora do modo de teste) | 018 |
+| Semelhança com mais de uma aprovada do tipo | Vale o maior índice; texto com menos de 5 palavras vira um trecho só | 018 |
 
 ## Briefs que esperam o computador
 

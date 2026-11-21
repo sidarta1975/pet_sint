@@ -62,6 +62,13 @@ class EtapaLocal:
     nome = "local"
 
     def aplica(self, peca: RefPeca, servicos: Servicos) -> bool:
+        # Defeito corrigido no brief 018: sem esperar o checklist, a peça cuja ficha foi
+        # descartada (sem rascunho) caía no pedido do conferente local.
+        existe = servicos.arquivos.existe(caminho_etapa(peca, "checklist"))
+        return bool(existe) and self.se_aplica(peca, servicos)
+
+    def se_aplica(self, peca: RefPeca, servicos: Servicos) -> bool:
+        """A regra do sorteio: a peça passa pelo conferente local?"""
         catalogo = tipo_do_catalogo(peca.tipo, servicos)
         if catalogo.classe_risco in ("medio", "alto"):
             return True

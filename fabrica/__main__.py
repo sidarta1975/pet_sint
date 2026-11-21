@@ -26,6 +26,7 @@ from fabrica.comum.congelamento import ErroCongelamento
 from fabrica.comum.gasto import ControleGasto
 from fabrica.comum.modelo_local import ModeloLocal
 from fabrica.comum.registro import Registro
+from fabrica.conferencia import checklist, decisao, desempate, extracao, local, regras, semelhanca
 from fabrica.estado import Servicos
 
 RAIZ = Path(__file__).resolve().parent.parent
@@ -34,8 +35,20 @@ VARIAVEL_DA_CHAVE = "ANTHROPIC_API_KEY"
 LerLinha = Callable[[str], str]
 Comando = Callable[[Sequence[str], Servicos, LerLinha], int]
 
-# A ordem das etapas do fluxo das peças (registro de decisão 002, item 5).
-ETAPAS: list[Any] = [fichas.EtapaFicha(), fichas.EtapaRetorno(), redacao.EtapaRedacao()]
+# A ordem das etapas do fluxo das peças (registro de decisão 002, item 5). A parte da
+# conferência (de extração a decisão) é a única ordem da conferência (brief 018).
+ETAPAS: list[Any] = [
+    fichas.EtapaFicha(),
+    fichas.EtapaRetorno(),
+    redacao.EtapaRedacao(),
+    extracao.EtapaExtracao(),
+    regras.EtapaProgramas(),
+    checklist.EtapaChecklist(),
+    local.EtapaLocal(),
+    desempate.EtapaDesempate(),
+    semelhanca.EtapaSemelhanca(),
+    decisao.EtapaDecisao(),
+]
 
 
 def _agora() -> datetime.datetime:

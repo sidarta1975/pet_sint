@@ -417,15 +417,15 @@ def semente(amb: Ambiente) -> int:
 
 def test_local_aplica_em_medio_alto_e_em_duas_de_dez_do_baixo(amb: Ambiente) -> None:
     etapa = local.EtapaLocal()
-    assert etapa.aplica(ref(INICIAL), amb.servicos) and etapa.aplica(ref(EMB), amb.servicos)
+    assert etapa.se_aplica(ref(INICIAL), amb.servicos) and etapa.se_aplica(ref(EMB), amb.servicos)
     escolhidas = local.sorteadas(MAN, semente(amb), 10, 0.2)
     assert len(escolhidas) == 2 and escolhidas == local.sorteadas(MAN, semente(amb), 10, 0.2)
     for n in range(1, 11):
-        assert etapa.aplica(ref(MAN, n), amb.servicos) == (n in escolhidas)
+        assert etapa.se_aplica(ref(MAN, n), amb.servicos) == (n in escolhidas)
     # No teste dos conferentes, a cópia segue a sua original.
     for n in range(1, 11):
         copia = dataclasses.replace(ref(MAN, n), copia=f"e01_{MAN}_{n:03d}_erro1")
-        assert etapa.aplica(copia, amb.servicos) == (n in escolhidas)
+        assert etapa.se_aplica(copia, amb.servicos) == (n in escolhidas)
 
 
 def test_local_pede_so_os_itens_do_tipo(amb: Ambiente) -> None:
@@ -459,6 +459,11 @@ def test_local_envia_com_o_num_ctx_e_grava_o_resultado(amb: Ambiente) -> None:
     )
     servicos = dataclasses.replace(s, modelo_local=modelo)
     r = ref(INICIAL)
+    assert not local.EtapaLocal().aplica(r, servicos)  # o local vem depois do checklist
+    amb.arquivos.gravar_json(
+        f"saida/conferencias/{r.nome_versao}_checklist.json",
+        RespostaChecklist.model_validate_json(resposta_checklist(B2[INICIAL])),
+    )
     estado.avancar([local.EtapaLocal()], servicos, [r])
     assert enviados[0]["options"]["num_ctx"] == s.config.geral.modelo_local.num_ctx
     gravado = amb.arquivos.ler_json(
