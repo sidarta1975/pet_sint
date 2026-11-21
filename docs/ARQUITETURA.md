@@ -808,7 +808,7 @@ Um só ponto de entrada: `python -m fabrica <comando>`. `fabrica/__main__.py` n�
 | Comando | Função |
 |---|---|
 | `python -m fabrica fichas --tipo <tipo>` | Sorteia as combinações e grava os pedidos de ficha do tipo. Na rodada do MVP, recusa começar sem ensaio aprovado em `saida/rodadas.json` |
-| `python -m fabrica avancar` | Pede a `estado.py` que leve cada peça à próxima etapa possível, coletando as respostas prontas. Pode ser repetido a qualquer momento; retoma de onde parou |
+| `python -m fabrica avancar` | Pede a `estado.py` que leve cada peça à próxima etapa possível, coletando as respostas prontas. Pode ser repetido a qualquer momento; retoma de onde parou. Construído no brief 008 |
 | `python -m fabrica revisar` | Única entrada das respostas do responsável. Mostra o próximo cartão pendente (da revisão, do ensaio, da amostra de 10 cópias, da amostra das descartadas ou da leitura de publicação), faz as perguntas, mostra as respostas juntas e pede confirmação; só depois grava `saida/cartoes/<id>_respostas.json`. Antes de confirmar, qualquer resposta pode ser corrigida; depois, não muda |
 | `python -m fabrica revisar --resumo` | Só lista os cartões já respondidos, com as respostas e a data, sem mudar nada |
 | Um comando para cada um dos demais fluxos de 1.4 | Preparação, ensaio, erros plantados, teste dos conferentes, publicação e relatório. O nome de cada um é fixado no brief da fase que constrói o módulo e registrado aqui no mesmo brief |
