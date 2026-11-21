@@ -18,7 +18,7 @@ from typing import Any
 
 import anthropic
 
-from fabrica import estado
+from fabrica import estado, estruturas
 from fabrica.comum import config
 from fabrica.comum.api_claude import ApiClaude
 from fabrica.comum.arquivos import Arquivos
@@ -86,8 +86,27 @@ def comando_avancar(argumentos: Sequence[str], servicos: Servicos, ler_linha: Le
     return 0
 
 
+def comando_preparar(argumentos: Sequence[str], servicos: Servicos, ler_linha: LerLinha) -> int:
+    """Valida `dados/` e grava a preparação, sem gastar API (brief 011)."""
+    semente = estruturas.SEMENTE_DE_PROVA
+    if argumentos:
+        if len(argumentos) != 2 or argumentos[0] != "--semente" or not argumentos[1].isdigit():
+            print("uso: python -m fabrica preparar [--semente N]", file=sys.stderr)
+            return 2
+        semente = int(argumentos[1])
+    prep = estruturas.preparar(servicos.arquivos, servicos.config, semente)
+    for linha in prep.linhas:
+        if linha.startswith("- "):
+            print(linha[2:])
+    for problema in prep.problemas:
+        print(f"falhou: {problema}", file=sys.stderr)
+    print(f"resumo em {estruturas.PASTA}/resumo.md")
+    return 0 if prep.passou else 1
+
+
 COMANDOS: dict[str, Comando] = {
     "avancar": comando_avancar,
+    "preparar": comando_preparar,
 }
 
 
