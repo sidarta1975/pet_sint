@@ -9,12 +9,12 @@
 
 ## Resumo
 
-- Fase atual: Fase 6 — Preparação, travas e regras (PLANO, seção 4). As Fases 1 a 5 terminaram com os briefs 001 a 010.
+- Fase atual: Fase 7 — Dados dos 3 tipos (PLANO, seção 4). As Fases 1 a 6 terminaram com os briefs 001 a 013.
 - Repositório: `sidarta1975/pet_sint` (https://github.com/sidarta1975/pet_sint), criado pelo responsável em 2026-11-21. A construção (os briefs 001 a 023) roda em sessões do Claude Code na nuvem, que clonam o repositório; os testes na máquina do responsável e o ensaio ficam para quando ele estiver no computador.
-- Último brief concluído: 012 · Normalização, regras e comparação com a ficha (2026-11-21), entregue por `scripts/entregar.sh 012` no ramo `claude/project-thread-t7c3zg`, no mesmo pedido de integração para `main` (#2).
+- Último brief concluído: 013 · Citações de lei (2026-11-21), entregue por `scripts/entregar.sh 013` no ramo `claude/project-thread-t7c3zg`, no mesmo pedido de integração para `main` (#2).
 - Em execução: nada.
-- Próximos três: 013 · citações de lei; 014 · proposta dos arquivos de dados/; 015 · fichas com âncora.
-- Último commit: `41ab742` (brief 011). O do 012 entra no Done pelo brief seguinte.
+- Próximos três: 014 · proposta dos arquivos de dados/; 015 · fichas com âncora; 016 · redação.
+- Último commit: `96a44ad` (brief 012). O do 013 entra no Done pelo brief seguinte.
 - Bloqueios: nenhum. O responsável autorizou, em 2026-11-21, seguir até o fim da fila sem novas aprovações; onde um brief pede resposta dele e ela não veio, vale o provisório escrito, registrado no relatório como decisão por falta de resposta.
 - Documentos de origem: arquitetura do MVP, versão 10 (2026-11-21); plano v15 (fechado); lista consolidada de peças. Arquitetura dada como pronta para virar instruções na revisão de 2026-11-21. Fila de briefs revista em 2026-11-21 (de 19 para 25 briefs).
 
@@ -31,7 +31,6 @@ Briefs previstos pela ordem de construção (PLANO, seção 4). Ainda não escri
 - Param pelo responsável: 002 (conferir a configuração), 014 (aprovar os dados e a estrutura montada), 024 (ensaio) e 025 (rodada). Dentro do 024 e do 025 há ainda a resposta às amostras pelo comando `revisar`, antes do teste dos conferentes; os briefs 021 e 022 só constroem o código, com dados falsos, e não esperam por ele.
 - Depois do ensaio aprovado, qualquer mudança em código, dados, instruções, `config.toml` ou `gasto.toml` obriga a um ensaio novo (ARQUITETURA 5.12.1): o comando `fichas` recusa a rodada. A conferência da configuração no 002 vale, portanto, para a rodada inteira.
 
-- 013 · Citações de lei: citacoes.py, citacoes_50.json (conteúdo escrito no brief) e test_citacoes (Fase 6) · não iniciado · — · —
 - 014 · Proposta de todos os arquivos de dados/, com a estrutura montada de cada tipo e as conferências cruzadas, para aprovação do responsável (Fase 7) · não iniciado · — · —
 - 015 · Fichas com âncora: fichas.py, instrucoes/ficha.md, comando `fichas` e test_ancora (Fase 8) · não iniciado · — · —
 - 016 · Redação: redacao.py e instrucoes/redacao.md, com o trecho da tabela (Fase 8) · não iniciado · — · —
@@ -47,7 +46,8 @@ Briefs previstos pela ordem de construção (PLANO, seção 4). Ainda não escri
 
 ## Done — últimos 30 dias
 
-- 012 · Normalização, regras e comparação com a ficha: normalizacao.py, regras.py, comparacao_exemplos.json (conteúdo escrito no brief), test_regras e test_comparacao (Fase 6) · concluído · — · 2026-11-21
+- 013 · Citações de lei: citacoes.py, citacoes_50.json (conteúdo escrito no brief) e test_citacoes (Fase 6) · concluído · — · 2026-11-21
+- 012 · Normalização, regras e comparação com a ficha: normalizacao.py, regras.py, comparacao_exemplos.json (conteúdo escrito no brief), test_regras e test_comparacao (Fase 6) · concluído · 96a44ad · 2026-11-21
 - 011 · Montagem da estrutura, matriz e travas: estruturas.py, matriz.py, comando da preparação e test_travas, com exemplos dentro do teste (Fase 6) · concluído · 41ab742 · 2026-11-21
 - 010 · Detector de dado real: dados_reais.py e test_dados_reais, com o teste dos reservados sobre a lista de proibidos vazia e a busca de nome reservado no código (Fase 5) · concluído · dbb70ce · 2026-11-21
 - 009 · Dados fictícios e nomes reservados do teste: ficticios.py, test_ficticios (com listas de exemplo) e testes/dados/reais_reservados.json (Fase 5) · concluído · 14fe5f2 · 2026-11-21
