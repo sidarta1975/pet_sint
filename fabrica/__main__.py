@@ -18,7 +18,7 @@ from typing import Any
 
 import anthropic
 
-from fabrica import estado, estruturas, fichas, redacao
+from fabrica import erros_plantados, estado, estruturas, fichas, redacao
 from fabrica.comum import config
 from fabrica.comum.api_claude import ApiClaude
 from fabrica.comum.arquivos import Arquivos
@@ -168,8 +168,24 @@ def comando_fichas(argumentos: Sequence[str], servicos: Servicos, ler_linha: Ler
     return 0
 
 
+def comando_erros(argumentos: Sequence[str], servicos: Servicos, ler_linha: LerLinha) -> int:
+    """Grava as cópias com erro das peças boas que ainda não as têm (brief 019)."""
+    opcoes = _opcoes(argumentos, ["--rodada"])
+    if opcoes is None or "--rodada" not in opcoes:
+        print("uso: python -m fabrica erros --rodada <rodada>", file=sys.stderr)
+        return 2
+    try:
+        gravadas = erros_plantados.gravar_copias(opcoes["--rodada"], servicos)
+    except (erros_plantados.ErroErros, ErroCongelamento) as erro:
+        print(f"erros recusado: {erro}", file=sys.stderr)
+        return 1
+    print(f"erros: {len(gravadas)} cópia(s) por programa gravada(s).")
+    return 0
+
+
 COMANDOS: dict[str, Comando] = {
     "avancar": comando_avancar,
+    "erros": comando_erros,
     "ensaio": comando_ensaio,
     "fichas": comando_fichas,
     "preparar": comando_preparar,

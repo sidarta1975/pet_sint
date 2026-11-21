@@ -52,6 +52,10 @@ Cada linha: o ponto, o valor provisório em uso e o brief onde ele aparece. Nada
 | Citação não resolvida que o checklist responde "não passa" | Reprova pelo item `citacao_fora_da_tabela` | 018 |
 | Peça aprovada em modo de teste vai para `saida/aprovadas/`? | Não (só fora do modo de teste) | 018 |
 | Semelhança com mais de uma aprovada do tipo | Vale o maior índice; texto com menos de 5 palavras vira um trecho só | 018 |
+| `juizo_trocado` nos embargos: "Tribunal de Justiça do Estado de <estado da ficha>" | O estado vai pela sigla da UF da ficha (os dados não têm o nome por extenso dos estados) | 019 |
+| "Bloco de fundamentos" onde entra a frase do `termo_inequivoco` | O primeiro presente entre `fundamentos`, `razoes`, `novo_endereco` e `exposicao` (os embargos e a manifestação não têm bloco `fundamentos`) | 019 |
+| `valor_trocado` nos embargos "com valor na decisão" | Só quando a extração da original traz algum valor da ficha; sem valor, os embargos recebem outro erro de regra | 019 |
+| Erro de regra sorteado que não cabe na peça (por exemplo, sem citação para trocar) | O sorteio só oferece a cada peça os erros que cabem nela; a peça em que nenhum cabe fica sem cópia por programa | 019 |
 
 ## Briefs que esperam o computador
 
