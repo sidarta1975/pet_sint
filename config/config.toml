@@ -1,0 +1,161 @@
+# Configuração do MVP (brief 002). Valores dos canônicos, usados como estão.
+# Cada valor traz ao lado a seção de origem. "PENDENTE" = o responsável informa na conferência.
+
+[modelos]
+data_conferencia = "2026-11-21"          # ARQUITETURA §7.1
+
+[modelos.opus]
+id = "claude-opus-5-5"   # ARQUITETURA §7.1
+preco_entrada_centavos_por_milhao = 400   # ARQUITETURA §7.1; centavos de dólar por milhão
+preco_saida_centavos_por_milhao = 2000   # ARQUITETURA §7.1; centavos de dólar por milhão
+
+[modelos.sonnet]
+id = "claude-sonnet-5-5"   # ARQUITETURA §7.1
+preco_entrada_centavos_por_milhao = 200   # ARQUITETURA §7.1; centavos de dólar por milhão
+preco_saida_centavos_por_milhao = 1000   # ARQUITETURA §7.1; centavos de dólar por milhão
+
+[modelos.haiku]
+id = "claude-haiku-5-5"   # ARQUITETURA §7.1
+preco_entrada_centavos_por_milhao = 10   # vale até 100 mil tokens de entrada
+preco_saida_centavos_por_milhao = 50   # ARQUITETURA §7.1; centavos de dólar por milhão
+limite_entrada_tokens_do_preco = 100000   # ARQUITETURA §7.1; preço do Haiku muda acima deste limite
+preco_entrada_acima_do_limite_centavos_por_milhao = 50    # página oficial de preços da Anthropic, conferida em 2026-11-21
+preco_saida_acima_do_limite_centavos_por_milhao = 250     # idem; o responsável confirma na parada deste brief
+
+[tarefas.ficha]
+modelo = "haiku"   # PLANO §3.1; ARQUITETURA §7.1
+esforco = "low"   # PLANO §3.1; ARQUITETURA §7.1
+teto_saida_tokens = 8000   # PLANO §3.1; ARQUITETURA §7.1
+[tarefas.redacao_risco_baixo]
+modelo = "haiku"   # PLANO §3.1; ARQUITETURA §7.1
+esforco = "low"   # PLANO §3.1; ARQUITETURA §7.1
+teto_saida_tokens = 8000   # PLANO §3.1; ARQUITETURA §7.1
+[tarefas.extracao]
+modelo = "haiku"   # PLANO §3.1; ARQUITETURA §7.1
+esforco = "low"   # PLANO §3.1; ARQUITETURA §7.1
+teto_saida_tokens = 8000   # PLANO §3.1; ARQUITETURA §7.1
+[tarefas.checklist]
+modelo = "haiku"   # PLANO §3.1; ARQUITETURA §7.1
+esforco = "low"   # PLANO §3.1; ARQUITETURA §7.1
+teto_saida_tokens = 8000   # PLANO §3.1; ARQUITETURA §7.1
+[tarefas.redacao_risco_medio]
+modelo = "sonnet"   # PLANO §3.1; ARQUITETURA §7.1
+esforco = "low"   # PLANO §3.1; ARQUITETURA §7.1
+teto_saida_tokens = 16000   # PLANO §3.1; ARQUITETURA §7.1
+[tarefas.redacao_risco_alto]
+modelo = "sonnet"   # PLANO §3.1; ARQUITETURA §7.1
+esforco = "medium"   # PLANO §3.1; ARQUITETURA §7.1
+teto_saida_tokens = 16000   # PLANO §3.1; ARQUITETURA §7.1
+[tarefas.conferencia_opus]
+modelo = "opus"   # PLANO §3.1; ARQUITETURA §7.1
+esforco = "low"   # PLANO §3.1; ARQUITETURA §7.1
+teto_saida_tokens = 8000   # PLANO §3.1; ARQUITETURA §7.1
+[tarefas.copia_com_erro]
+modelo = "opus"   # PLANO §3.1; ARQUITETURA §7.1
+esforco = "medium"   # PLANO §3.1; ARQUITETURA §7.1
+teto_saida_tokens = 8000   # PLANO §3.1; ARQUITETURA §7.1
+[tarefas.verificacao_copia]
+modelo = "sonnet"   # PLANO §3.1; ARQUITETURA §7.1
+esforco = "medium"   # PLANO §3.1; ARQUITETURA §7.1
+teto_saida_tokens = 8000   # PLANO §3.1; ARQUITETURA §7.1
+
+[api]
+modo_chamada = "uma_a_uma"               # ARQUITETURA §2.1
+esperas_novas_tentativas_segundos = [30, 120, 480]   # §7.1: 30 s, 2 min, 8 min
+
+[volume]
+pecas_por_tipo = 10   # PLANO §3; ARQUITETURA §2.1 e §5.1
+copias_opus_por_peca_boa = 4   # PLANO §3; ARQUITETURA §2.1 e §5.1
+copias_programa_por_peca_boa = 1   # PLANO §3; ARQUITETURA §2.1 e §5.1
+fracao_copias_opus_sutis = 0.5   # PLANO §3; ARQUITETURA §2.1 e §5.1
+versoes_maximas = 3   # ARQUITETURA §5.3
+
+[plano_b]                                # ARQUITETURA §5.12.6
+normal_a_partir_de_pecas_boas = 20   # ARQUITETURA §5.12.6
+faixa_media_de = 14   # ARQUITETURA §5.12.6
+faixa_media_ate = 19   # ARQUITETURA §5.12.6
+copias_opus_por_peca_boa_faixa_media = 6   # ARQUITETURA §5.12.6
+inconclusivo_abaixo_de = 14   # ARQUITETURA §5.12.6
+
+[semelhanca]
+limite = 0.85   # ARQUITETURA §5.6
+palavras_por_trecho = 5   # ARQUITETURA §5.6
+
+[modelo_local]
+nome = "gemma3:27b"   # ARQUITETURA §2.1, §5.12.4 e §7.2
+etiqueta_completa = ""   # PENDENTE: o responsável informa (máquina de produção)
+digest = ""              # PENDENTE: o responsável informa (máquina de produção)
+porta = 11434   # ARQUITETURA §2.1, §5.12.4 e §7.2
+num_ctx = 16384   # ARQUITETURA §2.1, §5.12.4 e §7.2
+num_ctx_alternativo = 32768   # ARQUITETURA §2.1, §5.12.4 e §7.2
+fracao_limite_contexto_ensaio = 0.75   # ARQUITETURA §2.1, §5.12.4 e §7.2
+divisor_caracteres_por_token = 3   # ARQUITETURA §2.1, §5.12.4 e §7.2
+porteiro_intervalo_segundos = 60   # ARQUITETURA §2.1, §5.12.4 e §7.2
+porteiro_espera_maxima_minutos = 15   # ARQUITETURA §2.1, §5.12.4 e §7.2
+fracao_pecas_risco_baixo = 0.2           # 2 das 10 manifestações
+
+[janela_local]
+inicio = "22:00"   # PENDENTE: provisório ("a noite", PLAN); o responsável define
+fim = "06:00"      # PENDENTE: provisório; a janela tem de ter 24 horas ou menos
+
+[valvula]
+espera_risco_medio_horas = 72   # ARQUITETURA §5.12.4
+espera_risco_alto_dias = 7   # ARQUITETURA §5.12.4
+fracao_sem_local_para_ressalva = 0.20   # ARQUITETURA §5.12.4
+
+[referencias_legais]
+ano_das_fichas = 2026   # ARQUITETURA §2.1
+salario_minimo_centavos = 162100   # ARQUITETURA §2.1
+salario_minimo_norma = "Decreto nº 12.797, de 23/12/2025"   # ARQUITETURA §2.1
+salario_minimo_data_conferencia = "2026-11-21"   # ARQUITETURA §2.1
+alcada_em_salarios_minimos = 40          # alçada de R$ 64.840,00
+
+[ddds]
+inexistentes = [20, 23, 25, 26, 29, 36, 39, 52, 56, 57, 58, 59, 72, 76, 78]   # ARQUITETURA §5.2
+data_conferencia = "2026-11-21"   # PENDENTE: confirmar a data da conferência da lista
+
+[criterios]                              # ARQUITETURA §5.1, §5.7, §6
+taxa_minima = 0.80   # ARQUITETURA §5.1, §5.7 e §6
+limite_inferior_minimo = 0.65   # ARQUITETURA §5.1, §5.7 e §6
+confianca = 0.95   # ARQUITETURA §5.1, §5.7 e §6
+pontos_dependencia_opus = 15   # ARQUITETURA §5.1, §5.7 e §6
+minimo_copias_julgamento = 5   # ARQUITETURA §5.1, §5.7 e §6
+fracao_maxima_pecas_boas_reprovadas = 0.10   # ARQUITETURA §5.1, §5.7 e §6
+custo_marginal_maximo_centavos = 15   # ARQUITETURA §5.1, §5.7 e §6
+piso_pecas_por_tipo = 8   # ARQUITETURA §5.1, §5.7 e §6
+fracao_fichas_reprovadas_por_tipo = 0.20   # ARQUITETURA §5.1, §5.7 e §6
+rejeitadas_para_banco_nao_confiavel = 2   # ARQUITETURA §5.1, §5.7 e §6
+existentes_para_banco_filtrado = 2   # ARQUITETURA §5.1, §5.7 e §6
+
+[amostras]
+copias_aceitas = 10   # ARQUITETURA §5.7 e §5.12.1
+descartadas_nao_viu_erro = 5   # ARQUITETURA §5.7 e §5.12.1
+ensaio_copias_aceitas_maximo = 3   # ARQUITETURA §5.7 e §5.12.1
+ensaio_descartadas_maximo = 1   # ARQUITETURA §5.7 e §5.12.1
+
+[matriz]
+tentativas_maximas = 1000   # ARQUITETURA §5.4 e Anexo A.6
+fracao_maxima_por_materia = 0.25   # ARQUITETURA §5.4 e Anexo A.6
+dias_uteis_de_folga = 1   # ARQUITETURA §5.4 e Anexo A.6
+anos_maximos_dos_fatos = 2   # ARQUITETURA §5.4 e Anexo A.6
+
+[fichas]
+retornos_ao_haiku = 1   # ARQUITETURA §5.4
+fichas_novas_por_casa = 2   # ARQUITETURA §5.4
+
+[trecho]
+teto_tokens = 8000   # ARQUITETURA §5.5
+
+[ancora]                                 # ARQUITETURA, Anexo E
+termos_minimos = 3   # ARQUITETURA, Anexo E
+letras_do_radical = 6   # ARQUITETURA, Anexo E
+letras_minimas = 4   # ARQUITETURA, Anexo E
+fracao_maxima_fora_da_mencao = 0.20   # ARQUITETURA, Anexo E
+palavras_maximas_mencao = 40   # ARQUITETURA, Anexo E
+
+[erros]                                  # ARQUITETURA §5.7 e Anexo C.1
+fracao_maxima_regiao = 0.25   # ARQUITETURA §5.7 e Anexo C.1
+diferenca_minima_valor_trocado = 0.01   # ARQUITETURA §5.7 e Anexo C.1
+
+[comparacao]                             # ARQUITETURA, Anexo D
+diferenca_maxima_arredondamento = 0.01   # ARQUITETURA, Anexo D

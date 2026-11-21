@@ -11,16 +11,16 @@
 
 - Fase atual: Fase 2 — Configuração do MVP travada (PLANO, seção 4). A Fase 1 terminou com o brief 001.
 - Repositório: `sidarta1975/pet_sint` (https://github.com/sidarta1975/pet_sint), criado pelo responsável em 2026-11-21. A construção (os briefs 001 a 023) roda em sessões do Claude Code na nuvem, que clonam o repositório; os testes na máquina do responsável e o ensaio ficam para quando ele estiver no computador.
-- Último brief concluído: 001 · Fundação do repositório (2026-11-21), entregue por `scripts/entregar.sh 001` no ramo `claude/project-thread-t7c3zg`, com pedido de integração para `main`.
-- Em execução: nada.
-- Próximos três: 002 · Configuração do MVP travada (para e espera o responsável); 003 · Contratos de dados; 004 · Disco, configuração e registro.
-- Último commit: o do brief 001, feito por `entregar.sh` (o hash entra aqui no brief seguinte, porque o commit não pode conter o próprio hash).
-- Bloqueios: nenhum para o brief 002.
+- Último brief concluído: 001 · Fundação do repositório (2026-11-21, commit `2fb2f12`), entregue por `scripts/entregar.sh 001` no ramo `claude/project-thread-t7c3zg`, com pedido de integração para `main`.
+- Em execução: 002 · Configuração do MVP travada. Os dois arquivos estão escritos e entregues; o brief está parado, esperando a conferência do responsável (relatório `docs/docs/doc_002_configuracao_2026-11-21.md`).
+- Próximos três: 002 · conferência do responsável; 003 · Contratos de dados; 004 · Disco, configuração e registro.
+- Último commit: `2fb2f12` (brief 001, por `entregar.sh 001`). O commit do brief 002 é o seguinte, por `entregar.sh 002`; o hash entra aqui na sessão que registrar a conferência.
+- Bloqueios: o brief 003 só começa depois da conferência do brief 002 (o 003 depende só do 001, mas a fila segue em ordem e o 002 para).
 - Documentos de origem: arquitetura do MVP, versão 10 (2026-11-21); plano v15 (fechado); lista consolidada de peças. Arquitetura dada como pronta para virar instruções na revisão de 2026-11-21. Fila de briefs revista em 2026-11-21 (de 19 para 25 briefs).
 
 ## Doing
 
-(nenhum brief em execução)
+- 002 · Configuração do MVP travada: config.toml e gasto.toml, conferidos pelo responsável (Fase 2) · sem conferência: entregue, espera o responsável · commit de `entregar.sh 002` · 2026-11-21
 
 ## Backlog
 
@@ -31,7 +31,6 @@ Briefs previstos pela ordem de construção (PLANO, seção 4). Ainda não escri
 - Param pelo responsável: 002 (conferir a configuração), 014 (aprovar os dados e a estrutura montada), 024 (ensaio) e 025 (rodada). Dentro do 024 e do 025 há ainda a resposta às amostras pelo comando `revisar`, antes do teste dos conferentes; os briefs 021 e 022 só constroem o código, com dados falsos, e não esperam por ele.
 - Depois do ensaio aprovado, qualquer mudança em código, dados, instruções, `config.toml` ou `gasto.toml` obriga a um ensaio novo (ARQUITETURA 5.12.1): o comando `fichas` recusa a rodada. A conferência da configuração no 002 vale, portanto, para a rodada inteira.
 
-- 002 · Configuração do MVP travada: config.toml e gasto.toml, conferidos pelo responsável (Fase 2) · não iniciado · — · —
 - 003 · Contratos de dados: formatos.py com o Anexo A e test_formatos (Fase 3) · não iniciado · — · —
 - 004 · Disco, configuração e registro: arquivos.py, config.py, registro.py e test_config (Fase 3) · não iniciado · — · —
 - 005 · Gasto, estatística e congelamento: gasto.py, estatistica.py, congelamento.py, test_gasto, test_estatistica e test_congelamento (Fase 3) · não iniciado · — · —
@@ -58,10 +57,11 @@ Briefs previstos pela ordem de construção (PLANO, seção 4). Ainda não escri
 
 ## Done — últimos 30 dias
 
-- 001 · Fundação do repositório: AGENTS, docs, modelo de brief, gate, script de entrega, trava de git, .gitignore, pyproject, LEIA-ME inicial, pacote `fabrica` com `__main__.py` mínimo, test_entrega (Fase 1) · concluído · commit deste brief, por `entregar.sh 001` · 2026-11-21
+- 001 · Fundação do repositório: AGENTS, docs, modelo de brief, gate, script de entrega, trava de git, .gitignore, pyproject, LEIA-ME inicial, pacote `fabrica` com `__main__.py` mínimo, test_entrega (Fase 1) · concluído · 2fb2f12 · 2026-11-21
 
 ## Pendências de Sidarta Borges
 
+- **Conferência do brief 002 (agora).** No computador, rodar os cinco passos da conferência da máquina (no relatório `docs/docs/doc_002_configuracao_2026-11-21.md`) e informar o resultado de cada um; conferir os valores de `config/config.toml` e `config/gasto.toml`, inclusive os preços do Haiku acima de 100 mil tokens (50 e 250 centavos de dólar por milhão); informar a janela da conferência local (provisória: 22h às 6h) e a etiqueta completa e o digest do `gemma3:27b`. A fila só segue para o brief 003 depois disso.
 - **Quando estiver no computador, rodar o gate na sua máquina** (`scripts/verificar.sh`, num clone de `sidarta1975/pet_sint` com Python 3.12), para confirmar que ele também passa ali. Não bloqueia os briefs de construção, que rodam na nuvem; precisa estar feito antes do ensaio (brief 024).
 - **Definir a janela da conferência local** (de 24 horas ou menos; o plano sugere a noite), para o `config.toml` do brief 002. Sem ela, o brief 002 usa a noite como valor e o registra como provisório.
 - **Deixar a chave da API da Claude numa variável de ambiente** da máquina que vai rodar a fábrica, antes do ensaio (brief 024). Nunca no repositório.
