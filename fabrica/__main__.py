@@ -84,6 +84,13 @@ def comando_avancar(argumentos: Sequence[str], servicos: Servicos, ler_linha: Le
     try:
         fichas.repor_falhas_de_formato(servicos)
         resumo = estado.avancar(ETAPAS, servicos)
+        if resumo.parada is None:
+            # Brief 021: as cópias do banco cujo pedido ao Opus o comando `erros` gravou.
+            banco = erros_plantados.coletar_banco(servicos)
+            resumo.passos += banco.passos
+            resumo.parada = banco.parada
+            resumo.esperando += banco.esperando
+            resumo.alerta_de_gasto = resumo.alerta_de_gasto or banco.alerta_de_gasto
     except estado.ErroServicos as erro:
         print(f"avancar parou: {erro}", file=sys.stderr)
         return 2
@@ -176,10 +183,30 @@ def comando_erros(argumentos: Sequence[str], servicos: Servicos, ler_linha: LerL
         return 2
     try:
         gravadas = erros_plantados.gravar_copias(opcoes["--rodada"], servicos)
+        banco = erros_plantados.gravar_banco(opcoes["--rodada"], servicos)
     except (erros_plantados.ErroErros, ErroCongelamento) as erro:
         print(f"erros recusado: {erro}", file=sys.stderr)
         return 1
+    except estado.ErroServicos as erro:
+        print(f"erros parou: {erro}", file=sys.stderr)
+        return 2
     print(f"erros: {len(gravadas)} cópia(s) por programa gravada(s).")
+    # Brief 021: as vagas do Opus; a coleta das respostas é do `avancar`.
+    print(
+        f"erros: plano {banco.situacao} ({banco.pecas_boas} peça(s) base), {banco.vagas} vaga(s) "
+        f"do Opus: {banco.aceitas} aceita(s), {banco.pendentes} pendente(s), "
+        f"{banco.perdidas} perdida(s), {banco.trocaram_de_tipo} trocou(aram) de tipo, "
+        f"{banco.descartadas} descartada(s); {banco.pedidos_gravados} pedido(s) gravado(s)."
+    )
+    if banco.situacao == "inconclusivo":
+        print("erros: menos peças boas que o mínimo do plano B: critério central inconclusivo.")
+    if banco.pendentes and banco.pedidos_gravados:
+        print("erros: rode `avancar` para coletar as respostas e depois `erros` de novo.")
+    if banco.amostras is not None:
+        print(f"erros: amostras sorteadas em {banco.amostras}.")
+    if banco.parada == "congelamento":
+        print("parado: um arquivo congelado mudou (ver ocorrencias.jsonl).", file=sys.stderr)
+        return 1
     return 0
 
 

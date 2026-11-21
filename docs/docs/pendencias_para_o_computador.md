@@ -61,6 +61,14 @@ Cada linha: o ponto, o valor provisório em uso e o brief onde ele aparece. Nada
 | Versão publicada no ensaio | A aprovada pela fábrica; sem versão aprovada, a primeira | 020 |
 | `publicar` rodado de novo | Não regrava o que já existe (nem o índice) | 020 |
 | Respostas das amostras: `dado_real` | Gravado como "não", porque a pergunta não é feita nesses cartões | 020 |
+| `avancar` também coleta as cópias do banco (fora da parte de `__main__.py` que o brief libera) | `avancar` chama `erros_plantados.coletar_banco`; o `erros` só grava pedidos e sorteia | 021 |
+| Quantas vezes a vaga do Opus troca de tipo | Uma troca, com duas tentativas no tipo novo; depois a vaga fica perdida | 021 |
+| "Troca muda mais de uma região" | Medido por linhas; a fração da região é a maior entre a parte tirada e a posta | 021 |
+| Cópia com resposta fora do formato duas vezes | Descartada com motivo vazio (`programa` antes do Sonnet; `verificador` no Sonnet), fora da amostra | 021 |
+| Item `estilo` na lista do Sonnet | Fica (o brief só tira `semelhanca` e `marca`) | 021 |
+| O Opus recebe a ficha? | Não: recebe o tipo do erro, a descrição, se é sutil e a primeira versão da original | 021 |
+| Marca do critério central inconclusivo e da faixa média do plano B | Ocorrência no registro (`criterio_central_inconclusivo`, `plano_b_faixa_media`) | 021 |
+| Custo das descartadas à parte | Ocorrência `custo_copia_descartada` por descarte; as chamadas do banco têm `peca` `<cópia>_banco` | 021 |
 
 ## Briefs que esperam o computador
 

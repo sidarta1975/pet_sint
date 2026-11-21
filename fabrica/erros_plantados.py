@@ -13,22 +13,32 @@ As vagas 2 em diante são do Opus (brief 021). Não chama modelo.
 from __future__ import annotations
 
 import datetime
+import difflib
 import itertools
+import json
 import random
 import re
 from collections import Counter
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
-from typing import Any
+from fractions import Fraction
+from typing import Any, Literal
 
-from fabrica import estruturas, matriz
+from pydantic import ValidationError
+
+from fabrica import estado, estruturas, matriz
 from fabrica.comum import normalizacao as norm
+from fabrica.comum.api_claude import nome_do_pedido
 from fabrica.comum.congelamento import Congelamento
 from fabrica.comum.formatos import (
+    Amostras,
     CatalogoErros,
     CatalogoTipos,
+    ConfigAmostras,
     Configuracao,
+    CopiaComErro,
     DataExtraida,
+    Descartada,
     Dispositivo,
     EstruturaMontada,
     Extracao,
@@ -37,14 +47,23 @@ from fabrica.comum.formatos import (
     FichaInicial,
     FichaQualquer,
     Gabarito,
+    ListaConferencia,
     ListasFicticias,
+    Ocorrencia,
+    Pedido,
     Perfil,
+    Resposta,
+    RespostaCopiaOpus,
     RespostasCartao,
+    RespostaVerificacao,
+    ResultadoProgramas,
     TabelaNormas,
     TermosInequivocos,
     TipoCatalogo,
+    TipoErroCatalogo,
 )
-from fabrica.conferencia import citacoes
+from fabrica.conferencia import citacoes, regras
+from fabrica.conferencia import extracao as extracao_mod
 from fabrica.conferencia.regras import MARCA
 from fabrica.estado import RefPeca, Servicos
 from fabrica.estruturas import Trecho
@@ -683,3 +702,835 @@ def gravar_copias(rodada: str, servicos: Servicos) -> list[str]:
             )
             gravadas.append(nome)
     return gravadas
+
+
+# ---------------------------------------------------------------------------
+# Cópias do Opus e verificação do Sonnet (brief 021)
+# ---------------------------------------------------------------------------
+#
+# Vagas 2 em diante de cada peça base, pelo plano B (ARQUITETURA §5.12.6): 4 por peça
+# boa com 20 ou mais, 6 de 14 a 19, nenhuma abaixo de 14 (critério central
+# inconclusivo); no ensaio, 1 por peça. Cada tentativa de uma vaga é uma cópia
+# `<peça>_erro<k>_<t>`, levada pelo condutor (registro de decisão 002) por quatro
+# etapas: o pedido ao Opus e a troca, a extração da cópia pelo Haiku, os itens de
+# programa e o Sonnet. O condutor conhece a cópia pela referência `<cópia>_banco`,
+# para que os arquivos do banco não se misturem com os do teste dos conferentes (022).
+# O comando `erros` grava os pedidos e o sorteio; o `avancar` coleta as respostas.
+
+INSTRUCAO_PLANTAR = "instrucoes/plantar_erro.md"
+TITULO_OPUS = "Cópia com erro"
+TITULO_SONNET = "Verificação da cópia"
+LISTA = "dados/conferencia/lista_conferencia.json"
+FORA_DO_VERIFICADOR = ("semelhanca", "marca")
+ITENS_DE_PROGRAMA = (*regras.ITENS_DE_REGRAS, "citacao_fora_da_tabela", "dado_real")
+SUFIXO_BANCO = "_banco"
+TENTATIVAS_POR_TIPO = 2
+TIPOS_POR_VAGA = 2  # o tipo sorteado e um tipo de troca (provisório; relatório do 021)
+INCONCLUSIVO = "criterio_central_inconclusivo"
+FAIXA_MEDIA = "plano_b_faixa_media"
+CUSTO_DESCARTADA = "custo_copia_descartada"
+SituacaoPlano = Literal["ensaio", "normal", "faixa_media", "inconclusivo"]
+SituacaoVaga = Literal["pendente", "aceita", "perdida"]
+_COPIA = re.compile(
+    r"^(?P<peca>(?P<rodada>[er]\d{2})_(?P<tipo>.+)_(?P<n>\d{3}))_erro(?P<k>\d+)_(?P<t>\d+)$"
+)
+
+
+def secao(texto: str, titulo: str) -> str:
+    """O texto de `plantar_erro.md` sob o título `# <titulo>`, até o título seguinte."""
+    partes = re.split(r"(?m)^(?=# )", texto)
+    for parte in partes:
+        if parte.startswith(f"# {titulo}\n"):
+            return parte.strip() + "\n"
+    raise ErroErros(f"{INSTRUCAO_PLANTAR}: falta o título '# {titulo}'")
+
+
+def ref_da_peca(rodada: str, peca: str) -> RefPeca:
+    return _ref(rodada, peca)
+
+
+@dataclass(frozen=True, order=True)
+class Vaga:
+    rodada: str
+    peca: str
+    tipo: str
+    k: int
+    tipo_erro: str
+    sutil: bool
+
+
+@dataclass(frozen=True)
+class Plano:
+    situacao: SituacaoPlano
+    pecas_boas: int
+    vagas: tuple[Vaga, ...]
+
+
+def vagas_por_peca(rodada: str, boas: int, config: Configuracao) -> tuple[SituacaoPlano, int]:
+    if rodada.startswith("e"):
+        return "ensaio", 1
+    plano_b = config.plano_b
+    if boas >= plano_b.normal_a_partir_de_pecas_boas:
+        return "normal", config.volume.copias_opus_por_peca_boa
+    if boas < plano_b.inconclusivo_abaixo_de:
+        return "inconclusivo", 0
+    return "faixa_media", plano_b.copias_opus_por_peca_boa_faixa_media
+
+
+def _ordem(semente: int, rodada: str, nomes: Sequence[str]) -> dict[str, int]:
+    lista = sorted(set(nomes))
+    random.Random(f"{semente}:{rodada}:erros_opus").shuffle(lista)
+    return {nome: i for i, nome in enumerate(lista)}
+
+
+def planejar(
+    rodada: str,
+    semente: int,
+    pecas: Sequence[tuple[str, str]],
+    aplicaveis: Mapping[str, Sequence[str]],
+    config: Configuracao,
+) -> Plano:
+    """As vagas do Opus: tipos diferentes na mesma peça, equilibrados no conjunto
+    (o menos usado primeiro; o empate pela ordem sorteada com a semente), e metade
+    sutis, também equilibradas por tipo de erro."""
+    situacao, n = vagas_por_peca(rodada, len(pecas), config)
+    ordem = _ordem(semente, rodada, [e for lista in aplicaveis.values() for e in lista])
+    fracao = Fraction(str(config.volume.fracao_copias_opus_sutis))
+    usos: Counter[str] = Counter()
+    sutis: Counter[str] = Counter()
+    vagas: list[Vaga] = []
+    total = 0
+    # O menos usado no conjunto vem primeiro, e as peças vão alternadas por tipo de peça,
+    # para que os erros que cabem em poucos tipos não fiquem para o fim.
+    por_tipo: dict[str, list[tuple[str, str]]] = {}
+    for peca, tipo in sorted(pecas):
+        por_tipo.setdefault(tipo, []).append((peca, tipo))
+    grupos = itertools.zip_longest(*(por_tipo[t] for t in sorted(por_tipo)))
+    alternadas = [par for grupo in grupos for par in grupo if par is not None]
+    for peca, tipo in alternadas:
+        escolhidos: list[str] = []
+        for _ in range(n):
+            opcoes = [e for e in aplicaveis[tipo] if e not in escolhidos]
+            if not opcoes:
+                break
+            escolhido = min(opcoes, key=lambda e: (usos[e], ordem[e]))
+            usos[escolhido] += 1
+            escolhidos.append(escolhido)
+        antes = int(total * fracao)
+        total += len(escolhidos)
+        quantos = int(total * fracao) - antes
+        saldo = {e: 2 * sutis[e] - (usos[e] - 1) for e in escolhidos}
+        marcados = set(sorted(escolhidos, key=lambda e: (saldo[e], ordem[e]))[:quantos])
+        for k, escolhido in enumerate(escolhidos, start=2):
+            sutil = escolhido in marcados
+            sutis[escolhido] += sutil
+            vagas.append(Vaga(rodada, peca, tipo, k, escolhido, sutil))
+    return Plano(situacao, len(pecas), tuple(vagas))
+
+
+def aplicaveis_do_opus(servicos: Servicos) -> dict[str, list[str]]:
+    erros = servicos.arquivos.ler_json(ERROS, CatalogoErros).erros
+    tipos = {t for e in erros for t in e.tipos}
+    return {t: [e.tipo_erro for e in erros if e.origem == "opus" and t in e.tipos] for t in tipos}
+
+
+def plano_da_rodada(rodada: str, servicos: Servicos) -> Plano:
+    semente = (
+        Congelamento(servicos.arquivos, servicos.registro, servicos.relogio).rodada(rodada).semente
+    )
+    pecas = [(p.id, p.tipo) for p in pecas_base(rodada, servicos)]
+    return planejar(rodada, semente, pecas, aplicaveis_do_opus(servicos), servicos.config.geral)
+
+
+# --- a troca feita pelo programa ------------------------------------------------
+
+
+@dataclass(frozen=True)
+class Troca:
+    texto: str | None
+    falha: str | None
+
+
+def trocar(original: str, trecho_original: str, trecho_novo: str, fracao_maxima: float) -> Troca:
+    """Conferência de programa da troca (ARQUITETURA §5.7, item 1)."""
+    if not trecho_original or original.count(trecho_original) != 1:
+        return Troca(None, "o trecho original não aparece exatamente uma vez na peça")
+    if trecho_original == trecho_novo:
+        return Troca(None, "o trecho novo é igual ao original")
+    inicio = original.index(trecho_original)
+    fim = inicio + len(trecho_original)
+    texto = original[:inicio] + trecho_novo + original[fim:]
+    if texto[:inicio] != original[:inicio] or texto[inicio + len(trecho_novo) :] != original[fim:]:
+        return Troca(None, "o resto da peça não ficou idêntico")
+    linhas = difflib.SequenceMatcher(
+        None, original.splitlines(), texto.splitlines(), autojunk=False
+    ).get_opcodes()
+    if sum(op != "equal" for op, *_ in linhas) > 1:
+        return Troca(None, "a troca muda mais de uma região")
+    comeco = 0
+    while comeco < min(len(original), len(texto)) and original[comeco] == texto[comeco]:
+        comeco += 1
+    final = 0
+    while (
+        final < min(len(original), len(texto)) - comeco
+        and original[len(original) - 1 - final] == texto[len(texto) - 1 - final]
+    ):
+        final += 1
+    regiao = max(len(original) - comeco - final, len(texto) - comeco - final)
+    if Fraction(regiao, len(original)) > Fraction(str(fracao_maxima)):
+        return Troca(None, "a região trocada passa do limite do texto")
+    return Troca(texto, None)
+
+
+# --- nomes e arquivos do banco ------------------------------------------------
+
+
+def caminho_copia(nome: str) -> str:
+    return f"{PASTA}/{nome}.md"
+
+
+def caminho_gabarito(nome: str) -> str:
+    return f"{PASTA}/{nome}_gabarito.json"
+
+
+def caminho_descartada(nome: str) -> str:
+    return f"{PASTA}/{nome}_descartada.json"
+
+
+def caminho_troca_de_tipo(vaga: Vaga) -> str:
+    return f"{PASTA}/{vaga.peca}_erro{vaga.k}_troca_de_tipo.txt"
+
+
+def caminho_amostras(rodada: str) -> str:
+    return f"{PASTA}/{rodada}_amostras.json"
+
+
+def ref_banco(nome: str) -> RefPeca:
+    achado = _COPIA.match(nome)
+    if achado is None:
+        raise ErroErros(f"nome de cópia fora do padrão: {nome}")
+    return RefPeca(
+        rodada=achado["rodada"],
+        tipo=achado["tipo"],
+        numero=int(achado["n"]),
+        versao=1,
+        copia=f"{nome}{SUFIXO_BANCO}",
+    )
+
+
+def nome_do_ref(ref: RefPeca) -> str:
+    if ref.copia is None or not ref.copia.endswith(SUFIXO_BANCO):
+        raise ErroErros(f"{ref.id} não é cópia do banco")
+    return ref.copia.removesuffix(SUFIXO_BANCO)
+
+
+def _original(nome: str) -> str:
+    achado = _COPIA.match(nome)
+    assert achado is not None
+    return achado["peca"]
+
+
+def _entrada(tipo_erro: str, servicos: Servicos) -> TipoErroCatalogo:
+    for entrada in servicos.arquivos.ler_json(ERROS, CatalogoErros).erros:
+        if entrada.tipo_erro == tipo_erro:
+            return entrada
+    raise ErroErros(f"tipo de erro fora do catálogo: {tipo_erro}")
+
+
+def _pedido_do_erro(nome: str, servicos: Servicos) -> dict[str, Any]:
+    """O erro pedido ao Opus, lido do próprio pedido (`estrutura`)."""
+    caminho = (
+        f"{estado.PEDIDOS}/{nome_do_pedido(f'{nome}{SUFIXO_BANCO}', 1, 'copia_com_erro', 1)}.json"
+    )
+    pedido = servicos.arquivos.ler_json(caminho, Pedido)
+    dados: dict[str, Any] = json.loads(
+        next(p.texto for p in pedido.partes if p.nome == "estrutura")
+    )
+    return dados
+
+
+def _custo(ref: RefPeca, servicos: Servicos) -> tuple[int, int]:
+    chamadas = [c for c in servicos.registro.chamadas() if c.peca == ref.id]
+    return sum(c.custo_milionesimos for c in chamadas), len(chamadas)
+
+
+def descartar(
+    nome: str,
+    conferencia: Literal["programa", "verificador"],
+    servicos: Servicos,
+    motivo: Literal["outro_problema", "outro_item", "nao_viu_erro"] | None = None,
+    item: str | None = None,
+    outro_problema: bool = False,
+) -> None:
+    """Grava `<cópia>_descartada.json` e marca à parte, no registro, o custo da cópia."""
+    erro = _pedido_do_erro(nome, servicos)
+    entrada = _entrada(erro["tipo_erro"], servicos)
+    servicos.arquivos.gravar_json(
+        caminho_descartada(nome),
+        Descartada.model_validate_json(
+            json.dumps(
+                {
+                    "copia": nome,
+                    "original": f"{_original(nome)}_v1",
+                    "tipo_erro": entrada.tipo_erro,
+                    "sutil": bool(erro["sutil"]),
+                    "criador": "opus",
+                    "conferencia_que_falhou": conferencia,
+                    "item_apontado_pelo_verificador": item,
+                    "outro_problema": outro_problema,
+                    "motivo": motivo,
+                    "amostra": None,
+                }
+            )
+        ),
+    )
+    ref = ref_banco(nome)
+    custo, quantas = _custo(ref, servicos)
+    servicos.registro.ocorrencia(
+        Ocorrencia(
+            tipo="contexto",
+            causa=CUSTO_DESCARTADA,
+            inicio=servicos.relogio(),
+            fim=None,
+            peca=nome,
+            rodada=ref.rodada,
+            detalhe=f"{custo} milionésimos de dólar em {quantas} chamada(s); "
+            f"conferência {conferencia}, motivo {motivo or 'vazio'}",
+        )
+    )
+
+
+def itens_do_verificador(tipo: str, servicos: Servicos) -> list[dict[str, str]]:
+    catalogo = next(
+        t for t in servicos.arquivos.ler_json(CATALOGO, CatalogoTipos).tipos if t.nome_curto == tipo
+    )
+    perguntas = {
+        i.item: i.pergunta for i in servicos.arquivos.ler_json(LISTA, ListaConferencia).itens
+    }
+    return [
+        {"item": i, "pergunta": perguntas.get(i, "")}
+        for i in catalogo.itens_conferencia
+        if i not in FORA_DO_VERIFICADOR
+    ]
+
+
+def itens_de_programa_da_copia(
+    m: Material, texto: str, extracao: Extracao, servicos: Servicos
+) -> ResultadoProgramas:
+    """Os itens de programa do Anexo B.1 (menos `semelhanca`) rodados na cópia."""
+    pedidos = [i for i in m.catalogo.itens_conferencia if i in regras.ITENS_DE_REGRAS]
+    de_regras = regras.conferir(
+        texto, extracao, m.ficha, m.montada, perfil(m), m.termos, m.feriados, m.config, pedidos
+    )
+    por_item = {r.item: r for r in de_regras}
+    cit = citacoes.conferir(texto, m.tabela)
+    por_item["citacao_fora_da_tabela"] = cit.item
+    if "dado_real" in m.catalogo.itens_conferencia:
+        por_item["dado_real"] = regras.dado_real(
+            texto, m.ficha, m.montada, servicos.arquivos, m.config
+        )
+    return ResultadoProgramas(
+        itens=[por_item[i] for i in m.catalogo.itens_conferencia if i in por_item],
+        alertas=list(cit.alertas),
+        citacoes_resolvidas=list(cit.resolvidas),
+        citacoes_nao_resolvidas=list(cit.nao_resolvidas),
+    )
+
+
+def motivo_do_descarte(
+    resposta: RespostaVerificacao, aceitos: Sequence[str]
+) -> Literal["outro_problema", "outro_item", "nao_viu_erro"] | None:
+    """ARQUITETURA §5.7: sem item apontado, sempre `nao_viu_erro`; None = a cópia passa."""
+    if resposta.item_apontado is None:
+        return "nao_viu_erro"
+    if resposta.outro_problema:
+        return "outro_problema"
+    if resposta.item_apontado not in aceitos:
+        return "outro_item"
+    return None
+
+
+# --- as quatro etapas do banco (interface do registro de decisão 002) -----------
+
+
+def _api(servicos: Servicos) -> Any:
+    if servicos.api_claude is None:
+        raise estado.ErroServicos(
+            "a variável de ambiente ANTHROPIC_API_KEY não está definida: "
+            "o passo precisa da API da Claude. Defina a variável e rode de novo."
+        )
+    return servicos.api_claude
+
+
+class _EtapaDoBanco:
+    nome = ""
+
+    def aplica(self, peca: RefPeca, servicos: Servicos) -> bool:
+        if peca.copia is None or not peca.copia.endswith(SUFIXO_BANCO):
+            return False
+        nome = nome_do_ref(peca)
+        return not servicos.arquivos.existe(caminho_descartada(nome)) and self._antes(
+            nome, servicos
+        )
+
+    def _antes(self, nome: str, servicos: Servicos) -> bool:
+        return True
+
+
+class EtapaCopiaOpus(_EtapaDoBanco):
+    """O pedido ao Opus e a troca feita pelo programa."""
+
+    nome = "copia_opus"
+
+    def __init__(self, erros: Mapping[str, tuple[str, bool]] | None = None) -> None:
+        self.erros = dict(erros or {})  # cópia -> (tipo de erro, sutil), dado pelo comando
+
+    def arquivo_resultado(self, peca: RefPeca) -> str:
+        return caminho_copia(nome_do_ref(peca))
+
+    def pedir(self, peca: RefPeca, servicos: Servicos) -> str | None:
+        nome = nome_do_ref(peca)
+        if nome not in self.erros:
+            raise ErroErros(f"{nome}: o pedido ao Opus é gravado pelo comando erros")
+        tipo_erro, sutil = self.erros[nome]
+        entrada = _entrada(tipo_erro, servicos)
+        arquivos = servicos.arquivos
+        erro = {"tipo_erro": tipo_erro, "descricao": entrada.descricao, "sutil": sutil}
+        caminho: str = _api(servicos).gravar_pedido(
+            rodada=peca.rodada,
+            peca=peca.id,
+            versao=peca.versao,
+            tarefa="copia_com_erro",
+            partes={
+                "instrucoes": secao(arquivos.ler_texto(INSTRUCAO_PLANTAR), TITULO_OPUS),
+                "estrutura": json.dumps(erro, ensure_ascii=False),
+                "conteudo": arquivos.ler_texto(f"saida/rascunhos/{_original(nome)}_v1.md"),
+            },
+            modelo_resposta=RespostaCopiaOpus,
+        )
+        return caminho
+
+    def receber(self, peca: RefPeca, resposta: Any, servicos: Servicos) -> str | None:
+        if not isinstance(resposta, Resposta):
+            raise ErroErros(f"{peca.id}: resposta do Opus fora do esperado")
+        try:
+            lida = RespostaCopiaOpus.model_validate_json(resposta.conteudo)
+        except ValidationError:
+            return estado.FORA_DO_FORMATO
+        nome = nome_do_ref(peca)
+        arquivos = servicos.arquivos
+        original = arquivos.ler_texto(f"saida/rascunhos/{_original(nome)}_v1.md")
+        fracao = servicos.config.geral.erros.fracao_maxima_regiao
+        troca = trocar(original, lida.trecho_original, lida.trecho_novo, fracao)
+        if troca.texto is None:
+            descartar(nome, "programa", servicos)
+            return None
+        erro = _pedido_do_erro(nome, servicos)
+        arquivos.gravar_json(
+            f"{PASTA}/{nome}_troca.json",
+            CopiaComErro.model_validate_json(
+                json.dumps(
+                    {
+                        "copia": nome,
+                        "original": f"{_original(nome)}_v1",
+                        "trecho_original": lida.trecho_original,
+                        "trecho_novo": lida.trecho_novo,
+                        "tipo_erro": erro["tipo_erro"],
+                        "sutil": bool(erro["sutil"]),
+                        "criador": "opus",
+                    }
+                )
+            ),
+        )
+        arquivos.gravar_texto(caminho_copia(nome), troca.texto)
+        return None
+
+
+class EtapaExtracaoDaCopia(_EtapaDoBanco):
+    """A extração da cópia pelo Haiku, com a instrução e a tarefa da extração (017)."""
+
+    nome = "extracao_banco"
+
+    def _antes(self, nome: str, servicos: Servicos) -> bool:
+        return servicos.arquivos.existe(caminho_copia(nome))
+
+    def arquivo_resultado(self, peca: RefPeca) -> str:
+        return f"{PASTA}/{nome_do_ref(peca)}_extracao.json"
+
+    def pedir(self, peca: RefPeca, servicos: Servicos) -> str | None:
+        arquivos = servicos.arquivos
+        naturezas = ", ".join(extracao_mod.NATUREZAS[peca.tipo])
+        caminho: str = _api(servicos).gravar_pedido(
+            rodada=peca.rodada,
+            peca=peca.id,
+            versao=peca.versao,
+            tarefa="extracao",
+            partes={
+                "instrucoes": arquivos.ler_texto(extracao_mod.INSTRUCAO),
+                "estrutura": f"Naturezas de pedido do tipo: {naturezas}.",
+                "conteudo": arquivos.ler_texto(caminho_copia(nome_do_ref(peca))),
+            },
+            modelo_resposta=Extracao,
+        )
+        return caminho
+
+    def receber(self, peca: RefPeca, resposta: Any, servicos: Servicos) -> str | None:
+        if not isinstance(resposta, Resposta):
+            raise ErroErros(f"{peca.id}: resposta da extração fora do esperado")
+        try:
+            lida = Extracao.model_validate_json(resposta.conteudo)
+        except ValidationError:
+            return estado.FORA_DO_FORMATO
+        servicos.arquivos.gravar_json(self.arquivo_resultado(peca), lida)
+        return None
+
+
+class EtapaProgramasDaCopia(_EtapaDoBanco):
+    """Os itens de programa na cópia: reprovar item fora dos aceitos descarta."""
+
+    nome = "programas_banco"
+
+    def _antes(self, nome: str, servicos: Servicos) -> bool:
+        return servicos.arquivos.existe(f"{PASTA}/{nome}_extracao.json")
+
+    def arquivo_resultado(self, peca: RefPeca) -> str:
+        return f"{PASTA}/{nome_do_ref(peca)}_programas.json"
+
+    def pedir(self, peca: RefPeca, servicos: Servicos) -> str | None:
+        nome = nome_do_ref(peca)
+        arquivos = servicos.arquivos
+        m = material(_ref(peca.rodada, _original(nome)), servicos)
+        lida = arquivos.ler_json(f"{PASTA}/{nome}_extracao.json", Extracao)
+        resultado = itens_de_programa_da_copia(
+            m, arquivos.ler_texto(caminho_copia(nome)), lida, servicos
+        )
+        arquivos.gravar_json(self.arquivo_resultado(peca), resultado)
+        aceitos = _entrada(_pedido_do_erro(nome, servicos)["tipo_erro"], servicos).itens_aceitos
+        if any(r.resposta == "nao_passa" and r.item not in aceitos for r in resultado.itens):
+            descartar(nome, "programa", servicos, outro_problema=True)
+        return None
+
+    def receber(self, peca: RefPeca, resposta: Any, servicos: Servicos) -> str | None:
+        raise ErroErros("a conferência de programa da cópia não faz pedido")
+
+
+class EtapaVerificacao(_EtapaDoBanco):
+    """O Sonnet, sem saber o erro pedido, aponta o item; o programa decide."""
+
+    nome = "verificacao"
+
+    def _antes(self, nome: str, servicos: Servicos) -> bool:
+        return servicos.arquivos.existe(f"{PASTA}/{nome}_programas.json")
+
+    def arquivo_resultado(self, peca: RefPeca) -> str:
+        return caminho_gabarito(nome_do_ref(peca))
+
+    def pedir(self, peca: RefPeca, servicos: Servicos) -> str | None:
+        nome = nome_do_ref(peca)
+        arquivos = servicos.arquivos
+        textos = {
+            "original": arquivos.ler_texto(f"saida/rascunhos/{_original(nome)}_v1.md"),
+            "copia": arquivos.ler_texto(caminho_copia(nome)),
+        }
+        caminho: str = _api(servicos).gravar_pedido(
+            rodada=peca.rodada,
+            peca=peca.id,
+            versao=peca.versao,
+            tarefa="verificacao_copia",
+            partes={
+                "instrucoes": secao(arquivos.ler_texto(INSTRUCAO_PLANTAR), TITULO_SONNET),
+                "estrutura": json.dumps(
+                    {"itens": itens_do_verificador(peca.tipo, servicos)}, ensure_ascii=False
+                ),
+                "conteudo": json.dumps(textos, ensure_ascii=False),
+            },
+            modelo_resposta=RespostaVerificacao,
+        )
+        return caminho
+
+    def receber(self, peca: RefPeca, resposta: Any, servicos: Servicos) -> str | None:
+        if not isinstance(resposta, Resposta):
+            raise ErroErros(f"{peca.id}: resposta do Sonnet fora do esperado")
+        try:
+            lida = RespostaVerificacao.model_validate_json(resposta.conteudo)
+        except ValidationError:
+            return estado.FORA_DO_FORMATO
+        nome = nome_do_ref(peca)
+        erro = _pedido_do_erro(nome, servicos)
+        entrada = _entrada(erro["tipo_erro"], servicos)
+        motivo = motivo_do_descarte(lida, entrada.itens_aceitos)
+        if motivo is not None:
+            descartar(
+                nome, "verificador", servicos, motivo, lida.item_apontado, lida.outro_problema
+            )
+            return None
+        servicos.arquivos.gravar_json(
+            caminho_gabarito(nome),
+            Gabarito(
+                copia=nome,
+                original=f"{_original(nome)}_v1",
+                origem=entrada.origem,
+                tipo_erro=entrada.tipo_erro,
+                sutil=bool(erro["sutil"]),
+                item_principal=entrada.item_principal,
+                itens_aceitos=list(entrada.itens_aceitos),
+                criador="opus",
+                verificador=resposta.modelo,
+                item_apontado_pelo_verificador=lida.item_apontado,
+                amostra=None,
+            ),
+        )
+        return None
+
+
+def etapas_do_banco(erros: Mapping[str, tuple[str, bool]] | None = None) -> list[Any]:
+    return [
+        EtapaCopiaOpus(erros),
+        EtapaExtracaoDaCopia(),
+        EtapaProgramasDaCopia(),
+        EtapaVerificacao(),
+    ]
+
+
+# --- vagas, comando e coleta ------------------------------------------------------
+
+
+@dataclass(frozen=True)
+class EstadoVaga:
+    vaga: Vaga
+    situacao: SituacaoVaga
+    tentativa: int
+    tipo_erro: str | None
+    trocou_de_tipo: bool
+
+
+def _tipo_de_troca(vaga: Vaga, plano: Plano, servicos: Servicos) -> str | None:
+    """Outro tipo de erro para a vaga: fora dos da peça, o menos usado no conjunto."""
+    arquivos = servicos.arquivos
+    caminho = caminho_troca_de_tipo(vaga)
+    if arquivos.existe(caminho):
+        return arquivos.ler_texto(caminho).strip() or None
+    da_peca = [v for v in plano.vagas if v.peca == vaga.peca]
+    usados = {v.tipo_erro for v in da_peca}
+    usos = Counter(v.tipo_erro for v in plano.vagas)
+    for outra in da_peca:
+        if arquivos.existe(caminho_troca_de_tipo(outra)):
+            trocado = arquivos.ler_texto(caminho_troca_de_tipo(outra)).strip()
+            if trocado:
+                usados.add(trocado)
+                usos[trocado] += 1
+    aplicaveis = aplicaveis_do_opus(servicos)[vaga.tipo]
+    semente = (
+        Congelamento(arquivos, servicos.registro, servicos.relogio).rodada(vaga.rodada).semente
+    )
+    ordem = _ordem(semente, vaga.rodada, aplicaveis)
+    opcoes = [e for e in aplicaveis if e not in usados]
+    escolhido = min(opcoes, key=lambda e: (usos[e], ordem[e])) if opcoes else ""
+    arquivos.gravar_texto(caminho, escolhido + "\n")
+    return escolhido or None
+
+
+def estado_da_vaga(vaga: Vaga, plano: Plano, servicos: Servicos) -> EstadoVaga:
+    """O ponto da vaga, pelos arquivos. A cópia que o condutor encerrou por formato
+    (duas respostas fora do formato) é descartada aqui, com o motivo vazio."""
+    arquivos = servicos.arquivos
+    tipo_erro: str | None = vaga.tipo_erro
+    for t in range(1, TENTATIVAS_POR_TIPO * TIPOS_POR_VAGA + 1):
+        trocou = t > TENTATIVAS_POR_TIPO
+        if trocou and t == TENTATIVAS_POR_TIPO + 1:
+            tipo_erro = _tipo_de_troca(vaga, plano, servicos)
+            if tipo_erro is None:
+                return EstadoVaga(vaga, "perdida", t, None, True)
+        nome = nome_da_copia(vaga.peca, vaga.k, t)
+        if arquivos.existe(caminho_gabarito(nome)):
+            return EstadoVaga(vaga, "aceita", t, tipo_erro, trocou)
+        if arquivos.existe(caminho_descartada(nome)):
+            continue
+        if estado.destino(ref_banco(nome), arquivos) is not None:
+            conferencia: Literal["programa", "verificador"] = (
+                "verificador" if arquivos.existe(f"{PASTA}/{nome}_programas.json") else "programa"
+            )
+            descartar(nome, conferencia, servicos)
+            continue
+        return EstadoVaga(vaga, "pendente", t, tipo_erro, trocou)
+    return EstadoVaga(vaga, "perdida", TENTATIVAS_POR_TIPO * TIPOS_POR_VAGA, tipo_erro, True)
+
+
+@dataclass
+class ResumoBanco:
+    situacao: SituacaoPlano
+    pecas_boas: int
+    vagas: int = 0
+    aceitas: int = 0
+    perdidas: int = 0
+    pendentes: int = 0
+    trocaram_de_tipo: int = 0
+    descartadas: int = 0
+    pedidos_gravados: int = 0
+    parada: str | None = None
+    amostras: str | None = None
+
+
+def _estados(plano: Plano, servicos: Servicos) -> list[EstadoVaga]:
+    return [estado_da_vaga(v, plano, servicos) for v in plano.vagas]
+
+
+def resumo_do_banco(rodada: str, servicos: Servicos) -> ResumoBanco:
+    plano = plano_da_rodada(rodada, servicos)
+    estados = _estados(plano, servicos)
+    descartadas = [
+        c
+        for v in plano.vagas
+        for c in servicos.arquivos.listar(PASTA, f"{v.peca}_erro{v.k}_*_descartada.json")
+    ]
+    return ResumoBanco(
+        situacao=plano.situacao,
+        pecas_boas=plano.pecas_boas,
+        vagas=len(plano.vagas),
+        aceitas=sum(e.situacao == "aceita" for e in estados),
+        perdidas=sum(e.situacao == "perdida" for e in estados),
+        pendentes=sum(e.situacao == "pendente" for e in estados),
+        trocaram_de_tipo=sum(e.trocou_de_tipo for e in estados),
+        descartadas=len(descartadas),
+        amostras=caminho_amostras(rodada)
+        if servicos.arquivos.existe(caminho_amostras(rodada))
+        else None,
+    )
+
+
+def _marcar_plano_b(plano: Plano, rodada: str, servicos: Servicos) -> None:
+    causa = {"inconclusivo": INCONCLUSIVO, "faixa_media": FAIXA_MEDIA}.get(plano.situacao)
+    if causa is None:
+        return
+    if any(o.causa == causa and o.rodada == rodada for o in servicos.registro.ocorrencias()):
+        return
+    detalhe = (
+        f"{plano.pecas_boas} peça(s) boa(s): critério central inconclusivo, nenhuma cópia do Opus"
+        if causa == INCONCLUSIVO
+        else f"{plano.pecas_boas} peça(s) boa(s): 6 cópias do Opus por peça boa; cópias da "
+        "mesma original não são independentes entre si"
+    )
+    servicos.registro.ocorrencia(
+        Ocorrencia(
+            tipo="contexto",
+            causa=causa,
+            inicio=servicos.relogio(),
+            fim=None,
+            peca=None,
+            rodada=rodada,
+            detalhe=detalhe,
+        )
+    )
+
+
+def gravar_banco(rodada: str, servicos: Servicos) -> ResumoBanco:
+    """Grava os pedidos ao Opus das vagas que esperam uma cópia nova e, com todas as
+    vagas resolvidas, o sorteio das amostras. Não envia nada: a coleta é do `avancar`."""
+    plano = plano_da_rodada(rodada, servicos)
+    _marcar_plano_b(plano, rodada, servicos)
+    congelamento = Congelamento(servicos.arquivos, servicos.registro, servicos.relogio)
+    if congelamento.conferir(rodada).parar:
+        resumo = resumo_do_banco(rodada, servicos)
+        resumo.parada = "congelamento"
+        return resumo
+    gravados = 0
+    for situacao in _estados(plano, servicos):
+        if situacao.situacao != "pendente" or situacao.tipo_erro is None:
+            continue
+        nome = nome_da_copia(situacao.vaga.peca, situacao.vaga.k, situacao.tentativa)
+        ref = ref_banco(nome)
+        etapas = etapas_do_banco({nome: (situacao.tipo_erro, situacao.vaga.sutil)})
+        atual = estado.ponto(ref, etapas, servicos)
+        if atual.acao == "pedir" and atual.etapa == EtapaCopiaOpus.nome:
+            caminho = etapas[0].pedir(ref, servicos)
+            estado.registrar_pedido(ref, EtapaCopiaOpus.nome, caminho, servicos.arquivos)
+            gravados += 1
+    gravar_amostras(rodada, servicos)
+    resumo = resumo_do_banco(rodada, servicos)
+    resumo.pedidos_gravados = gravados
+    return resumo
+
+
+def refs_do_banco(servicos: Servicos) -> list[RefPeca]:
+    """As cópias do banco cujo pedido ao Opus foi gravado pelo comando `erros`."""
+    marcadores = servicos.arquivos.listar(
+        estado.CONDUCAO, f"*{SUFIXO_BANCO}_v1_{EtapaCopiaOpus.nome}_t1.txt"
+    )
+    nomes = [
+        m.removeprefix(f"{estado.CONDUCAO}/").removesuffix(
+            f"{SUFIXO_BANCO}_v1_{EtapaCopiaOpus.nome}_t1.txt"
+        )
+        for m in marcadores
+    ]
+    return sorted(ref_banco(n) for n in nomes)
+
+
+def coletar_banco(servicos: Servicos) -> estado.ResumoAvanco:
+    """A parte do `avancar` que leva as cópias do banco pelas quatro etapas."""
+    refs = refs_do_banco(servicos)
+    if not refs:
+        return estado.ResumoAvanco()
+    return estado.avancar(etapas_do_banco(), servicos, refs)
+
+
+# --- as amostras ------------------------------------------------------------------
+
+
+def sortear_amostras(
+    rodada: str,
+    semente: int,
+    aceitas: Sequence[str],
+    nao_viu: Sequence[str],
+    config: ConfigAmostras,
+) -> tuple[list[str], list[str]]:
+    """Na rodada, 10 cópias aceitas e até 5 descartadas por `nao_viu_erro`; no ensaio,
+    as aceitas até 3 e até 1 descartada. Igual com a mesma semente."""
+    rng = random.Random(f"{semente}:{rodada}:amostras")
+    if rodada.startswith("e"):
+        limite_copias, limite_descartadas = (
+            config.ensaio_copias_aceitas_maximo,
+            config.ensaio_descartadas_maximo,
+        )
+    else:
+        limite_copias, limite_descartadas = config.copias_aceitas, config.descartadas_nao_viu_erro
+    copias = sorted(aceitas)
+    if len(copias) > limite_copias:
+        copias = sorted(rng.sample(copias, limite_copias))
+    descartadas = sorted(nao_viu)
+    if len(descartadas) > limite_descartadas:
+        descartadas = sorted(rng.sample(descartadas, limite_descartadas))
+    return copias, descartadas
+
+
+def gravar_amostras(rodada: str, servicos: Servicos) -> str | None:
+    """Grava `saida/erros/<rodada>_amostras.json` uma vez, só com todas as vagas
+    resolvidas. Devolve o caminho gravado, ou None."""
+    arquivos = servicos.arquivos
+    destino = caminho_amostras(rodada)
+    if arquivos.existe(destino):
+        return None
+    plano = plano_da_rodada(rodada, servicos)
+    if plano.situacao == "inconclusivo" or not plano.vagas:
+        return None
+    if any(e.situacao == "pendente" for e in _estados(plano, servicos)):
+        return None
+    aceitas, nao_viu = [], []
+    for vaga in plano.vagas:
+        for t in range(1, TENTATIVAS_POR_TIPO * TIPOS_POR_VAGA + 1):
+            nome = nome_da_copia(vaga.peca, vaga.k, t)
+            if arquivos.existe(caminho_gabarito(nome)):
+                aceitas.append(nome)
+            elif arquivos.existe(caminho_descartada(nome)):
+                if arquivos.ler_json(caminho_descartada(nome), Descartada).motivo == "nao_viu_erro":
+                    nao_viu.append(nome)
+    semente = Congelamento(arquivos, servicos.registro, servicos.relogio).rodada(rodada).semente
+    copias, descartadas = sortear_amostras(
+        rodada, semente, aceitas, nao_viu, servicos.config.geral.amostras
+    )
+    arquivos.gravar_json(
+        destino,
+        Amostras(
+            rodada=rodada, copias=copias, descartadas=descartadas, sorteado_em=servicos.relogio()
+        ),
+    )
+    return destino

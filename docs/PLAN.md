@@ -11,10 +11,10 @@
 
 - Fase atual: Fase 8 — Etapas com modelos (PLANO, seção 4). As Fases 1 a 7 terminaram com os briefs 001 a 014.
 - Repositório: `sidarta1975/pet_sint` (https://github.com/sidarta1975/pet_sint), criado pelo responsável em 2026-11-21. A construção (os briefs 001 a 023) roda em sessões do Claude Code na nuvem, que clonam o repositório; os testes na máquina do responsável e o ensaio ficam para quando ele estiver no computador.
-- Último brief concluído: 020 · Revisão em duas etapas e publicação (2026-11-21), entregue por `scripts/entregar.sh 020` no ramo `claude/project-thread-t7c3zg`, no mesmo pedido de integração para `main` (#2).
+- Último brief concluído: 021 · Erros plantados pelo Opus e verificação do Sonnet, com plantar_erro.md e o sorteio das duas amostras, sem alterar revisao.py (Fase 11) (2026-11-21), entregue por `scripts/entregar.sh 021` no ramo `claude/project-thread-t7c3zg`, no mesmo pedido de integração para `main` (#2).
 - Em execução: nada.
-- Próximos três: 021 · Erros pelo Opus; 022 · Teste dos conferentes; 023 · Relatório do MVP.
-- Último commit: `25f8c29` (brief 019). O do 020 entra no Done pelo brief seguinte.
+- Próximos três: 022 · Teste dos conferentes; 023 · Relatório do MVP; 024 · Ensaio de três peças.
+- Último commit: `c96791b` (brief 020). O do 021 entra no Done pelo brief seguinte.
 - Bloqueios: nenhum. O responsável autorizou, em 2026-11-21, seguir até o fim da fila sem novas aprovações; onde um brief pede resposta dele e ela não veio, vale o provisório escrito, registrado no relatório como decisão por falta de resposta.
 - Documentos de origem: arquitetura do MVP, versão 10 (2026-11-21); plano v15 (fechado); lista consolidada de peças. Arquitetura dada como pronta para virar instruções na revisão de 2026-11-21. Fila de briefs revista em 2026-11-21 (de 19 para 25 briefs).
 
@@ -31,7 +31,6 @@ Briefs previstos pela ordem de construção (PLANO, seção 4). Ainda não escri
 - Param pelo responsável: 002 (conferir a configuração), 014 (aprovar os dados e a estrutura montada), 024 (ensaio) e 025 (rodada). Dentro do 024 e do 025 há ainda a resposta às amostras pelo comando `revisar`, antes do teste dos conferentes; os briefs 021 e 022 só constroem o código, com dados falsos, e não esperam por ele.
 - Depois do ensaio aprovado, qualquer mudança em código, dados, instruções, `config.toml` ou `gasto.toml` obriga a um ensaio novo (ARQUITETURA 5.12.1): o comando `fichas` recusa a rodada. A conferência da configuração no 002 vale, portanto, para a rodada inteira.
 
-- 021 · Erros plantados pelo Opus e verificação do Sonnet, com plantar_erro.md e o sorteio das duas amostras, sem alterar revisao.py (Fase 11) · não iniciado · — · —
 - 022 · Teste dos conferentes, que recusa começar sem as duas amostras respondidas (Fase 11) · não iniciado · — · —
 - 023 · Relatório do MVP: relatorios.py, com todos os itens da ARQUITETURA 5.11 (Fase 11) · não iniciado · — · —
 - 024 · Ensaio de três peças, com o caminho dos erros em miniatura e a amostra reduzida; primeira conferência das instruções aos modelos: roteiro para o responsável e leitura do resultado (Fase 12) · não iniciado · — · —
@@ -39,7 +38,8 @@ Briefs previstos pela ordem de construção (PLANO, seção 4). Ainda não escri
 
 ## Done — últimos 30 dias
 
-- 020 · Revisão em duas etapas e publicação: revisao.py com todos os tipos de cartão, inclusive os das amostras, publicacao.py, comando `revisar` e test_publicacao (Fase 10) · concluído · — · 2026-11-21
+- 021 · Erros plantados pelo Opus e verificação do Sonnet, com plantar_erro.md e o sorteio das duas amostras, sem alterar revisao.py (Fase 11) · concluído · — · 2026-11-21
+- 020 · Revisão em duas etapas e publicação: revisao.py com todos os tipos de cartão, inclusive os das amostras, publicacao.py, comando `revisar` e test_publicacao (Fase 10) · concluído · c96791b · 2026-11-21
 - 019 · Erros por programa, com test_erros_programa (Fase 9) · concluído · 25f8c29 · 2026-11-21
 - 018 · Conferência, parte 2: desempate, semelhança e decisão, com opus_desempate.md e test_decisao (Fase 8) · concluído · 7e8ba5a · 2026-11-21
 - 017 · Conferência, parte 1: extração, checklist e conferente local, com extracao.md, checklist.md e conferente_local.md (Fase 8) · concluído · 3ea3a1b · 2026-11-21
