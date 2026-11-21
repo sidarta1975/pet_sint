@@ -9,12 +9,12 @@
 
 ## Resumo
 
-- Fase atual: Fase 5 — Dados fictícios e detector (PLANO, seção 4). As Fases 1 a 4 terminaram com os briefs 001 a 008.
+- Fase atual: Fase 6 — Preparação, travas e regras (PLANO, seção 4). As Fases 1 a 5 terminaram com os briefs 001 a 010.
 - Repositório: `sidarta1975/pet_sint` (https://github.com/sidarta1975/pet_sint), criado pelo responsável em 2026-11-21. A construção (os briefs 001 a 023) roda em sessões do Claude Code na nuvem, que clonam o repositório; os testes na máquina do responsável e o ensaio ficam para quando ele estiver no computador.
-- Último brief concluído: 009 · Dados fictícios e nomes reservados do teste (2026-11-21), entregue por `scripts/entregar.sh 009` no ramo `claude/project-thread-t7c3zg`, no mesmo pedido de integração para `main` (#2).
+- Último brief concluído: 010 · Detector de dado real (2026-11-21), entregue por `scripts/entregar.sh 010` no ramo `claude/project-thread-t7c3zg`, no mesmo pedido de integração para `main` (#2).
 - Em execução: nada.
-- Próximos três: 010 · Detector de dado real; 011 · Montagem da estrutura, matriz e travas; 012 · Normalização, regras e comparação com a ficha.
-- Último commit: `3763577` (brief 008). O do 009 entra no Done pelo brief seguinte.
+- Próximos três: 011 · Montagem da estrutura, matriz e travas; 012 · Normalização, regras e comparação com a ficha; 013 · Citações de lei.
+- Último commit: `14fe5f2` (brief 009). O do 010 entra no Done pelo brief seguinte.
 - Bloqueios: nenhum. O responsável autorizou, em 2026-11-21, seguir até o fim da fila sem novas aprovações; onde um brief pede resposta dele e ela não veio, vale o provisório escrito, registrado no relatório como decisão por falta de resposta.
 - Documentos de origem: arquitetura do MVP, versão 10 (2026-11-21); plano v15 (fechado); lista consolidada de peças. Arquitetura dada como pronta para virar instruções na revisão de 2026-11-21. Fila de briefs revista em 2026-11-21 (de 19 para 25 briefs).
 
@@ -31,7 +31,6 @@ Briefs previstos pela ordem de construção (PLANO, seção 4). Ainda não escri
 - Param pelo responsável: 002 (conferir a configuração), 014 (aprovar os dados e a estrutura montada), 024 (ensaio) e 025 (rodada). Dentro do 024 e do 025 há ainda a resposta às amostras pelo comando `revisar`, antes do teste dos conferentes; os briefs 021 e 022 só constroem o código, com dados falsos, e não esperam por ele.
 - Depois do ensaio aprovado, qualquer mudança em código, dados, instruções, `config.toml` ou `gasto.toml` obriga a um ensaio novo (ARQUITETURA 5.12.1): o comando `fichas` recusa a rodada. A conferência da configuração no 002 vale, portanto, para a rodada inteira.
 
-- 010 · Detector de dado real: dados_reais.py e test_dados_reais, com o teste dos reservados sobre a lista de proibidos vazia e a busca de nome reservado no código (Fase 5) · não iniciado · — · —
 - 011 · Montagem da estrutura, matriz e travas: estruturas.py, matriz.py, comando da preparação e test_travas, com exemplos dentro do teste (Fase 6) · não iniciado · — · —
 - 012 · Normalização, regras e comparação com a ficha: normalizacao.py, regras.py, comparacao_exemplos.json (conteúdo escrito no brief), test_regras e test_comparacao (Fase 6) · não iniciado · — · —
 - 013 · Citações de lei: citacoes.py, citacoes_50.json (conteúdo escrito no brief) e test_citacoes (Fase 6) · não iniciado · — · —
@@ -50,7 +49,8 @@ Briefs previstos pela ordem de construção (PLANO, seção 4). Ainda não escri
 
 ## Done — últimos 30 dias
 
-- 009 · Dados fictícios e nomes reservados do teste: ficticios.py, test_ficticios (com listas de exemplo) e testes/dados/reais_reservados.json (Fase 5) · concluído · — · 2026-11-21
+- 010 · Detector de dado real: dados_reais.py e test_dados_reais, com o teste dos reservados sobre a lista de proibidos vazia e a busca de nome reservado no código (Fase 5) · concluído · — · 2026-11-21
+- 009 · Dados fictícios e nomes reservados do teste: ficticios.py, test_ficticios (com listas de exemplo) e testes/dados/reais_reservados.json (Fase 5) · concluído · 14fe5f2 · 2026-11-21
 - 008 · Condutor das peças: estado.py com a interface fixa das etapas, comando `avancar` e montagem dos três clientes, test_estado (Fase 4) · concluído · 3763577 · 2026-11-21
 - 007 · Modelo local: modelo_local.py e test_modelo_local (Fase 4) · concluído · 8cd6655 · 2026-11-21
 - 006 · API da Claude em dois passos: api_claude.py e test_api_claude (Fase 4) · concluído · 5ab94b1 · 2026-11-21
