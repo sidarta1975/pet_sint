@@ -43,6 +43,7 @@ Cada linha: o ponto, o valor provisório em uso e o brief onde ele aparece. Nada
 | Prazo pedido na ciência e prazo | Sorteado entre 10, 15, 20 e 30 dias | 015 |
 | Resposta da ficha fora do formato duas vezes | Descarte e ficha nova na casa, sem o retorno com motivo | 015 |
 | Número da ficha nova da casa | O seguinte do tipo na rodada (011, 012...; no ensaio, 002, 003) | 015 |
+| Rodar `preparar` antes do `ensaio`: a redação lê a estrutura de `saida/preparacao/<tipo>_estrutura.json` | Sem a estrutura, `avancar` para na redação com o arquivo que falta | 016 |
 
 ## Briefs que esperam o computador
 

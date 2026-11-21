@@ -158,7 +158,9 @@ class Ambiente:
         tipo, _, numero = resto.rpartition("_")
         fichas.repor_falhas_de_formato(self.servicos)
         ref = RefPeca(rodada=rodada, tipo=tipo, numero=int(numero))
-        return estado.avancar(principal.ETAPAS, self.servicos, [ref])
+        # Só as etapas da ficha: as seguintes (redação, 016) pedem a estrutura preparada.
+        etapas = [fichas.EtapaFicha(), fichas.EtapaRetorno()]
+        return estado.avancar(etapas, self.servicos, [ref])
 
 
 @pytest.fixture

@@ -18,7 +18,7 @@ from typing import Any
 
 import anthropic
 
-from fabrica import estado, estruturas, fichas
+from fabrica import estado, estruturas, fichas, redacao
 from fabrica.comum import config
 from fabrica.comum.api_claude import ApiClaude
 from fabrica.comum.arquivos import Arquivos
@@ -35,7 +35,7 @@ LerLinha = Callable[[str], str]
 Comando = Callable[[Sequence[str], Servicos, LerLinha], int]
 
 # A ordem das etapas do fluxo das peças (registro de decisão 002, item 5).
-ETAPAS: list[Any] = [fichas.EtapaFicha(), fichas.EtapaRetorno()]
+ETAPAS: list[Any] = [fichas.EtapaFicha(), fichas.EtapaRetorno(), redacao.EtapaRedacao()]
 
 
 def _agora() -> datetime.datetime:
