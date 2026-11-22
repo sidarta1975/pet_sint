@@ -994,7 +994,7 @@ def descartar(
             fim=None,
             peca=nome,
             rodada=ref.rodada,
-            detalhe=f"{custo} milionésimos de dólar em {quantas} chamada(s); "
+            detalhe=f"{custo} milionésimos de centavo de dólar em {quantas} chamada(s); "
             f"conferência {conferencia}, motivo {motivo or 'vazio'}",
         )
     )

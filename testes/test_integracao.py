@@ -24,13 +24,14 @@ import anthropic
 import pytest
 
 from fabrica import __main__ as principal
-from fabrica import estado
+from fabrica import erros_plantados, estado
 from fabrica.comum import config
 from fabrica.comum.api_claude import ApiClaude
 from fabrica.comum.arquivos import Arquivos
 from fabrica.comum.congelamento import Congelamento
 from fabrica.comum.formatos import (
     BaseFicha,
+    CatalogoErros,
     Conferencia,
     Ficha,
     Pedido,
@@ -141,6 +142,19 @@ class ApiFalsa:
 
     def __init__(self, raiz: Path, arquivos: Arquivos) -> None:
         self.instrucoes = {p.read_text("utf-8"): p.stem for p in (raiz / "instrucoes").glob("*.md")}
+        # A instrução das cópias do brief 021 vai em duas seções, uma por modelo.
+        plantar = (raiz / "instrucoes/plantar_erro.md").read_text("utf-8")
+        self.instrucoes[erros_plantados.secao(plantar, erros_plantados.TITULO_OPUS)] = (
+            "plantar_erro_opus"
+        )
+        self.instrucoes[erros_plantados.secao(plantar, erros_plantados.TITULO_SONNET)] = (
+            "plantar_erro_sonnet"
+        )
+        catalogo = CatalogoErros.model_validate_json(
+            (raiz / erros_plantados.ERROS).read_text("utf-8")
+        )
+        self.item_principal = {e.tipo_erro: e.item_principal for e in catalogo.erros}
+        self.tipo_da_copia: dict[str, str] = {}  # texto da cópia do Opus -> tipo de erro
         self.arquivos = arquivos
         self.chamadas: list[tuple[str, str, str]] = []
         self.especiais: dict[tuple[str, str], list[Callable[[list[str]], str]]] = {}
@@ -151,7 +165,10 @@ class ApiFalsa:
     def create(self, **argumentos: Any) -> anthropic.types.Message:
         textos = [b["text"] for b in argumentos["messages"][0]["content"]]
         instrucao = self.instrucoes[textos[0]]
-        tipo = tipo_no_texto(textos[1:]) or self._tipo_do_rascunho(textos)
+        if instrucao == "plantar_erro_sonnet":
+            tipo = self._tipo_do_rascunho([json.loads(textos[-1])["copia"]])
+        else:
+            tipo = tipo_no_texto(textos[1:]) or self._tipo_do_rascunho(textos)
         self.chamadas.append((instrucao, tipo, argumentos["model"]))
         fila = self.especiais.get((instrucao, tipo))
         responder = fila.pop(0) if fila else getattr(self, f"_{instrucao}")
@@ -171,6 +188,14 @@ class ApiFalsa:
             for devolvido, peca in self.rascunhos.items():
                 if texto.endswith(devolvido):
                     return peca
+        # As cópias com erro gravadas pelo programa (brief 019): a peça vem do nome.
+        for caminho in self.arquivos.listar("saida/erros", "*_erro*_*.md"):
+            copia = self.arquivos.ler_texto(caminho)
+            if any(
+                len(texto) > 100 and (texto.endswith(copia.strip()) or copia.endswith(texto))
+                for texto in textos
+            ):
+                return caminho.removeprefix("saida/erros/").partition("_erro")[0]
         raise AssertionError("rascunho que a redação falsa não escreveu")
 
     @staticmethod
@@ -264,6 +289,31 @@ class ApiFalsa:
                     {"item": i["item"], "resposta": "passa", "justificativa": "o Opus decidiu"}
                     for i in lista["itens"]
                 ]
+            }
+        )
+
+    def _plantar_erro_opus(self, textos: list[str]) -> str:
+        """Acrescenta uma frase ao texto do primeiro bloco (uma linha que aparece uma vez)."""
+        pedido, original = json.loads(textos[1]), textos[-1]
+        peca = self._peca_do_rascunho([original])
+        velho = next(
+            linha for linha in original.splitlines()[2:] if linha and not linha.startswith("#")
+        )
+        novo = f"{velho} A parte já foi citada no mesmo endereço."
+        copia = original.replace(velho, novo)
+        self.rascunhos[copia] = peca
+        self.tipo_da_copia[copia] = pedido["tipo_erro"]
+        return json.dumps({"trecho_original": velho, "trecho_novo": novo}, ensure_ascii=False)
+
+    def _plantar_erro_sonnet(self, textos: list[str]) -> str:
+        copia = json.loads(textos[-1])["copia"]
+        item = self.item_principal[self.tipo_da_copia[copia]]
+        return json.dumps(
+            {
+                "item_apontado": item,
+                "descricao_erro": "a frase acrescentada traz o erro",
+                "outro_problema": False,
+                "descricao_outro_problema": None,
             }
         )
 
@@ -623,3 +673,110 @@ def test_semelhanca_reprova_a_segunda_peca_igual(integ: Integracao) -> None:
     for n in range(1, 11):
         nome = peca(MAN, n, "r01")
         assert integ.existe(f"saida/conferencias/{nome}_v1_semelhanca.json"), nome
+
+
+# ---------------------------------------------------------------------------
+# Brief 023. O ensaio inteiro pelos comandos, até `ensaio --fechar`
+# ---------------------------------------------------------------------------
+
+CHAVE_FALSA = "sk-ant-chave-falsa-do-teste"
+
+
+def responder_cartao(pergunta: str) -> str:
+    """O responsável falso: formato certo, sem dado real, erro existe e é o do gabarito."""
+    if pergunta.startswith("Confirmar"):
+        return "s"
+    if pergunta.startswith("Dado real"):
+        return "n"
+    if "citação" in pergunta or "citações" in pergunta:
+        return ""
+    if "(aprovada ou reprovada)" in pergunta:
+        return "a"
+    return "s"
+
+
+def revisar_tudo(integ: Integracao) -> None:
+    for _ in range(20):
+        if revisao_pendente(integ) is None:
+            return
+        assert principal.executar(["revisar"], integ.servicos, responder_cartao) == 0
+    raise AssertionError("o revisar não terminou os cartões")
+
+
+def revisao_pendente(integ: Integracao) -> Any:
+    from fabrica import revisao
+
+    return revisao.pendente(integ.servicos)
+
+
+def ensaio_pelos_comandos(integ: Integracao) -> int:
+    """Devolve o código de saída de `ensaio --fechar e01`."""
+    preparar_e_abrir_ensaio(integ)
+    integ.avancar_ate_parar()
+    revisar_tudo(integ)  # o cartão do ensaio de cada peça
+    assert integ.executar("publicar", "--rodada", "e01") == 0
+    for _ in range(8):  # as vagas do Opus, uma rodada de `erros` e `avancar` por vez
+        assert integ.executar("erros", "--rodada", "e01") == 0
+        if integ.existe("saida/erros/e01_amostras.json"):
+            break
+        integ.avancar_ate_parar(40)
+    assert integ.existe("saida/erros/e01_amostras.json")
+    revisar_tudo(integ)  # as amostras
+    for _ in range(5):
+        assert integ.executar("testar", "--rodada", "e01") == 0
+        if integ.existe("saida/relatorios/teste_conferentes_ensaio_e01.json"):
+            break
+        integ.avancar_ate_parar(40)
+    assert integ.existe("saida/relatorios/teste_conferentes_ensaio_e01.json")
+    assert integ.executar("relatorio", "--rodada", "e01") == 0
+    return integ.executar("ensaio", "--fechar", "e01")
+
+
+def ensaio_aprovado(integ: Integracao) -> bool:
+    lidas = integ.arquivos.ler_json("saida/rodadas.json", Rodadas)
+    return next(r for r in lidas.rodadas if r.id == "e01").ensaio_aprovado
+
+
+def test_ensaio_inteiro_aprovado(
+    integ: Integracao, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    monkeypatch.setenv("ANTHROPIC_API_KEY", CHAVE_FALSA)
+    assert ensaio_pelos_comandos(integ) == 0, capsys.readouterr().err
+    assert ensaio_aprovado(integ)
+    texto = integ.arquivos.ler_texto("saida/relatorios/relatorio_e01.md")
+    assert "ensaio: sem valor de medida" in texto
+    assert texto.rstrip().splitlines()[-1].startswith("A decisão de escalar é do responsável")
+    for tipo in TIPOS:
+        assert integ.arquivos.listar(f"saida/pacotes/ensaio_e01/{tipo}", "*.md")
+    # A chave falsa não aparece em nenhum arquivo de saida/.
+    for caminho in (integ.raiz / "saida").rglob("*"):
+        if caminho.is_file():
+            assert CHAVE_FALSA not in caminho.read_text("utf-8", errors="ignore"), caminho
+    assert integ.tentativas_de_rede == []  # type: ignore[attr-defined]
+
+
+def test_ensaio_com_resposta_do_opus_fora_do_formato_e_reprovado(
+    integ: Integracao, capsys: pytest.CaptureFixture[str]
+) -> None:
+    integ.api.especiais[("plantar_erro_opus", MAN)] = [lambda textos: "isto não é JSON"]
+    assert ensaio_pelos_comandos(integ) == 1
+    assert "resposta fora do formato" in capsys.readouterr().err
+    assert not ensaio_aprovado(integ)
+
+
+def test_ensaio_com_pedido_local_acima_de_75_por_cento_e_reprovado(
+    integ: Integracao, capsys: pytest.CaptureFixture[str]
+) -> None:
+    def redacao_longa(textos: list[str]) -> str:
+        curto = integ.api._redacao(textos)
+        peca_da_redacao = integ.api.rascunhos.pop(curto)
+        longo = curto + "\n\n" + " ".join([*PALAVRAS] * 70) + "."
+        integ.api.rascunhos[longo] = peca_da_redacao
+        return longo
+
+    integ.api.especiais[("redacao", EMB)] = [redacao_longa]
+    assert ensaio_pelos_comandos(integ) == 1
+    erro = capsys.readouterr().err
+    assert "16.384" in erro and "32.768" in erro and "ensaio novo" in erro
+    assert integ.ocorrencias(estado.ACIMA_DO_LIMITE)
+    assert not ensaio_aprovado(integ)

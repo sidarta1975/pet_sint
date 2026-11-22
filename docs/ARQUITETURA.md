@@ -90,6 +90,8 @@ pet_sint/
 │   ├── ARQUITETURA.md
 │   ├── PLAN.md
 │   ├── adr/                       (decisões arquiteturais, uma por arquivo)
+│   │   ├── adr_001_convencoes_da_construcao_2026-11-21.md   (acréscimo do método)
+│   │   └── adr_002_interface_das_etapas_2026-11-21.md       (acréscimo do método)
 │   ├── briefs/                    (briefs numerados, com _modelo.md)
 │   ├── docs/                      (relatórios, um por brief)
 │   └── historico/                 (fora da leitura obrigatória; consulta por busca)
@@ -183,9 +185,21 @@ pet_sint/
 │   ├── test_api_claude.py         (acréscimo do método)
 │   ├── test_modelo_local.py       (acréscimo do método)
 │   ├── test_decisao.py            (acréscimo do método)
-│   └── test_publicacao.py         (acréscimo do método)
+│   ├── test_publicacao.py         (acréscimo do método)
+│   ├── conftest.py                (acréscimo do método)
+│   ├── test_arquivos.py           (acréscimo do método)
+│   ├── test_registro.py           (acréscimo do método)
+│   ├── test_fichas.py             (acréscimo do método)
+│   ├── test_redacao.py            (acréscimo do método)
+│   ├── test_conferencia_etapas.py (acréscimo do método)
+│   ├── test_revisao.py            (acréscimo do método)
+│   ├── test_erros_opus.py         (acréscimo do método)
+│   ├── test_teste_conferentes.py  (acréscimo do método)
+│   ├── test_relatorios.py         (acréscimo do método)
+│   └── test_integracao.py         (acréscimo do método)
 └── saida/                         (gerada; fora do controle de versão)
     ├── rodadas.json
+    ├── preparacao/                (acréscimo do método: estrutura de cada tipo e resumo do `preparar`)
     ├── pedidos/
     ├── respostas/
     ├── fichas/
@@ -197,7 +211,8 @@ pet_sint/
     ├── pacotes/
     ├── registro/
     │   ├── chamadas.jsonl
-    │   └── ocorrencias.jsonl
+    │   ├── ocorrencias.jsonl
+    │   └── rodadas_anteriores/    (acréscimo do método: cópia de `rodadas.json` antes de cada regravação)
     └── relatorios/
 ```
 
@@ -372,6 +387,19 @@ Acréscimos do método, para que cada fase tenha critério verificável:
 - **`test_modelo_local.py`** — a tradução das respostas do `porteiro` (0, 1, 2, 3, falha e comando ausente); o pedido maior que o `num_ctx` pela estimativa pessimista não é enviado; o `num_ctx` vai sempre explícito.
 - **`test_decisao.py`** — as regras do Anexo B.3, item por item, inclusive o caso do risco alto em que Haiku e modelo local concordam em "não passa" e o Opus diz "passa"; as quatro categorias do motivo; as notas de estilo fora do veredito.
 - **`test_publicacao.py`** — nenhum arquivo sai de `publicacao.py` sem a marca "DOCUMENTO SINTÉTICO — FICTÍCIO" (no texto, no `.json` e no rodapé e nas propriedades do `.docx`).
+
+Consolidados no brief 023 a partir dos relatórios dos briefs 004 a 023 (acréscimos do método):
+- **`conftest.py`** (brief 006) — bloqueia a rede em toda a sessão de testes: abrir conexão (AF_INET e AF_INET6, inclusive 127.0.0.1) falha com "teste tentou usar a rede".
+- **`test_arquivos.py`** (brief 004) — `fabrica/comum/arquivos.py`: gravação atômica, leitura pelos modelos de `formatos.py`, nada gravado fora de `saida/` e a única regravação permitida de `rodadas.json`.
+- **`test_registro.py`** (brief 004) — `fabrica/comum/registro.py`: chamadas e ocorrências acrescentadas, nunca reescritas, e lidas de volta pelos modelos.
+- **`test_fichas.py`** (brief 015) — `fabrica/fichas.py` e os comandos `fichas` e `ensaio`, com cliente falso: abertura da rodada, bases, conferência da ficha, retorno, troca e casa vazia.
+- **`test_redacao.py`** (brief 016) — `fabrica/redacao.py`, com cliente falso, a estrutura do `preparar` e uma ficha pronta.
+- **`test_conferencia_etapas.py`** (brief 017) — as etapas de extração, programas, checklist e conferente local, com clientes falsos e as fichas e rascunhos do ensaio.
+- **`test_revisao.py`** (brief 020) — `fabrica/revisao.py` e o comando `revisar`: ordem dos cartões, perguntas, correção antes de confirmar e concordância.
+- **`test_erros_opus.py`** (brief 021) — as cópias do Opus e a verificação do Sonnet em `erros_plantados.py`, com Opus, Haiku e Sonnet falsos: plano das vagas, troca única, descartes e amostras.
+- **`test_teste_conferentes.py`** (brief 022) — `fabrica/teste_conferentes.py` e o comando `testar`: fechamento do banco, peças do teste e as cinco taxas com margem de Wilson.
+- **`test_relatorios.py`** (brief 023) — `fabrica/relatorios.py`, `relatorio` e `ensaio --fechar`: cada item de 5.11 na ordem, as ressalvas, os limites e o fechamento do ensaio em cada motivo de recusa.
+- **`test_integracao.py`** (brief 018; ampliado no 023) — os módulos de verdade ligados pela lista de etapas, com clientes falsos, numa pasta com repositório git próprio; no 023, o ensaio inteiro pelos comandos até `ensaio --fechar`.
 
 ### 2.5 Saída
 
@@ -816,6 +844,8 @@ Um só ponto de entrada: `python -m fabrica <comando>`. `fabrica/__main__.py` n�
 | `python -m fabrica revisar` | Única entrada das respostas do responsável. Mostra o próximo cartão pendente (da revisão, do ensaio, da amostra de 10 cópias, da amostra das descartadas ou da leitura de publicação), faz as perguntas, mostra as respostas juntas e pede confirmação; só depois grava `saida/cartoes/<id>_respostas.json`. Antes de confirmar, qualquer resposta pode ser corrigida; depois, não muda. Construído no brief 020 |
 | `python -m fabrica revisar --resumo` | Só lista os cartões já respondidos, com as respostas e a data, sem mudar nada. Construído no brief 020 |
 | `python -m fabrica publicar --rodada <rodada>` | Monta o pacote das peças publicáveis da rodada em `saida/pacotes/<tipo>/` (`.md`, `.json` com os metadados, `.docx` com a marca no rodapé e nas propriedades, e o índice `indice_<rodada>.md`); recusa se alguma peça não traz a marca no rascunho. No ensaio, as três peças, qualquer que seja o veredito, em `saida/pacotes/ensaio_<rodada>/<tipo>/`. Construído no brief 020 |
+| `python -m fabrica relatorio --rodada <rodada>` | Grava `saida/relatorios/relatorio_mvp.md` (no ensaio, `relatorio_<rodada>.md`, com o aviso "ensaio: sem valor de medida") com cada item de 5.11 e cada critério da seção 6; não regrava um relatório que já existe. O relatório só descreve e marca: a decisão de escalar é do responsável. Construído no brief 023 |
+| `python -m fabrica ensaio --fechar <rodada>` | Aplica a regra de 5.12.1: confere as três peças de ficha a pacote, os erros em miniatura, o formato, o congelamento e o contexto do modelo local; se tudo passa, grava `ensaio_aprovado` e `aprovado_em` em `saida/rodadas.json`; senão, mostra cada motivo e não grava nada. Construído no brief 023 |
 | Um comando para cada um dos demais fluxos de 1.4 | Preparação, ensaio, erros plantados, teste dos conferentes, publicação e relatório. O nome de cada um é fixado no brief da fase que constrói o módulo e registrado aqui no mesmo brief |
 
 **Rede:** a fábrica não escuta em nenhuma porta. Só faz conexões de saída para a API da Claude e para o Ollama em `127.0.0.1:11434`.

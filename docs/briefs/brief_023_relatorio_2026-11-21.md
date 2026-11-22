@@ -1,0 +1,36 @@
+# Brief 023 — Relatório do MVP
+
+- Fase: 11 — Resto dos erros plantados, teste dos conferentes e relatório (PLANO §4)
+- Objetivo: escrever `fabrica/relatorios.py` e o comando `relatorio`, com todos os itens da ARQUITETURA §5.11 e os critérios da seção 6, e o fechamento do ensaio (`ensaio --fechar`), que aplica a regra da ARQUITETURA §5.12.1 e registra o ensaio aprovado, com `testes/test_relatorios.py`.
+- Seções a ler: AGENTS §8; PLANO §1, §4 (Fase 11 e Fase 12); ARQUITETURA §1.3 (relatório), §1.4 (ensaio estendido), §5.1, §5.7, §5.11, §5.12 (toda), §6, §7.4; registros de decisão 001 (item 18) e 002; armadilhas do PLAN: "modelo_local.py, estado.py", "Ordem de construção".
+- Arquivos que pode criar:
+  - `fabrica/relatorios.py`;
+  - `testes/test_relatorios.py`;
+  - `docs/briefs/brief_023_relatorio_2026-11-21.md` (este brief);
+  - `docs/docs/doc_023_relatorio_2026-11-21.md` (o relatório).
+- Arquivos que pode alterar:
+  - `fabrica/__main__.py` — os comandos `relatorio` e `ensaio --fechar`;
+  - `testes/test_integracao.py` (do 018) — só para estender o teste até o fechamento do ensaio (teste 8 abaixo);
+  - `docs/ARQUITETURA.md` — seção 8, as linhas de `python -m fabrica relatorio --rodada <rodada>` e `python -m fabrica ensaio --fechar <rodada>`; e a **consolidação** dos acréscimos do método registrados nos relatórios dos briefs 004 a 023 (registro de decisão 001, item 20): na árvore da seção 2, os arquivos de teste novos (`test_arquivos.py`, `test_registro.py`, `test_fichas.py`, `test_redacao.py`, `test_conferencia_etapas.py`, `test_revisao.py`, `test_erros_opus.py`, `test_teste_conferentes.py`, `test_relatorios.py`, `test_integracao.py`, `conftest.py`), as pastas `saida/preparacao/` e `saida/registro/rodadas_anteriores/` (`docs/roteiros/` só nasce no 024, que a acrescenta), e os arquivos `docs/adr/adr_001_...` e `adr_002_...`; na seção 2.4, uma linha por arquivo de teste novo, com o que ele confere, tirada do relatório do brief que o criou; tudo marcado como acréscimo do método;
+  - `docs/PLAN.md` (Resumo, Doing, Backlog e Done).
+- Arquivos que não pode tocar: os demais módulos (a não ser por defeito comprovado (registro de decisão 001, item 19), registrado no relatório); `dados/`; `config/`; `instrucoes/`; `scripts/`; `AGENTS.md`; `docs/PLANO.md`.
+- Teste de aceite (escrito antes do código): `testes/test_relatorios.py`, com registro, ocorrências, conferências, cartões e resultado do teste falsos:
+  1. `saida/relatorios/relatorio_mvp.md` traz cada item da ARQUITETURA §5.11, na ordem, com o critério central em primeiro lugar, acompanhado da taxa sem o Opus e da taxa nos erros de julgamento por programa; cada critério da seção 6 com o resultado, a exigência e a margem de Wilson, e o papel (decide ou indicador);
+  2. as ressalvas aparecem quando os dados falsos as provocam, cada uma testada sozinha, com o seu gatilho: dependente do Opus; filtrado pelo verificador; sem conferente local estável (mais de 20% das peças de risco médio e alto sem a resposta do modelo local); e banco não confiável, com a frase de que o critério central não decide; o critério central inconclusivo com menos de 14 peças boas; os critérios que dependem do que não foi feito, inconclusivos depois de um corte de gasto;
+  3. o limite de peças boas reprovadas sai da proporção (10%, arredondado para baixo: 2 com 20 a 29 peças boas, 1 com 14 a 19); as reprovações só por semelhança ficam fora dessa conta e aparecem em linha própria;
+  4. o custo marginal por peça aprovada exclui ensaio, cópias com erro e teste; acima de US$ 0,15, o relatório diz "rever antes de escalar"; o gasto total soma todas as rodadas, inclusive os ensaios;
+  5. rodada com ocorrência de intervenção diz que os números vieram de uma rodada com intervenção; o relatório sempre diz de qual rodada são os números; cada tipo mostra quantas peças fechou e as casas vazias com a causa; a taxa de fichas reprovadas acima de 20% num tipo aponta `ficha.md` e `fichas.py` daquele tipo;
+  6. o relatório só descreve e marca: não decide se escala; a última linha diz que a decisão é do responsável;
+  7. fechamento do ensaio: o ensaio passa só quando as três peças têm ficha, primeira versão, conferência, cartão do ensaio respondido com "formato certo: sim" e pacote, e o caminho dos erros em miniatura tem as cópias, as amostras respondidas, o resultado do teste e o relatório, todos válidos pelo formato, e não houve mudança nos arquivos congelados; com `num_ctx` de 16.384, um pedido ao modelo local que não coube ou passou de 75% reprova o ensaio, com a mensagem de subir para 32.768 no `config.toml` e fazer ensaio novo; com 32.768, o ensaio passa nesse ponto, e o relatório do ensaio lista esses pedidos; aprovado, o ensaio é gravado em `saida/rodadas.json` com as impressões digitais; reprovado, o motivo é mostrado e nada é gravado como aprovado.
+  8. em `testes/test_integracao.py`, o ensaio inteiro com os clientes falsos, pelos comandos, na ordem do roteiro do brief 024: depois do que o 018 já cobre, `erros`, `avancar`, `revisar` (com a `ler_linha` falsa passada a `executar`, brief 008), `testar`, `publicar`, `relatorio` e `ensaio --fechar`; o ensaio termina gravado como aprovado em `saida/rodadas.json` da pasta temporária; com uma resposta falsa fora do formato numa das cópias, `ensaio --fechar` reprova e mostra o motivo; com um pedido ao modelo local falso acima de 75% do `num_ctx` de 16.384, a ocorrência gravada por `estado.py` faz `ensaio --fechar` reprovar por esse motivo, com a mensagem de subir para 32.768; e, terminado o ensaio, nenhum arquivo de `saida/` nem mensagem de erro gravada contém a chave falsa da API usada no teste. Cada cenário é uma função de teste própria, como no 018.
+- Critério de conclusão: com dados falsos, o teste calcula as cinco taxas com margem de Wilson e o relatório traz cada item da ARQUITETURA §5.11, inclusive as marcas de ressalva; o ensaio inteiro passa com clientes falsos em `test_integracao.py`; o gate passa (critério da Fase 11 no PLANO). Com este brief, todo o código e todas as instruções estão prontos para o ensaio.
+- Fora do escopo: rodar o ensaio ou a rodada (024 e 025, pelo responsável); decidir se escala (só o responsável).
+- Depende de: 022.
+
+**Regras deste brief**
+
+- O relatório lê só arquivos: `chamadas.jsonl`, `ocorrencias.jsonl`, conferências, cartões e respostas, gabarito e descartadas consolidados e `teste_conferentes.json`. Os tokens reais de cada tarefa vêm das chamadas do ensaio.
+- No ensaio, o relatório sai com o aviso "ensaio: sem valor de medida" no topo e em cada critério, em `saida/relatorios/relatorio_<rodada>.md`; na rodada, em `saida/relatorios/relatorio_mvp.md`.
+- O comando `ensaio --fechar <rodada>` só lê e, se o ensaio passar, regrava `saida/rodadas.json` pela regra do registro de decisão 001, item 4. Não muda `config.toml`: subir o `num_ctx` é feito no brief 024, depois que o responsável vê o resultado.
+- A consolidação na ARQUITETURA só copia o que os relatórios dos briefs 004 a 023 registraram; não descreve nada que não exista no repositório. O executor confere, arquivo por arquivo, que cada item consolidado existe.
+- Ao fim deste brief, a Fase 11 está completa. O executor lembra, nas pendências do relatório, a auditoria independente de fim de fase (AGENTS §11), que é pedida pelo responsável fora deste brief.

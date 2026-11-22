@@ -25,6 +25,7 @@ from fabrica import (
     fichas,
     publicacao,
     redacao,
+    relatorios,
     revisao,
     teste_conferentes,
 )
@@ -160,7 +161,10 @@ def _semente(opcoes: dict[str, str]) -> int | None | bool:
 
 
 def comando_ensaio(argumentos: Sequence[str], servicos: Servicos, ler_linha: LerLinha) -> int:
-    """Abre a rodada de ensaio seguinte e grava uma ficha por tipo (brief 015)."""
+    """Abre a rodada de ensaio seguinte e grava uma ficha por tipo (brief 015);
+    `ensaio --fechar <rodada>` confere e aprova o ensaio (brief 023)."""
+    if argumentos[:1] == ["--fechar"]:
+        return _fechar_ensaio(argumentos[1:], servicos)
     opcoes = _opcoes(argumentos, ["--semente"])
     semente = _semente(opcoes) if opcoes is not None else False
     if opcoes is None or semente is False:
@@ -172,6 +176,40 @@ def comando_ensaio(argumentos: Sequence[str], servicos: Servicos, ler_linha: Ler
         print(f"ensaio não abriu: {erro}", file=sys.stderr)
         return 1
     print(f"ensaio {rodada}: {len(pecas)} pedido(s) de ficha gravado(s): {', '.join(pecas)}")
+    return 0
+
+
+def _fechar_ensaio(argumentos: Sequence[str], servicos: Servicos) -> int:
+    if len(argumentos) != 1:
+        print("uso: python -m fabrica ensaio --fechar <rodada>", file=sys.stderr)
+        return 2
+    rodada = argumentos[0]
+    fechamento = relatorios.fechar_ensaio(rodada, ETAPAS, servicos)
+    for aviso in fechamento.avisos:
+        print(f"aviso: {aviso}")
+    if not fechamento.aprovado:
+        for motivo in fechamento.motivos:
+            print(f"ensaio reprovado: {motivo}", file=sys.stderr)
+        return 1
+    print(f"ensaio {rodada} aprovado; `fichas` já pode abrir a rodada do MVP.")
+    return 0
+
+
+def comando_relatorio(argumentos: Sequence[str], servicos: Servicos, ler_linha: LerLinha) -> int:
+    """Grava o relatório da rodada; não regrava o que já existe (brief 023)."""
+    opcoes = _opcoes(argumentos, ["--rodada"])
+    if opcoes is None or "--rodada" not in opcoes:
+        print("uso: python -m fabrica relatorio --rodada <rodada>", file=sys.stderr)
+        return 2
+    try:
+        destino, agora = relatorios.gerar(opcoes["--rodada"], servicos)
+    except relatorios.ErroRelatorio as erro:
+        print(f"relatorio recusado: {erro}", file=sys.stderr)
+        return 1
+    if agora:
+        print(f"relatório gravado em {destino}.")
+    else:
+        print(f"o relatório já existe em {destino}; ele não é regravado.")
     return 0
 
 
@@ -299,6 +337,7 @@ COMANDOS: dict[str, Comando] = {
     "fichas": comando_fichas,
     "preparar": comando_preparar,
     "publicar": comando_publicar,
+    "relatorio": comando_relatorio,
     "revisar": comando_revisar,
     "testar": comando_testar,
 }

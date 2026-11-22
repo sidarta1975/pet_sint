@@ -76,6 +76,13 @@ Cada linha: o ponto, o valor provisório em uso e o brief onde ele aparece. Nada
 | Amostra de cópias "rejeitada" | O erro não existe, ou existe mas não é o do gabarito | 022 |
 | Original sem veredito no teste (formato) | As cópias dela ficam não pegas; ela conta como reprovada | 022 |
 | Diagnóstico por conferente | "Não passa" do conferente num item pego, sobre todas as cópias do banco | 022 |
+| Peça boa no relatório | Ficha e peça aprovadas pelo responsável no cartão de revisão | 023 |
+| Limite das peças boas reprovadas na primeira versão | Proporção com arredondamento para baixo: 2 de 20 a 29 boas, 1 de 14 a 19 | 023 |
+| "Sem conferente local estável" | Mais de 20% das peças de risco médio e alto com rascunho sem a resposta do modelo local | 023 |
+| Custo marginal por peça aprovada | Chamadas da rodada fora do banco e do teste, sobre as peças aprovadas pela fábrica | 023 |
+| Mudança pendente no código ao fechar o ensaio | Conta como mudança nos arquivos congelados: o ensaio não fecha | 023 |
+| Pedido `_t2` no ensaio | Conta como resposta fora do formato: o ensaio não fecha | 023 |
+| Fechar um ensaio já aprovado | Não regrava; diz que já está aprovado | 023 |
 
 ## Briefs que esperam o computador
 
