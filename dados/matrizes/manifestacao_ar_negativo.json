@@ -1,0 +1,114 @@
+{
+  "tipo": "manifestacao_ar_negativo",
+  "quantidade": 10,
+  "momento": "depois_da_juntada_do_aviso",
+  "materias": [
+    {
+      "materia": "negativacao_indevida",
+      "teses": [
+        "inscrição em cadastro de inadimplentes por dívida inexistente",
+        "inscrição sem a comunicação prévia por escrito ao consumidor",
+        "manutenção da inscrição depois da quitação da dívida"
+      ],
+      "quantidade": null
+    },
+    {
+      "materia": "voo_atrasado_cancelado",
+      "teses": [
+        "atraso de voo superior a quatro horas sem assistência ao passageiro",
+        "cancelamento de voo sem reacomodação adequada"
+      ],
+      "quantidade": null
+    },
+    {
+      "materia": "vicio_produto",
+      "teses": [
+        "vício do produto não sanado no prazo de trinta dias",
+        "produto entregue diferente do anunciado"
+      ],
+      "quantidade": null
+    },
+    {
+      "materia": "cobranca_indevida_telefonia_internet",
+      "teses": [
+        "cobrança por serviço não contratado",
+        "cobrança mantida depois do cancelamento do plano"
+      ],
+      "quantidade": null
+    },
+    {
+      "materia": "falha_servico_bancario",
+      "teses": [
+        "desconto em conta não autorizado pelo cliente",
+        "cobrança de tarifa não contratada"
+      ],
+      "quantidade": null
+    }
+  ],
+  "teto_por_materia": 2,
+  "eixos_fixos": [
+    {
+      "eixo": "complexidade",
+      "contagens": [
+        {
+          "valor": "simples",
+          "quantidade": 5
+        },
+        {
+          "valor": "media",
+          "quantidade": 5
+        }
+      ]
+    },
+    {
+      "eixo": "estilo",
+      "contagens": [
+        {
+          "valor": "conciso",
+          "quantidade": 5
+        },
+        {
+          "valor": "detalhado",
+          "quantidade": 5
+        }
+      ]
+    },
+    {
+      "eixo": "rito",
+      "contagens": [
+        {
+          "valor": "juizado_especial_civel",
+          "quantidade": 5
+        },
+        {
+          "valor": "procedimento_comum",
+          "quantidade": 5
+        }
+      ]
+    }
+  ],
+  "categorias_autor": [
+    "pessoa_fisica",
+    "microempresa",
+    "empresa_pequeno_porte",
+    "pessoa_juridica_privada"
+  ],
+  "categorias_reu": [
+    "pessoa_fisica",
+    "pessoa_juridica_privada",
+    "microempresa"
+  ],
+  "motivos_devolucao": [
+    "mudou_se",
+    "desconhecido",
+    "endereco_insuficiente",
+    "numero_inexistente",
+    "ausente",
+    "nao_procurado"
+  ],
+  "pedidos_ar": [
+    "informar_novo_endereco",
+    "renovar_mesmo_endereco",
+    "ciencia_e_prazo"
+  ]
+}

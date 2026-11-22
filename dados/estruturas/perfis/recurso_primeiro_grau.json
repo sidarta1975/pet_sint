@@ -1,0 +1,19 @@
+{
+  "id": "recurso_primeiro_grau",
+  "familia": "recurso",
+  "blocos": [],
+  "retirar": [],
+  "ajustar": [
+    {
+      "nome": "enderecamento",
+      "titulo": "Endereçamento",
+      "ordem": 10,
+      "obrigatorio": true,
+      "descricao": "O mesmo juízo de primeiro grau que proferiu a decisão."
+    }
+  ],
+  "pedidos_acessorios_padrao": [
+    "acolhimento_embargos",
+    "intimacao_parte_contraria"
+  ]
+}

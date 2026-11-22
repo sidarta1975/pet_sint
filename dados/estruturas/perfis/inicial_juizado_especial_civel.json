@@ -1,0 +1,28 @@
+{
+  "id": "inicial_juizado_especial_civel",
+  "familia": "peticao_inicial",
+  "blocos": [],
+  "retirar": [
+    "citacao_por_edital"
+  ],
+  "ajustar": [
+    {
+      "nome": "enderecamento",
+      "titulo": "Endereçamento",
+      "ordem": 10,
+      "obrigatorio": true,
+      "descricao": "O Juizado Especial Cível da comarca da ficha."
+    },
+    {
+      "nome": "valor_causa",
+      "titulo": "Do Valor da Causa",
+      "ordem": 80,
+      "obrigatorio": true,
+      "descricao": "O valor da causa da ficha, dentro da alçada de 40 salários mínimos (art. 3º, I, da Lei 9.099/1995)."
+    }
+  ],
+  "pedidos_acessorios_padrao": [
+    "citacao_reu",
+    "producao_provas"
+  ]
+}

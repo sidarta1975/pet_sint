@@ -1,0 +1,59 @@
+{
+  "feriados": [
+    {
+      "data": "2026-01-01",
+      "nome": "Confraternização Universal",
+      "lei": "Lei nº 662/1949, art. 1º, com a redação da Lei nº 10.607/2002"
+    },
+    {
+      "data": "2026-04-21",
+      "nome": "Tiradentes",
+      "lei": "Lei nº 662/1949, art. 1º, com a redação da Lei nº 10.607/2002"
+    },
+    {
+      "data": "2026-05-01",
+      "nome": "Dia do Trabalho",
+      "lei": "Lei nº 662/1949, art. 1º, com a redação da Lei nº 10.607/2002"
+    },
+    {
+      "data": "2026-09-07",
+      "nome": "Independência do Brasil",
+      "lei": "Lei nº 662/1949, art. 1º, com a redação da Lei nº 10.607/2002"
+    },
+    {
+      "data": "2026-10-04",
+      "nome": "Eleições gerais, primeiro turno",
+      "lei": "Lei nº 4.737/1965 (Código Eleitoral), art. 380"
+    },
+    {
+      "data": "2026-10-12",
+      "nome": "Nossa Senhora Aparecida",
+      "lei": "Lei nº 6.802/1980"
+    },
+    {
+      "data": "2026-10-25",
+      "nome": "Eleições gerais, segundo turno, se houver",
+      "lei": "Lei nº 4.737/1965 (Código Eleitoral), art. 380"
+    },
+    {
+      "data": "2026-11-02",
+      "nome": "Finados",
+      "lei": "Lei nº 662/1949, art. 1º, com a redação da Lei nº 10.607/2002"
+    },
+    {
+      "data": "2026-11-15",
+      "nome": "Proclamação da República",
+      "lei": "Lei nº 662/1949, art. 1º, com a redação da Lei nº 10.607/2002"
+    },
+    {
+      "data": "2026-11-20",
+      "nome": "Dia Nacional de Zumbi e da Consciência Negra",
+      "lei": "Lei nº 14.759/2023"
+    },
+    {
+      "data": "2026-12-25",
+      "nome": "Natal",
+      "lei": "Lei nº 662/1949, art. 1º, com a redação da Lei nº 10.607/2002"
+    }
+  ]
+}

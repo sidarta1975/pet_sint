@@ -1,0 +1,61 @@
+{
+  "id": "recurso",
+  "blocos": [
+    {
+      "nome": "enderecamento",
+      "titulo": "Endereçamento",
+      "ordem": 10,
+      "obrigatorio": true,
+      "descricao": "O juízo ou tribunal a que o recurso é dirigido."
+    },
+    {
+      "nome": "identificacao",
+      "titulo": "Identificação do Processo e das Partes",
+      "ordem": 20,
+      "obrigatorio": true,
+      "descricao": "Número do processo, quem recorre e contra qual decisão."
+    },
+    {
+      "nome": "tempestividade",
+      "titulo": "Da Tempestividade",
+      "ordem": 30,
+      "obrigatorio": true,
+      "descricao": "O prazo do recurso e a data da intimação da ficha."
+    },
+    {
+      "nome": "cabimento",
+      "titulo": "Do Cabimento",
+      "ordem": 40,
+      "obrigatorio": true,
+      "descricao": "Por que o recurso é o instrumento certo contra a decisão."
+    },
+    {
+      "nome": "razoes",
+      "titulo": "Das Razões",
+      "ordem": 50,
+      "obrigatorio": true,
+      "descricao": "As razões do recurso, ligadas à decisão e aos fatos da ficha."
+    },
+    {
+      "nome": "preparo",
+      "titulo": "Do Preparo",
+      "ordem": 55,
+      "obrigatorio": false,
+      "descricao": "O recolhimento do preparo, quando exigido."
+    },
+    {
+      "nome": "pedidos",
+      "titulo": "Dos Pedidos",
+      "ordem": 60,
+      "obrigatorio": true,
+      "descricao": "Os pedidos da ficha."
+    },
+    {
+      "nome": "fecho",
+      "titulo": "Encerramento",
+      "ordem": 90,
+      "obrigatorio": true,
+      "descricao": "Pedido de deferimento, local, data, nome e OAB do advogado (marcadores)."
+    }
+  ]
+}

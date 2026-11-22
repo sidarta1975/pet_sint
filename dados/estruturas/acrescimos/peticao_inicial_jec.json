@@ -1,0 +1,14 @@
+{
+  "tipo": "peticao_inicial_jec",
+  "blocos": [
+    {
+      "nome": "tentativa_previa",
+      "titulo": "Da Tentativa de Solução Extrajudicial",
+      "ordem": 35,
+      "obrigatorio": false,
+      "descricao": "A tentativa de resolver antes, com data e protocolo SINT- da ficha, quando houver."
+    }
+  ],
+  "retirar": [],
+  "ajustar": []
+}

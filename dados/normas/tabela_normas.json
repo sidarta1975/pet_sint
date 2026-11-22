@@ -1,0 +1,866 @@
+{
+  "versao": "2026-11-21-proposta-1",
+  "diplomas": [
+    {
+      "id": "cpc",
+      "nome": "Código de Processo Civil",
+      "formas": [
+        "CPC",
+        "CPC/2015",
+        "NCPC",
+        "Novo Código de Processo Civil",
+        "Código de Processo Civil",
+        "Lei 13.105/2015",
+        "Lei nº 13.105/2015",
+        "Lei n. 13.105/2015",
+        "Lei nº 13.105, de 16 de março de 2015"
+      ]
+    },
+    {
+      "id": "cdc",
+      "nome": "Código de Defesa do Consumidor",
+      "formas": [
+        "CDC",
+        "Código de Defesa do Consumidor",
+        "Lei 8.078/1990",
+        "Lei nº 8.078/1990",
+        "Lei nº 8.078/90",
+        "Lei 8078/90"
+      ]
+    },
+    {
+      "id": "cc",
+      "nome": "Código Civil",
+      "formas": [
+        "CC",
+        "CC/2002",
+        "Código Civil",
+        "Lei 10.406/2002",
+        "Lei nº 10.406/2002"
+      ]
+    },
+    {
+      "id": "lei_9099_1995",
+      "nome": "Lei dos Juizados Especiais Cíveis e Criminais",
+      "formas": [
+        "Lei 9.099/1995",
+        "Lei nº 9.099/1995",
+        "Lei nº 9.099/95",
+        "Lei 9.099/95",
+        "Lei 9099/95",
+        "Lei dos Juizados Especiais",
+        "Lei nº 9.099, de 26 de setembro de 1995"
+      ]
+    },
+    {
+      "id": "cf",
+      "nome": "Constituição Federal",
+      "formas": [
+        "CF",
+        "CF/88",
+        "CF/1988",
+        "Constituição Federal",
+        "Constituição da República"
+      ]
+    }
+  ],
+  "dispositivos": [
+    {
+      "id": "cpc_art291",
+      "diploma": "cpc",
+      "artigo": "291",
+      "paragrafo": "caput",
+      "assunto": "valor da causa",
+      "funcao": "requisito",
+      "texto_vigente": "A toda causa será atribuído valor certo, ainda que não tenha conteúdo econômico imediatamente aferível.",
+      "tipos": [
+        "peticao_inicial_jec"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cpc_art292",
+      "diploma": "cpc",
+      "artigo": "292",
+      "paragrafo": "caput",
+      "assunto": "valor da causa",
+      "funcao": "definicao",
+      "texto_vigente": "O valor da causa constará da petição inicial ou da reconvenção e será: (...) V - na ação indenizatória, inclusive a fundada em dano moral, o valor pretendido; VI - na ação em que há cumulação de pedidos, a quantia correspondente à soma dos valores de todos eles; (...)",
+      "tipos": [
+        "peticao_inicial_jec"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cpc_art300",
+      "diploma": "cpc",
+      "artigo": "300",
+      "paragrafo": "caput",
+      "assunto": "tutela de urgência",
+      "funcao": "requisito",
+      "texto_vigente": "A tutela de urgência será concedida quando houver elementos que evidenciem a probabilidade do direito e o perigo de dano ou o risco ao resultado útil do processo.",
+      "tipos": [
+        "peticao_inicial_jec"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cpc_art319",
+      "diploma": "cpc",
+      "artigo": "319",
+      "paragrafo": "caput",
+      "assunto": "petição inicial",
+      "funcao": "requisito",
+      "texto_vigente": "A petição inicial indicará: I - o juízo a que é dirigida; II - os nomes, os prenomes, o estado civil, a existência de união estável, a profissão, o número de inscrição no Cadastro de Pessoas Físicas ou no Cadastro Nacional da Pessoa Jurídica, o endereço eletrônico, o domicílio e a residência do autor e do réu; III - o fato e os fundamentos jurídicos do pedido; IV - o pedido com as suas especificações; V - o valor da causa; VI - as provas com que o autor pretende demonstrar a verdade dos fatos alegados; VII - a opção do autor pela realização ou não de audiência de conciliação ou de mediação.",
+      "tipos": [
+        "peticao_inicial_jec",
+        "manifestacao_ar_negativo"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cpc_art320",
+      "diploma": "cpc",
+      "artigo": "320",
+      "paragrafo": "caput",
+      "assunto": "petição inicial",
+      "funcao": "requisito",
+      "texto_vigente": "A petição inicial será instruída com os documentos indispensáveis à propositura da ação.",
+      "tipos": [
+        "peticao_inicial_jec"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cpc_art321",
+      "diploma": "cpc",
+      "artigo": "321",
+      "paragrafo": "caput",
+      "assunto": "petição inicial",
+      "funcao": "consequencia",
+      "texto_vigente": "O juiz, ao verificar que a petição inicial não preenche os requisitos dos arts. 319 e 320 ou que apresenta defeitos e irregularidades capazes de dificultar o julgamento de mérito, determinará que o autor, no prazo de 15 (quinze) dias, a emende ou a complete, indicando com precisão o que deve ser corrigido ou completado.",
+      "tipos": [
+        "peticao_inicial_jec"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cpc_art330_p1",
+      "diploma": "cpc",
+      "artigo": "330",
+      "paragrafo": "§ 1º",
+      "assunto": "petição inicial",
+      "funcao": "definicao",
+      "texto_vigente": "Considera-se inepta a petição inicial quando: I - lhe faltar pedido ou causa de pedir; II - o pedido for indeterminado, ressalvadas as hipóteses legais em que se permite o pedido genérico; III - da narração dos fatos não decorrer logicamente a conclusão; IV - contiver pedidos incompatíveis entre si.",
+      "tipos": [],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cpc_art64",
+      "diploma": "cpc",
+      "artigo": "64",
+      "paragrafo": "caput",
+      "assunto": "competência",
+      "funcao": "requisito",
+      "texto_vigente": "A incompetência, absoluta ou relativa, será alegada como questão preliminar de contestação.",
+      "tipos": [],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cpc_art183",
+      "diploma": "cpc",
+      "artigo": "183",
+      "paragrafo": "caput",
+      "assunto": "prazos",
+      "funcao": "prazo",
+      "texto_vigente": "A União, os Estados, o Distrito Federal, os Municípios e suas respectivas autarquias e fundações de direito público gozarão de prazo em dobro para todas as suas manifestações processuais, cuja contagem terá início a partir da intimação pessoal.",
+      "tipos": [],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cpc_art218_p3",
+      "diploma": "cpc",
+      "artigo": "218",
+      "paragrafo": "§ 3º",
+      "assunto": "prazos",
+      "funcao": "prazo",
+      "texto_vigente": "Inexistindo preceito legal ou prazo determinado pelo juiz, será de 5 (cinco) dias o prazo para a prática de ato processual a cargo da parte.",
+      "tipos": [
+        "manifestacao_ar_negativo"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cpc_art219",
+      "diploma": "cpc",
+      "artigo": "219",
+      "paragrafo": "caput",
+      "assunto": "prazos",
+      "funcao": "definicao",
+      "texto_vigente": "Na contagem de prazo em dias, estabelecido por lei ou pelo juiz, computar-se-ão somente os dias úteis.",
+      "tipos": [
+        "embargos_declaracao",
+        "manifestacao_ar_negativo"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cpc_art224",
+      "diploma": "cpc",
+      "artigo": "224",
+      "paragrafo": "caput",
+      "assunto": "prazos",
+      "funcao": "definicao",
+      "texto_vigente": "Salvo disposição em contrário, os prazos serão contados excluindo o dia do começo e incluindo o dia do vencimento.",
+      "tipos": [
+        "embargos_declaracao",
+        "manifestacao_ar_negativo"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cpc_art231",
+      "diploma": "cpc",
+      "artigo": "231",
+      "paragrafo": "caput",
+      "assunto": "citação",
+      "funcao": "prazo",
+      "texto_vigente": "Salvo disposição em sentido diverso, considera-se dia do começo do prazo: I - a data de juntada aos autos do aviso de recebimento, quando a citação ou a intimação for pelo correio; (...)",
+      "tipos": [
+        "manifestacao_ar_negativo"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cpc_art246",
+      "diploma": "cpc",
+      "artigo": "246",
+      "paragrafo": "caput",
+      "assunto": "citação",
+      "funcao": "definicao",
+      "texto_vigente": "A citação será feita preferencialmente por meio eletrônico, no prazo de até 2 (dois) dias úteis, contado da decisão que a determinar, por meio dos endereços eletrônicos indicados pelo citando no banco de dados do Poder Judiciário, conforme regulamento do Conselho Nacional de Justiça.",
+      "tipos": [
+        "manifestacao_ar_negativo"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cpc_art247",
+      "diploma": "cpc",
+      "artigo": "247",
+      "paragrafo": "caput",
+      "assunto": "citação",
+      "funcao": "requisito",
+      "texto_vigente": "A citação será feita por meio eletrônico ou pelo correio para qualquer comarca do País, exceto: I - nas ações de estado, observado o disposto no art. 695, § 3º; II - quando o citando for incapaz; III - quando o citando for pessoa de direito público; IV - quando o citando residir em local não atendido pela entrega domiciliar de correspondência; V - quando o autor, justificadamente, a requerer de outra forma.",
+      "tipos": [
+        "manifestacao_ar_negativo"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cpc_art248",
+      "diploma": "cpc",
+      "artigo": "248",
+      "paragrafo": "caput",
+      "assunto": "citação",
+      "funcao": "requisito",
+      "texto_vigente": "Deferida a citação pelo correio, o escrivão ou o chefe de secretaria remeterá ao citando cópias da petição inicial e do despacho do juiz e comunicará o prazo para resposta, o endereço do juízo e o respectivo cartório.",
+      "tipos": [
+        "manifestacao_ar_negativo"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cpc_art249",
+      "diploma": "cpc",
+      "artigo": "249",
+      "paragrafo": "caput",
+      "assunto": "citação",
+      "funcao": "excecao",
+      "texto_vigente": "A citação será feita por meio de oficial de justiça nas hipóteses previstas neste Código ou em lei, ou quando frustrada a citação pelo correio.",
+      "tipos": [
+        "manifestacao_ar_negativo"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cpc_art489",
+      "diploma": "cpc",
+      "artigo": "489",
+      "paragrafo": "caput",
+      "assunto": "sentença",
+      "funcao": "requisito",
+      "texto_vigente": "São elementos essenciais da sentença: I - o relatório, que conterá os nomes das partes, a identificação do caso, com a suma do pedido e da contestação, e o registro das principais ocorrências havidas no andamento do processo; II - os fundamentos, em que o juiz analisará as questões de fato e de direito; III - o dispositivo, em que o juiz resolverá as questões principais que as partes lhe submeterem.",
+      "tipos": [
+        "embargos_declaracao"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cpc_art489_p1",
+      "diploma": "cpc",
+      "artigo": "489",
+      "paragrafo": "§ 1º",
+      "assunto": "sentença",
+      "funcao": "definicao",
+      "texto_vigente": "Não se considera fundamentada qualquer decisão judicial, seja ela interlocutória, sentença ou acórdão, que: I - se limitar à indicação, à reprodução ou à paráfrase de ato normativo, sem explicar sua relação com a causa ou a questão decidida; II - empregar conceitos jurídicos indeterminados, sem explicar o motivo concreto de sua incidência no caso; III - invocar motivos que se prestariam a justificar qualquer outra decisão; IV - não enfrentar todos os argumentos deduzidos no processo capazes de, em tese, infirmar a conclusão adotada pelo julgador; V - se limitar a invocar precedente ou enunciado de súmula, sem identificar seus fundamentos determinantes nem demonstrar que o caso sob julgamento se ajusta àqueles fundamentos; VI - deixar de seguir enunciado de súmula, jurisprudência ou precedente invocado pela parte, sem demonstrar a existência de distinção no caso em julgamento ou a superação do entendimento.",
+      "tipos": [
+        "embargos_declaracao"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cpc_art494",
+      "diploma": "cpc",
+      "artigo": "494",
+      "paragrafo": "caput",
+      "assunto": "sentença",
+      "funcao": "excecao",
+      "texto_vigente": "Publicada a sentença, o juiz só poderá alterá-la: I - para corrigir-lhe, de ofício ou a requerimento da parte, inexatidões materiais ou erros de cálculo; II - por meio de embargos de declaração.",
+      "tipos": [
+        "embargos_declaracao"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cpc_art1022",
+      "diploma": "cpc",
+      "artigo": "1.022",
+      "paragrafo": "caput",
+      "assunto": "embargos de declaração",
+      "funcao": "requisito",
+      "texto_vigente": "Cabem embargos de declaração contra qualquer decisão judicial para: I - esclarecer obscuridade ou eliminar contradição; II - suprir omissão de ponto ou questão sobre o qual devia se pronunciar o juiz de ofício ou a requerimento; III - corrigir erro material.",
+      "tipos": [
+        "embargos_declaracao"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cpc_art1022_pu",
+      "diploma": "cpc",
+      "artigo": "1.022",
+      "paragrafo": "parágrafo único",
+      "assunto": "embargos de declaração",
+      "funcao": "definicao",
+      "texto_vigente": "Considera-se omissa a decisão que: I - deixe de se manifestar sobre tese firmada em julgamento de casos repetitivos ou em incidente de assunção de competência aplicável ao caso sob julgamento; II - incorra em qualquer das condutas descritas no art. 489, § 1º.",
+      "tipos": [
+        "embargos_declaracao"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cpc_art1023",
+      "diploma": "cpc",
+      "artigo": "1.023",
+      "paragrafo": "caput",
+      "assunto": "embargos de declaração",
+      "funcao": "prazo",
+      "texto_vigente": "Os embargos serão opostos, no prazo de 5 (cinco) dias, em petição dirigida ao juiz, com indicação do erro, obscuridade, contradição ou omissão, e não se sujeitam a preparo.",
+      "tipos": [
+        "embargos_declaracao"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cpc_art1023_p2",
+      "diploma": "cpc",
+      "artigo": "1.023",
+      "paragrafo": "§ 2º",
+      "assunto": "embargos de declaração",
+      "funcao": "consequencia",
+      "texto_vigente": "O juiz intimará o embargado para, querendo, manifestar-se, no prazo de 5 (cinco) dias, sobre os embargos opostos, caso seu eventual acolhimento implique a modificação da decisão embargada.",
+      "tipos": [
+        "embargos_declaracao"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cpc_art1024",
+      "diploma": "cpc",
+      "artigo": "1.024",
+      "paragrafo": "caput",
+      "assunto": "embargos de declaração",
+      "funcao": "prazo",
+      "texto_vigente": "O juiz julgará os embargos em 5 (cinco) dias.",
+      "tipos": [
+        "embargos_declaracao"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cpc_art1026",
+      "diploma": "cpc",
+      "artigo": "1.026",
+      "paragrafo": "caput",
+      "assunto": "embargos de declaração",
+      "funcao": "consequencia",
+      "texto_vigente": "Os embargos de declaração não possuem efeito suspensivo e interrompem o prazo para a interposição de recurso.",
+      "tipos": [
+        "embargos_declaracao"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cdc_art2",
+      "diploma": "cdc",
+      "artigo": "2º",
+      "paragrafo": "caput",
+      "assunto": "relação de consumo",
+      "funcao": "definicao",
+      "texto_vigente": "Consumidor é toda pessoa física ou jurídica que adquire ou utiliza produto ou serviço como destinatário final.",
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cdc_art3",
+      "diploma": "cdc",
+      "artigo": "3º",
+      "paragrafo": "caput",
+      "assunto": "relação de consumo",
+      "funcao": "definicao",
+      "texto_vigente": "Fornecedor é toda pessoa física ou jurídica, pública ou privada, nacional ou estrangeira, bem como os entes despersonalizados, que desenvolvem atividade de produção, montagem, criação, construção, transformação, importação, exportação, distribuição ou comercialização de produtos ou prestação de serviços.",
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cdc_art6",
+      "diploma": "cdc",
+      "artigo": "6º",
+      "paragrafo": "caput",
+      "assunto": "direitos básicos do consumidor",
+      "funcao": "requisito",
+      "texto_vigente": "São direitos básicos do consumidor: (...) VI - a efetiva prevenção e reparação de danos patrimoniais e morais, individuais, coletivos e difusos; (...) VIII - a facilitação da defesa de seus direitos, inclusive com a inversão do ônus da prova, a seu favor, no processo civil, quando, a critério do juiz, for verossímil a alegação ou quando for ele hipossuficiente, segundo as regras ordinárias de experiências; (...)",
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cdc_art14",
+      "diploma": "cdc",
+      "artigo": "14",
+      "paragrafo": "caput",
+      "assunto": "responsabilidade do fornecedor",
+      "funcao": "consequencia",
+      "texto_vigente": "O fornecedor de serviços responde, independentemente da existência de culpa, pela reparação dos danos causados aos consumidores por defeitos relativos à prestação dos serviços, bem como por informações insuficientes ou inadequadas sobre sua fruição e riscos.",
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cdc_art14_p3",
+      "diploma": "cdc",
+      "artigo": "14",
+      "paragrafo": "§ 3º",
+      "assunto": "responsabilidade do fornecedor",
+      "funcao": "excecao",
+      "texto_vigente": "O fornecedor de serviços só não será responsabilizado quando provar: I - que, tendo prestado o serviço, o defeito inexiste; II - a culpa exclusiva do consumidor ou de terceiro.",
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cdc_art18",
+      "diploma": "cdc",
+      "artigo": "18",
+      "paragrafo": "caput",
+      "assunto": "responsabilidade do fornecedor",
+      "funcao": "consequencia",
+      "texto_vigente": "Os fornecedores de produtos de consumo duráveis ou não duráveis respondem solidariamente pelos vícios de qualidade ou quantidade que os tornem impróprios ou inadequados ao consumo a que se destinam ou lhes diminuam o valor, assim como por aqueles decorrentes da disparidade, com as indicações constantes do recipiente, da embalagem, rotulagem ou mensagem publicitária, respeitadas as variações decorrentes de sua natureza, podendo o consumidor exigir a substituição das partes viciadas.",
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cdc_art18_p1",
+      "diploma": "cdc",
+      "artigo": "18",
+      "paragrafo": "§ 1º",
+      "assunto": "responsabilidade do fornecedor",
+      "funcao": "prazo",
+      "texto_vigente": "Não sendo o vício sanado no prazo máximo de trinta dias, pode o consumidor exigir, alternativamente e à sua escolha: I - a substituição do produto por outro da mesma espécie, em perfeitas condições de uso; II - a restituição imediata da quantia paga, monetariamente atualizada, sem prejuízo de eventuais perdas e danos; III - o abatimento proporcional do preço.",
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cdc_art42",
+      "diploma": "cdc",
+      "artigo": "42",
+      "paragrafo": "caput",
+      "assunto": "cobrança de dívidas",
+      "funcao": "requisito",
+      "texto_vigente": "Na cobrança de débitos, o consumidor inadimplente não será exposto a ridículo, nem será submetido a qualquer tipo de constrangimento ou ameaça.",
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cdc_art42_pu",
+      "diploma": "cdc",
+      "artigo": "42",
+      "paragrafo": "parágrafo único",
+      "assunto": "cobrança de dívidas",
+      "funcao": "consequencia",
+      "texto_vigente": "O consumidor cobrado em quantia indevida tem direito à repetição do indébito, por valor igual ao dobro do que pagou em excesso, acrescido de correção monetária e juros legais, salvo hipótese de engano justificável.",
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cdc_art43",
+      "diploma": "cdc",
+      "artigo": "43",
+      "paragrafo": "caput",
+      "assunto": "bancos de dados e cadastros",
+      "funcao": "definicao",
+      "texto_vigente": "O consumidor, sem prejuízo do disposto no art. 86, terá acesso às informações existentes em cadastros, fichas, registros e dados pessoais e de consumo arquivados sobre ele, bem como sobre as suas respectivas fontes.",
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cdc_art43_p2",
+      "diploma": "cdc",
+      "artigo": "43",
+      "paragrafo": "§ 2º",
+      "assunto": "bancos de dados e cadastros",
+      "funcao": "requisito",
+      "texto_vigente": "A abertura de cadastro, ficha, registro e dados pessoais e de consumo deverá ser comunicada por escrito ao consumidor, quando não solicitada por ele.",
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cc_art186",
+      "diploma": "cc",
+      "artigo": "186",
+      "paragrafo": "caput",
+      "assunto": "responsabilidade civil",
+      "funcao": "definicao",
+      "texto_vigente": "Aquele que, por ação ou omissão voluntária, negligência ou imprudência, violar direito e causar dano a outrem, ainda que exclusivamente moral, comete ato ilícito.",
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cc_art187",
+      "diploma": "cc",
+      "artigo": "187",
+      "paragrafo": "caput",
+      "assunto": "responsabilidade civil",
+      "funcao": "definicao",
+      "texto_vigente": "Também comete ato ilícito o titular de um direito que, ao exercê-lo, excede manifestamente os limites impostos pelo seu fim econômico ou social, pela boa-fé ou pelos bons costumes.",
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cc_art927",
+      "diploma": "cc",
+      "artigo": "927",
+      "paragrafo": "caput",
+      "assunto": "responsabilidade civil",
+      "funcao": "consequencia",
+      "texto_vigente": "Aquele que, por ato ilícito (arts. 186 e 187), causar dano a outrem, fica obrigado a repará-lo.",
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cc_art944",
+      "diploma": "cc",
+      "artigo": "944",
+      "paragrafo": "caput",
+      "assunto": "responsabilidade civil",
+      "funcao": "consequencia",
+      "texto_vigente": "A indenização mede-se pela extensão do dano.",
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cc_art734",
+      "diploma": "cc",
+      "artigo": "734",
+      "paragrafo": "caput",
+      "assunto": "transporte de pessoas",
+      "funcao": "consequencia",
+      "texto_vigente": "O transportador responde pelos danos causados às pessoas transportadas e suas bagagens, salvo motivo de força maior, sendo nula qualquer cláusula excludente da responsabilidade.",
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "cc_art737",
+      "diploma": "cc",
+      "artigo": "737",
+      "paragrafo": "caput",
+      "assunto": "transporte de pessoas",
+      "funcao": "requisito",
+      "texto_vigente": "O transportador está sujeito aos horários e itinerários previstos, sob pena de responder por perdas e danos, salvo motivo de força maior.",
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "lei_9099_1995_art3",
+      "diploma": "lei_9099_1995",
+      "artigo": "3º",
+      "paragrafo": "caput",
+      "assunto": "competência do juizado",
+      "funcao": "competencia",
+      "texto_vigente": "O Juizado Especial Cível tem competência para conciliação, processo e julgamento das causas cíveis de menor complexidade, assim consideradas: I - as causas cujo valor não exceda a quarenta vezes o salário mínimo; II - as enumeradas no art. 275, inciso II, do Código de Processo Civil; III - a ação de despejo para uso próprio; IV - as ações possessórias sobre bens imóveis de valor não excedente ao fixado no inciso I deste artigo.",
+      "tipos": [
+        "peticao_inicial_jec"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l9099.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "lei_9099_1995_art3_p2",
+      "diploma": "lei_9099_1995",
+      "artigo": "3º",
+      "paragrafo": "§ 2º",
+      "assunto": "competência do juizado",
+      "funcao": "excecao",
+      "texto_vigente": "Ficam excluídas da competência do Juizado Especial as causas de natureza alimentar, falimentar, fiscal e de interesse da Fazenda Pública, e também as relativas a acidentes de trabalho, a resíduos e ao estado e capacidade das pessoas, ainda que de cunho patrimonial.",
+      "tipos": [
+        "peticao_inicial_jec"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l9099.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "lei_9099_1995_art3_p3",
+      "diploma": "lei_9099_1995",
+      "artigo": "3º",
+      "paragrafo": "§ 3º",
+      "assunto": "competência do juizado",
+      "funcao": "consequencia",
+      "texto_vigente": "A opção pelo procedimento previsto nesta Lei importará em renúncia ao crédito excedente ao limite estabelecido neste artigo, excetuada a hipótese de conciliação.",
+      "tipos": [
+        "peticao_inicial_jec"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l9099.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "lei_9099_1995_art8",
+      "diploma": "lei_9099_1995",
+      "artigo": "8º",
+      "paragrafo": "caput",
+      "assunto": "partes no juizado",
+      "funcao": "excecao",
+      "texto_vigente": "Não poderão ser partes, no processo instituído por esta Lei, o incapaz, o preso, as pessoas jurídicas de direito público, as empresas públicas da União, a massa falida e o insolvente civil.",
+      "tipos": [
+        "peticao_inicial_jec"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l9099.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "lei_9099_1995_art8_p1",
+      "diploma": "lei_9099_1995",
+      "artigo": "8º",
+      "paragrafo": "§ 1º",
+      "assunto": "partes no juizado",
+      "funcao": "requisito",
+      "texto_vigente": "Somente serão admitidas a propor ação perante o Juizado Especial: I - as pessoas físicas capazes, excluídos os cessionários de direito de pessoas jurídicas; II - as pessoas enquadradas como microempreendedores individuais, microempresas e empresas de pequeno porte na forma da Lei Complementar nº 123, de 14 de dezembro de 2006; III - as pessoas jurídicas qualificadas como Organização da Sociedade Civil de Interesse Público, nos termos da Lei nº 9.790, de 23 de março de 1999; IV - as sociedades de crédito ao microempreendedor, nos termos do art. 1º da Lei nº 10.194, de 14 de fevereiro de 2001.",
+      "tipos": [
+        "peticao_inicial_jec"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l9099.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "lei_9099_1995_art9",
+      "diploma": "lei_9099_1995",
+      "artigo": "9º",
+      "paragrafo": "caput",
+      "assunto": "partes no juizado",
+      "funcao": "requisito",
+      "texto_vigente": "Nas causas de valor até vinte salários mínimos, as partes comparecerão pessoalmente, podendo ser assistidas por advogado; nas de valor superior, a assistência é obrigatória.",
+      "tipos": [
+        "peticao_inicial_jec"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l9099.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "lei_9099_1995_art14",
+      "diploma": "lei_9099_1995",
+      "artigo": "14",
+      "paragrafo": "caput",
+      "assunto": "pedido no juizado",
+      "funcao": "definicao",
+      "texto_vigente": "O processo instaurar-se-á com a apresentação do pedido, escrito ou oral, à Secretaria do Juizado.",
+      "tipos": [
+        "peticao_inicial_jec"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l9099.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "lei_9099_1995_art14_p1",
+      "diploma": "lei_9099_1995",
+      "artigo": "14",
+      "paragrafo": "§ 1º",
+      "assunto": "pedido no juizado",
+      "funcao": "requisito",
+      "texto_vigente": "Do pedido constarão, de forma simples e em linguagem acessível: I - o nome, a qualificação e o endereço das partes; II - os fatos e os fundamentos, de forma sucinta; III - o objeto e seu valor.",
+      "tipos": [
+        "peticao_inicial_jec"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l9099.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "lei_9099_1995_art18",
+      "diploma": "lei_9099_1995",
+      "artigo": "18",
+      "paragrafo": "caput",
+      "assunto": "citação no juizado",
+      "funcao": "requisito",
+      "texto_vigente": "A citação far-se-á: I - por correspondência, com aviso de recebimento em mão própria; II - tratando-se de pessoa jurídica ou firma individual, mediante entrega ao encarregado da recepção, que será obrigatoriamente identificado; III - sempre que necessário, por oficial de justiça, independentemente de mandado ou carta precatória.",
+      "tipos": [
+        "manifestacao_ar_negativo"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l9099.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "lei_9099_1995_art18_p2",
+      "diploma": "lei_9099_1995",
+      "artigo": "18",
+      "paragrafo": "§ 2º",
+      "assunto": "citação no juizado",
+      "funcao": "excecao",
+      "texto_vigente": "Não se fará citação por edital.",
+      "tipos": [
+        "peticao_inicial_jec",
+        "manifestacao_ar_negativo"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l9099.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "lei_9099_1995_art19",
+      "diploma": "lei_9099_1995",
+      "artigo": "19",
+      "paragrafo": "caput",
+      "assunto": "citação no juizado",
+      "funcao": "definicao",
+      "texto_vigente": "As intimações serão feitas na forma prevista para citação, ou por qualquer outro meio idôneo de comunicação.",
+      "tipos": [
+        "manifestacao_ar_negativo"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l9099.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "lei_9099_1995_art48",
+      "diploma": "lei_9099_1995",
+      "artigo": "48",
+      "paragrafo": "caput",
+      "assunto": "embargos no juizado",
+      "funcao": "requisito",
+      "texto_vigente": "Caberão embargos de declaração contra sentença ou acórdão nos casos previstos no Código de Processo Civil.",
+      "tipos": [],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l9099.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    },
+    {
+      "id": "lei_9099_1995_art55",
+      "diploma": "lei_9099_1995",
+      "artigo": "55",
+      "paragrafo": "caput",
+      "assunto": "custas e honorários no juizado",
+      "funcao": "consequencia",
+      "texto_vigente": "A sentença de primeiro grau não condenará o vencido em custas e honorários de advogado, ressalvados os casos de litigância de má-fé. Em segundo grau, o recorrente, vencido, pagará as custas e honorários de advogado, que serão fixados entre dez por cento e vinte por cento do valor de condenação ou, não havendo condenação, do valor corrigido da causa.",
+      "tipos": [
+        "peticao_inicial_jec"
+      ],
+      "fonte": "https://www.planalto.gov.br/ccivil_03/leis/l9099.htm (a conferir na fonte)",
+      "data_conferencia": "2026-11-21"
+    }
+  ]
+}

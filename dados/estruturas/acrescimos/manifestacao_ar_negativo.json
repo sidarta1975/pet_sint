@@ -1,0 +1,22 @@
+{
+  "tipo": "manifestacao_ar_negativo",
+  "blocos": [
+    {
+      "nome": "novo_endereco",
+      "titulo": "Do Novo Endereço",
+      "ordem": 40,
+      "obrigatorio": false,
+      "descricao": "O endereço novo da ficha, quando o pedido é informá-lo."
+    }
+  ],
+  "retirar": [],
+  "ajustar": [
+    {
+      "nome": "exposicao",
+      "titulo": "Do Aviso de Recebimento Negativo",
+      "ordem": 30,
+      "obrigatorio": true,
+      "descricao": "A juntada do aviso, o motivo da devolução e a determinação do juiz, como na ficha."
+    }
+  ]
+}

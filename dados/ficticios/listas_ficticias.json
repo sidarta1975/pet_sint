@@ -1,0 +1,331 @@
+{
+  "ruas": [
+    "Rua Fictícia dos Ipês Prateados",
+    "Rua Fictícia das Acácias Azuis",
+    "Rua Fictícia do Horizonte Inventado",
+    "Rua Fictícia das Garças de Papel",
+    "Rua Fictícia dos Girassóis Imaginários",
+    "Rua Fictícia da Lua Crescente Inventada",
+    "Rua Fictícia das Pedras Inventadas",
+    "Rua Fictícia do Vale Imaginário",
+    "Rua Fictícia dos Cata-Ventos",
+    "Rua Fictícia das Nuvens Altas",
+    "Avenida Fictícia do Sol Poente",
+    "Avenida Fictícia das Estrelas Inventadas",
+    "Avenida Fictícia do Rio Imaginário",
+    "Avenida Fictícia dos Ventos Calmos",
+    "Travessa Fictícia das Hortênsias Inventadas",
+    "Travessa Fictícia do Farol Imaginário"
+  ],
+  "bairros": [
+    "Jardim Fictício das Palmeiras",
+    "Vila Inventada Aurora",
+    "Parque Fictício do Lago",
+    "Bairro Imaginário Central",
+    "Jardim Inventado Primavera",
+    "Vila Fictícia Esperança",
+    "Conjunto Imaginário Bela Vista",
+    "Parque Inventado das Flores"
+  ],
+  "cidades": [
+    {
+      "nome": "São Paulo",
+      "uf": "SP",
+      "cep_inicio": "01000-000",
+      "cep_fim": "05999-999",
+      "juizo_jec": "Juizado Especial Cível da Comarca de São Paulo",
+      "varas_civeis": [
+        "1ª Vara Cível da Comarca de São Paulo",
+        "2ª Vara Cível da Comarca de São Paulo",
+        "3ª Vara Cível da Comarca de São Paulo"
+      ]
+    },
+    {
+      "nome": "Campinas",
+      "uf": "SP",
+      "cep_inicio": "13000-001",
+      "cep_fim": "13139-999",
+      "juizo_jec": "Juizado Especial Cível da Comarca de Campinas",
+      "varas_civeis": [
+        "1ª Vara Cível da Comarca de Campinas",
+        "2ª Vara Cível da Comarca de Campinas",
+        "3ª Vara Cível da Comarca de Campinas"
+      ]
+    },
+    {
+      "nome": "Rio de Janeiro",
+      "uf": "RJ",
+      "cep_inicio": "20000-000",
+      "cep_fim": "23799-999",
+      "juizo_jec": "Juizado Especial Cível da Comarca de Rio de Janeiro",
+      "varas_civeis": [
+        "1ª Vara Cível da Comarca de Rio de Janeiro",
+        "2ª Vara Cível da Comarca de Rio de Janeiro",
+        "3ª Vara Cível da Comarca de Rio de Janeiro"
+      ]
+    },
+    {
+      "nome": "Belo Horizonte",
+      "uf": "MG",
+      "cep_inicio": "30000-000",
+      "cep_fim": "31999-999",
+      "juizo_jec": "Juizado Especial Cível da Comarca de Belo Horizonte",
+      "varas_civeis": [
+        "1ª Vara Cível da Comarca de Belo Horizonte",
+        "2ª Vara Cível da Comarca de Belo Horizonte",
+        "3ª Vara Cível da Comarca de Belo Horizonte"
+      ]
+    },
+    {
+      "nome": "Curitiba",
+      "uf": "PR",
+      "cep_inicio": "80000-000",
+      "cep_fim": "82999-999",
+      "juizo_jec": "Juizado Especial Cível da Comarca de Curitiba",
+      "varas_civeis": [
+        "1ª Vara Cível da Comarca de Curitiba",
+        "2ª Vara Cível da Comarca de Curitiba",
+        "3ª Vara Cível da Comarca de Curitiba"
+      ]
+    },
+    {
+      "nome": "Porto Alegre",
+      "uf": "RS",
+      "cep_inicio": "90000-000",
+      "cep_fim": "91999-999",
+      "juizo_jec": "Juizado Especial Cível da Comarca de Porto Alegre",
+      "varas_civeis": [
+        "1ª Vara Cível da Comarca de Porto Alegre",
+        "2ª Vara Cível da Comarca de Porto Alegre",
+        "3ª Vara Cível da Comarca de Porto Alegre"
+      ]
+    },
+    {
+      "nome": "Salvador",
+      "uf": "BA",
+      "cep_inicio": "40000-000",
+      "cep_fim": "42599-999",
+      "juizo_jec": "Juizado Especial Cível da Comarca de Salvador",
+      "varas_civeis": [
+        "1ª Vara Cível da Comarca de Salvador",
+        "2ª Vara Cível da Comarca de Salvador",
+        "3ª Vara Cível da Comarca de Salvador"
+      ]
+    },
+    {
+      "nome": "Recife",
+      "uf": "PE",
+      "cep_inicio": "50000-000",
+      "cep_fim": "52999-999",
+      "juizo_jec": "Juizado Especial Cível da Comarca de Recife",
+      "varas_civeis": [
+        "1ª Vara Cível da Comarca de Recife",
+        "2ª Vara Cível da Comarca de Recife",
+        "3ª Vara Cível da Comarca de Recife"
+      ]
+    },
+    {
+      "nome": "Fortaleza",
+      "uf": "CE",
+      "cep_inicio": "60000-000",
+      "cep_fim": "61599-999",
+      "juizo_jec": "Juizado Especial Cível da Comarca de Fortaleza",
+      "varas_civeis": [
+        "1ª Vara Cível da Comarca de Fortaleza",
+        "2ª Vara Cível da Comarca de Fortaleza",
+        "3ª Vara Cível da Comarca de Fortaleza"
+      ]
+    },
+    {
+      "nome": "Goiânia",
+      "uf": "GO",
+      "cep_inicio": "74000-000",
+      "cep_fim": "74899-999",
+      "juizo_jec": "Juizado Especial Cível da Comarca de Goiânia",
+      "varas_civeis": [
+        "1ª Vara Cível da Comarca de Goiânia",
+        "2ª Vara Cível da Comarca de Goiânia",
+        "3ª Vara Cível da Comarca de Goiânia"
+      ]
+    },
+    {
+      "nome": "Florianópolis",
+      "uf": "SC",
+      "cep_inicio": "88000-000",
+      "cep_fim": "88099-999",
+      "juizo_jec": "Juizado Especial Cível da Comarca de Florianópolis",
+      "varas_civeis": [
+        "1ª Vara Cível da Comarca de Florianópolis",
+        "2ª Vara Cível da Comarca de Florianópolis",
+        "3ª Vara Cível da Comarca de Florianópolis"
+      ]
+    },
+    {
+      "nome": "Belém",
+      "uf": "PA",
+      "cep_inicio": "66000-000",
+      "cep_fim": "66999-999",
+      "juizo_jec": "Juizado Especial Cível da Comarca de Belém",
+      "varas_civeis": [
+        "1ª Vara Cível da Comarca de Belém",
+        "2ª Vara Cível da Comarca de Belém",
+        "3ª Vara Cível da Comarca de Belém"
+      ]
+    }
+  ],
+  "profissoes": [
+    "professor",
+    "engenheiro",
+    "comerciante",
+    "enfermeiro",
+    "motorista",
+    "contador",
+    "vendedor",
+    "arquiteto",
+    "técnico em informática",
+    "auxiliar administrativo",
+    "cozinheiro",
+    "eletricista",
+    "farmacêutico",
+    "estudante",
+    "aposentado"
+  ],
+  "estados_civis": [
+    "solteiro",
+    "casado",
+    "divorciado",
+    "viúvo"
+  ],
+  "tribunais": [
+    {
+      "uf": "AC",
+      "codigo": "01"
+    },
+    {
+      "uf": "AL",
+      "codigo": "02"
+    },
+    {
+      "uf": "AP",
+      "codigo": "03"
+    },
+    {
+      "uf": "AM",
+      "codigo": "04"
+    },
+    {
+      "uf": "BA",
+      "codigo": "05"
+    },
+    {
+      "uf": "CE",
+      "codigo": "06"
+    },
+    {
+      "uf": "DF",
+      "codigo": "07"
+    },
+    {
+      "uf": "ES",
+      "codigo": "08"
+    },
+    {
+      "uf": "GO",
+      "codigo": "09"
+    },
+    {
+      "uf": "MA",
+      "codigo": "10"
+    },
+    {
+      "uf": "MT",
+      "codigo": "11"
+    },
+    {
+      "uf": "MS",
+      "codigo": "12"
+    },
+    {
+      "uf": "MG",
+      "codigo": "13"
+    },
+    {
+      "uf": "PA",
+      "codigo": "14"
+    },
+    {
+      "uf": "PB",
+      "codigo": "15"
+    },
+    {
+      "uf": "PR",
+      "codigo": "16"
+    },
+    {
+      "uf": "PE",
+      "codigo": "17"
+    },
+    {
+      "uf": "PI",
+      "codigo": "18"
+    },
+    {
+      "uf": "RJ",
+      "codigo": "19"
+    },
+    {
+      "uf": "RN",
+      "codigo": "20"
+    },
+    {
+      "uf": "RS",
+      "codigo": "21"
+    },
+    {
+      "uf": "RO",
+      "codigo": "22"
+    },
+    {
+      "uf": "RR",
+      "codigo": "23"
+    },
+    {
+      "uf": "SC",
+      "codigo": "24"
+    },
+    {
+      "uf": "SE",
+      "codigo": "25"
+    },
+    {
+      "uf": "SP",
+      "codigo": "26"
+    },
+    {
+      "uf": "TO",
+      "codigo": "27"
+    }
+  ],
+  "pedidos_incompativeis": [
+    {
+      "tipo": "peticao_inicial_jec",
+      "rito": "juizado_especial_civel",
+      "texto": "Requer, caso a parte ré não seja localizada, a sua citação por edital."
+    },
+    {
+      "tipo": "peticao_inicial_jec",
+      "rito": "juizado_especial_civel",
+      "texto": "Requer a condenação da parte ré ao pagamento das custas processuais e dos honorários advocatícios de sucumbência."
+    },
+    {
+      "tipo": "embargos_declaracao",
+      "rito": "procedimento_comum",
+      "texto": "Requer a reforma da decisão embargada, por discordar do entendimento adotado pelo juízo."
+    },
+    {
+      "tipo": "manifestacao_ar_negativo",
+      "rito": "juizado_especial_civel",
+      "texto": "Requer a citação da parte ré por edital."
+    }
+  ]
+}

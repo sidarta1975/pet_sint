@@ -1,0 +1,277 @@
+{
+  "erros": [
+    {
+      "tipo_erro": "valor_trocado",
+      "origem": "programa_regra",
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao"
+      ],
+      "item_principal": "coerencia_ficha",
+      "itens_aceitos": [
+        "coerencia_ficha"
+      ],
+      "descricao": "Um valor de pedido ou o valor da causa, em algarismos e, se houver, por extenso, trocado por um valor que não está em valores[], não é soma de valores da ficha, não é valor de referência legal e difere de cada um deles em mais de 1%. Nos embargos, só com valor na decisão."
+    },
+    {
+      "tipo_erro": "data_trocada",
+      "origem": "programa_regra",
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao",
+        "manifestacao_ar_negativo"
+      ],
+      "item_principal": "coerencia_ficha",
+      "itens_aceitos": [
+        "coerencia_ficha"
+      ],
+      "descricao": "A data de um fato, trocada por uma data de outro mês que não está na ficha."
+    },
+    {
+      "tipo_erro": "fora_do_prazo",
+      "origem": "programa_regra",
+      "tipos": [
+        "embargos_declaracao",
+        "manifestacao_ar_negativo"
+      ],
+      "item_principal": "prazo",
+      "itens_aceitos": [
+        "prazo",
+        "coerencia_ficha"
+      ],
+      "descricao": "A data da peça, trocada para depois do termo final do prazo."
+    },
+    {
+      "tipo_erro": "acima_da_alcada",
+      "origem": "programa_regra",
+      "tipos": [
+        "peticao_inicial_jec"
+      ],
+      "item_principal": "alcada",
+      "itens_aceitos": [
+        "alcada",
+        "coerencia_ficha"
+      ],
+      "descricao": "O valor da causa, trocado para acima de 40 salários mínimos."
+    },
+    {
+      "tipo_erro": "citacao_fora_da_tabela",
+      "origem": "programa_regra",
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao",
+        "manifestacao_ar_negativo"
+      ],
+      "item_principal": "citacao_fora_da_tabela",
+      "itens_aceitos": [
+        "citacao_fora_da_tabela"
+      ],
+      "descricao": "O número de um artigo citado, trocado por um que não está na tabela."
+    },
+    {
+      "tipo_erro": "juizo_trocado",
+      "origem": "programa_regra",
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao",
+        "manifestacao_ar_negativo"
+      ],
+      "item_principal": "coerencia_ficha",
+      "itens_aceitos": [
+        "coerencia_ficha",
+        "competencia_enderecamento"
+      ],
+      "descricao": "O endereçamento, trocado para um juízo incompetente (vara da Fazenda Pública na inicial do juizado; tribunal nos embargos de primeiro grau; outro juizado na manifestação)."
+    },
+    {
+      "tipo_erro": "termo_inequivoco",
+      "origem": "programa_regra",
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao",
+        "manifestacao_ar_negativo"
+      ],
+      "item_principal": "termos_inequivocos",
+      "itens_aceitos": [
+        "termos_inequivocos"
+      ],
+      "descricao": "Insere uma frase pronta com um termo da lista de termos inequívocos."
+    },
+    {
+      "tipo_erro": "pedido_incompativel_com_rito",
+      "origem": "programa_regra",
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao",
+        "manifestacao_ar_negativo"
+      ],
+      "item_principal": "coerencia_ficha",
+      "itens_aceitos": [
+        "coerencia_ficha",
+        "pedidos",
+        "cabimento"
+      ],
+      "descricao": "Insere um pedido pronto, da lista aprovada por tipo, incompatível com o rito (na manifestação, só no juizado). A extração o classifica como outro, e a comparação com a ficha o reprova."
+    },
+    {
+      "tipo_erro": "funcao_trocada",
+      "origem": "programa_julgamento",
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao",
+        "manifestacao_ar_negativo"
+      ],
+      "item_principal": "fundamento",
+      "itens_aceitos": [
+        "fundamento"
+      ],
+      "descricao": "Um dispositivo citado, trocado por outro do mesmo diploma e do mesmo assunto, com função diferente na tabela."
+    },
+    {
+      "tipo_erro": "cabimento",
+      "origem": "opus",
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao",
+        "manifestacao_ar_negativo"
+      ],
+      "item_principal": "cabimento",
+      "itens_aceitos": [
+        "cabimento",
+        "pedidos"
+      ],
+      "descricao": "Torna a peça o instrumento errado para a situação (por exemplo, embargos que só rediscutem o mérito, sem defeito na decisão)."
+    },
+    {
+      "tipo_erro": "competencia",
+      "origem": "opus",
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao",
+        "manifestacao_ar_negativo"
+      ],
+      "item_principal": "competencia_enderecamento",
+      "itens_aceitos": [
+        "competencia_enderecamento",
+        "coerencia_ficha"
+      ],
+      "descricao": "Endereça a peça a juízo incompetente, com justificativa plausível no texto."
+    },
+    {
+      "tipo_erro": "prazo_e_momento",
+      "origem": "opus",
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao",
+        "manifestacao_ar_negativo"
+      ],
+      "item_principal": "prazo_e_momento",
+      "itens_aceitos": [
+        "prazo_e_momento",
+        "prazo"
+      ],
+      "descricao": "Torna a peça incompatível com a fase ou o prazo (por exemplo, afirma prazo errado ou pede algo já feito)."
+    },
+    {
+      "tipo_erro": "legitimidade",
+      "origem": "opus",
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao",
+        "manifestacao_ar_negativo"
+      ],
+      "item_principal": "legitimidade",
+      "itens_aceitos": [
+        "legitimidade"
+      ],
+      "descricao": "Faz a peça ser pedida por quem não pode pedir."
+    },
+    {
+      "tipo_erro": "pedido_incompativel",
+      "origem": "opus",
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao",
+        "manifestacao_ar_negativo"
+      ],
+      "item_principal": "pedidos",
+      "itens_aceitos": [
+        "pedidos",
+        "cabimento",
+        "coerencia_ficha"
+      ],
+      "descricao": "Troca ou acrescenta um pedido incompatível com o tipo, o rito ou os fatos."
+    },
+    {
+      "tipo_erro": "fundamento_nao_sustenta",
+      "origem": "opus",
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao",
+        "manifestacao_ar_negativo"
+      ],
+      "item_principal": "fundamento",
+      "itens_aceitos": [
+        "fundamento"
+      ],
+      "descricao": "Usa um dispositivo verdadeiro da tabela que não sustenta a afirmação feita."
+    },
+    {
+      "tipo_erro": "fato_contraditorio",
+      "origem": "opus",
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao",
+        "manifestacao_ar_negativo"
+      ],
+      "item_principal": "coerencia",
+      "itens_aceitos": [
+        "coerencia",
+        "coerencia_ficha"
+      ],
+      "descricao": "Introduz um fato que contradiz outro fato, o fundamento ou o pedido."
+    },
+    {
+      "tipo_erro": "peca_anterior_distorcida",
+      "origem": "opus",
+      "tipos": [
+        "embargos_declaracao",
+        "manifestacao_ar_negativo"
+      ],
+      "item_principal": "pecas_anteriores",
+      "itens_aceitos": [
+        "pecas_anteriores",
+        "coerencia"
+      ],
+      "descricao": "Faz a peça atribuir à decisão ou ao aviso de recebimento algo que eles não dizem."
+    },
+    {
+      "tipo_erro": "argumentacao_generica",
+      "origem": "opus",
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao"
+      ],
+      "item_principal": "argumentacao_suficiente",
+      "itens_aceitos": [
+        "argumentacao_suficiente",
+        "texto_generico"
+      ],
+      "descricao": "Troca a fundamentação de um pedido por afirmação genérica, sem ligação com os fatos."
+    },
+    {
+      "tipo_erro": "texto_generico",
+      "origem": "opus",
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao"
+      ],
+      "item_principal": "texto_generico",
+      "itens_aceitos": [
+        "texto_generico",
+        "argumentacao_suficiente"
+      ],
+      "descricao": "Troca um trecho com fatos concretos por texto que caberia em qualquer caso."
+    }
+  ]
+}

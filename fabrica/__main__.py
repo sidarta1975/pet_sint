@@ -1,0 +1,364 @@
+"""Ponto de entrada único: `python -m fabrica <comando>` (ARQUITETURA §8).
+
+Não tem lógica de etapa. `montar_servicos(raiz)` monta os serviços de verdade
+(registro de decisão 002, item 2); `executar(argumentos, servicos, ler_linha)`
+roda um comando com os serviços recebidos; `main()` só chama as duas.
+Cada brief que cria um comando acrescenta a sua linha em `COMANDOS`, e cada
+brief que constrói uma etapa a acrescenta em `ETAPAS`, na ordem do fluxo.
+"""
+
+from __future__ import annotations
+
+import datetime
+import os
+import sys
+from collections.abc import Callable, Sequence
+from pathlib import Path
+from typing import Any
+
+import anthropic
+
+from fabrica import (
+    erros_plantados,
+    estado,
+    estruturas,
+    fichas,
+    publicacao,
+    redacao,
+    relatorios,
+    revisao,
+    teste_conferentes,
+)
+from fabrica.comum import config
+from fabrica.comum.api_claude import ApiClaude
+from fabrica.comum.arquivos import Arquivos
+from fabrica.comum.congelamento import ErroCongelamento
+from fabrica.comum.gasto import ControleGasto
+from fabrica.comum.modelo_local import ModeloLocal
+from fabrica.comum.registro import Registro
+from fabrica.conferencia import checklist, decisao, desempate, extracao, local, regras, semelhanca
+from fabrica.estado import Servicos
+
+RAIZ = Path(__file__).resolve().parent.parent
+VARIAVEL_DA_CHAVE = "ANTHROPIC_API_KEY"
+
+LerLinha = Callable[[str], str]
+Comando = Callable[[Sequence[str], Servicos, LerLinha], int]
+
+# A ordem das etapas do fluxo das peças (registro de decisão 002, item 5). A parte da
+# conferência (de extração a decisão) é a única ordem da conferência (brief 018).
+ETAPAS: list[Any] = [
+    fichas.EtapaFicha(),
+    fichas.EtapaRetorno(),
+    redacao.EtapaRedacao(),
+    extracao.EtapaExtracao(),
+    regras.EtapaProgramas(),
+    checklist.EtapaChecklist(),
+    local.EtapaLocal(),
+    desempate.EtapaDesempate(),
+    semelhanca.EtapaSemelhanca(),
+    decisao.EtapaDecisao(),
+]
+
+
+def _agora() -> datetime.datetime:
+    return datetime.datetime.now(datetime.UTC)
+
+
+def montar_servicos(raiz: Path) -> Servicos:
+    """Monta os três clientes e os demais serviços. A chave só passa pela memória."""
+    arquivos = Arquivos(raiz, relogio=_agora)
+    lida = config.carregar(arquivos)
+    registro = Registro(arquivos)
+    gasto = ControleGasto(lida, registro, relogio=_agora)
+    chave = os.environ.get(VARIAVEL_DA_CHAVE)
+    api: ApiClaude | None = None
+    if chave:
+        # As novas tentativas são só as de api_claude.py (30, 120 e 480 segundos).
+        cliente = anthropic.Anthropic(api_key=chave, max_retries=0)
+        api = ApiClaude(cliente, lida, arquivos, registro, gasto, relogio=_agora)
+    return Servicos(
+        api_claude=api,
+        modelo_local=ModeloLocal(lida, arquivos, registro, relogio=_agora),
+        arquivos=arquivos,
+        config=lida,
+        registro=registro,
+        gasto=gasto,
+        relogio=_agora,
+        modo_teste=False,
+    )
+
+
+def comando_avancar(argumentos: Sequence[str], servicos: Servicos, ler_linha: LerLinha) -> int:
+    """Leva cada peça à próxima etapa possível (ARQUITETURA §8)."""
+    try:
+        fichas.repor_falhas_de_formato(servicos)
+        resumo = estado.avancar(ETAPAS, servicos)
+        if resumo.parada is None:
+            # Brief 021: as cópias do banco cujo pedido ao Opus o comando `erros` gravou.
+            banco = erros_plantados.coletar_banco(servicos)
+            resumo.passos += banco.passos
+            resumo.parada = banco.parada
+            resumo.esperando += banco.esperando
+            resumo.alerta_de_gasto = resumo.alerta_de_gasto or banco.alerta_de_gasto
+        if resumo.parada is None:
+            # Brief 022: as peças do teste dos conferentes, em modo de teste.
+            teste = teste_conferentes.coletar(ETAPAS, servicos)
+            resumo.passos += teste.passos
+            resumo.parada = teste.parada
+            resumo.esperando += teste.esperando
+            resumo.alerta_de_gasto = resumo.alerta_de_gasto or teste.alerta_de_gasto
+    except estado.ErroServicos as erro:
+        print(f"avancar parou: {erro}", file=sys.stderr)
+        return 2
+    print(f"avancar: {resumo.passos} passo(s).")
+    if resumo.alerta_de_gasto:
+        print("aviso: o gasto passou do alerta do gasto.toml (a rodada continua).")
+    if resumo.esperando:
+        print(f"esperando: {', '.join(resumo.esperando)}")
+    if resumo.parada == "congelamento":
+        print("parado: um arquivo congelado mudou (ver ocorrencias.jsonl).", file=sys.stderr)
+        return 1
+    if resumo.parada == "corte":
+        print("parado: o próximo pedido passaria do corte de gasto.", file=sys.stderr)
+        return 1
+    return 0
+
+
+def comando_preparar(argumentos: Sequence[str], servicos: Servicos, ler_linha: LerLinha) -> int:
+    """Valida `dados/` e grava a preparação, sem gastar API (brief 011)."""
+    semente = estruturas.SEMENTE_DE_PROVA
+    if argumentos:
+        if len(argumentos) != 2 or argumentos[0] != "--semente" or not argumentos[1].isdigit():
+            print("uso: python -m fabrica preparar [--semente N]", file=sys.stderr)
+            return 2
+        semente = int(argumentos[1])
+    prep = estruturas.preparar(servicos.arquivos, servicos.config, semente)
+    for linha in prep.linhas:
+        if linha.startswith("- "):
+            print(linha[2:])
+    for problema in prep.problemas:
+        print(f"falhou: {problema}", file=sys.stderr)
+    print(f"resumo em {estruturas.PASTA}/resumo.md")
+    return 0 if prep.passou else 1
+
+
+def _opcoes(argumentos: Sequence[str], aceitas: Sequence[str]) -> dict[str, str] | None:
+    """Pares `--nome valor`; None se algo não estiver nesse formato."""
+    if len(argumentos) % 2:
+        return None
+    lidas = dict(zip(argumentos[::2], argumentos[1::2], strict=True))
+    if any(nome not in aceitas for nome in lidas) or len(lidas) * 2 != len(argumentos):
+        return None
+    return lidas
+
+
+def _semente(opcoes: dict[str, str]) -> int | None | bool:
+    texto = opcoes.get("--semente")
+    if texto is None:
+        return None
+    return int(texto) if texto.isdigit() else False
+
+
+def comando_ensaio(argumentos: Sequence[str], servicos: Servicos, ler_linha: LerLinha) -> int:
+    """Abre a rodada de ensaio seguinte e grava uma ficha por tipo (brief 015);
+    `ensaio --fechar <rodada>` confere e aprova o ensaio (brief 023)."""
+    if argumentos[:1] == ["--fechar"]:
+        return _fechar_ensaio(argumentos[1:], servicos)
+    opcoes = _opcoes(argumentos, ["--semente"])
+    semente = _semente(opcoes) if opcoes is not None else False
+    if opcoes is None or semente is False:
+        print("uso: python -m fabrica ensaio [--semente N]", file=sys.stderr)
+        return 2
+    try:
+        rodada, pecas = fichas.abrir_ensaio(servicos, semente)
+    except (fichas.ErroFichas, ErroCongelamento) as erro:
+        print(f"ensaio não abriu: {erro}", file=sys.stderr)
+        return 1
+    print(f"ensaio {rodada}: {len(pecas)} pedido(s) de ficha gravado(s): {', '.join(pecas)}")
+    return 0
+
+
+def _fechar_ensaio(argumentos: Sequence[str], servicos: Servicos) -> int:
+    if len(argumentos) != 1:
+        print("uso: python -m fabrica ensaio --fechar <rodada>", file=sys.stderr)
+        return 2
+    rodada = argumentos[0]
+    fechamento = relatorios.fechar_ensaio(rodada, ETAPAS, servicos)
+    for aviso in fechamento.avisos:
+        print(f"aviso: {aviso}")
+    if not fechamento.aprovado:
+        for motivo in fechamento.motivos:
+            print(f"ensaio reprovado: {motivo}", file=sys.stderr)
+        return 1
+    print(f"ensaio {rodada} aprovado; `fichas` já pode abrir a rodada do MVP.")
+    return 0
+
+
+def comando_relatorio(argumentos: Sequence[str], servicos: Servicos, ler_linha: LerLinha) -> int:
+    """Grava o relatório da rodada; não regrava o que já existe (brief 023)."""
+    opcoes = _opcoes(argumentos, ["--rodada"])
+    if opcoes is None or "--rodada" not in opcoes:
+        print("uso: python -m fabrica relatorio --rodada <rodada>", file=sys.stderr)
+        return 2
+    try:
+        destino, agora = relatorios.gerar(opcoes["--rodada"], servicos)
+    except relatorios.ErroRelatorio as erro:
+        print(f"relatorio recusado: {erro}", file=sys.stderr)
+        return 1
+    if agora:
+        print(f"relatório gravado em {destino}.")
+    else:
+        print(f"o relatório já existe em {destino}; ele não é regravado.")
+    return 0
+
+
+def comando_fichas(argumentos: Sequence[str], servicos: Servicos, ler_linha: LerLinha) -> int:
+    """Sorteia as combinações e grava os pedidos de ficha do tipo (brief 015)."""
+    opcoes = _opcoes(argumentos, ["--tipo", "--semente"])
+    semente = _semente(opcoes) if opcoes is not None else False
+    if opcoes is None or semente is False or "--tipo" not in opcoes:
+        print("uso: python -m fabrica fichas --tipo <tipo> [--semente N]", file=sys.stderr)
+        return 2
+    try:
+        rodada, pecas = fichas.abrir_fichas(servicos, opcoes["--tipo"], semente)
+    except (fichas.ErroFichas, ErroCongelamento) as erro:
+        print(f"fichas recusado: {erro}", file=sys.stderr)
+        return 1
+    print(f"rodada {rodada}: {len(pecas)} pedido(s) de ficha gravado(s).")
+    return 0
+
+
+def comando_erros(argumentos: Sequence[str], servicos: Servicos, ler_linha: LerLinha) -> int:
+    """Grava as cópias com erro das peças boas que ainda não as têm (brief 019)."""
+    opcoes = _opcoes(argumentos, ["--rodada"])
+    if opcoes is None or "--rodada" not in opcoes:
+        print("uso: python -m fabrica erros --rodada <rodada>", file=sys.stderr)
+        return 2
+    try:
+        gravadas = erros_plantados.gravar_copias(opcoes["--rodada"], servicos)
+        banco = erros_plantados.gravar_banco(opcoes["--rodada"], servicos)
+    except (erros_plantados.ErroErros, ErroCongelamento) as erro:
+        print(f"erros recusado: {erro}", file=sys.stderr)
+        return 1
+    except estado.ErroServicos as erro:
+        print(f"erros parou: {erro}", file=sys.stderr)
+        return 2
+    print(f"erros: {len(gravadas)} cópia(s) por programa gravada(s).")
+    # Brief 021: as vagas do Opus; a coleta das respostas é do `avancar`.
+    print(
+        f"erros: plano {banco.situacao} ({banco.pecas_boas} peça(s) base), {banco.vagas} vaga(s) "
+        f"do Opus: {banco.aceitas} aceita(s), {banco.pendentes} pendente(s), "
+        f"{banco.perdidas} perdida(s), {banco.trocaram_de_tipo} trocou(aram) de tipo, "
+        f"{banco.descartadas} descartada(s); {banco.pedidos_gravados} pedido(s) gravado(s)."
+    )
+    if banco.situacao == "inconclusivo":
+        print("erros: menos peças boas que o mínimo do plano B: critério central inconclusivo.")
+    if banco.pendentes and banco.pedidos_gravados:
+        print("erros: rode `avancar` para coletar as respostas e depois `erros` de novo.")
+    if banco.amostras is not None:
+        print(f"erros: amostras sorteadas em {banco.amostras}.")
+    if banco.parada == "congelamento":
+        print("parado: um arquivo congelado mudou (ver ocorrencias.jsonl).", file=sys.stderr)
+        return 1
+    return 0
+
+
+def comando_revisar(argumentos: Sequence[str], servicos: Servicos, ler_linha: LerLinha) -> int:
+    """Única entrada das respostas do responsável (brief 020)."""
+    if list(argumentos) == ["--resumo"]:
+        revisao.resumo(servicos)
+        return 0
+    if argumentos:
+        print("uso: python -m fabrica revisar [--resumo]", file=sys.stderr)
+        return 2
+    revisao.revisar(servicos, ler_linha)
+    return 0
+
+
+def comando_publicar(argumentos: Sequence[str], servicos: Servicos, ler_linha: LerLinha) -> int:
+    """Monta o pacote das peças publicáveis da rodada (brief 020)."""
+    opcoes = _opcoes(argumentos, ["--rodada"])
+    if opcoes is None or "--rodada" not in opcoes:
+        print("uso: python -m fabrica publicar --rodada <rodada>", file=sys.stderr)
+        return 2
+    try:
+        gravadas = publicacao.publicar(opcoes["--rodada"], servicos)
+    except (publicacao.ErroPublicacao, ErroCongelamento) as erro:
+        print(f"publicar recusado: {erro}", file=sys.stderr)
+        return 1
+    print(f"publicar: {len(gravadas)} peça(s) no pacote.")
+    return 0
+
+
+def comando_testar(argumentos: Sequence[str], servicos: Servicos, ler_linha: LerLinha) -> int:
+    """Teste dos conferentes, retomável (brief 022)."""
+    opcoes = _opcoes(argumentos, ["--rodada"])
+    if opcoes is None or "--rodada" not in opcoes:
+        print("uso: python -m fabrica testar --rodada <rodada>", file=sys.stderr)
+        return 2
+    rodada = opcoes["--rodada"]
+    try:
+        situacao = teste_conferentes.testar(rodada, ETAPAS, servicos)
+    except (teste_conferentes.ErroTeste, erros_plantados.ErroErros) as erro:
+        print(f"testar recusado: {erro}", file=sys.stderr)
+        return 1
+    if situacao.recusa:
+        for falta in situacao.recusa:
+            print(f"testar recusado: {falta}", file=sys.stderr)
+        return 1
+    if situacao.faltam:
+        print(
+            f"testar: banco fechado; faltam {situacao.faltam} conferência(s) do teste. "
+            "Rode `avancar` e depois `testar` de novo."
+        )
+        return 0
+    r = situacao.resultado
+    assert r is not None
+    central = r.criterio_central
+    print(f"testar: resultado em {situacao.relatorio}.")
+    print(
+        f"critério central: {central.sucessos} de {central.total} "
+        f"({r.decisao_criterio_central}); sem o Opus: {r.sem_opus.sucessos} de {r.sem_opus.total}."
+    )
+    if r.banco.nao_confiavel:
+        print("banco não confiável: o critério central é calculado, mas não decide.")
+    if r.banco.filtrado_pelo_verificador:
+        print("banco filtrado pelo verificador: a decisão de escalar registra a ressalva.")
+    if r.dependente_do_opus:
+        print("dependente do Opus: a taxa sem o Opus fica mais de 15 pontos abaixo.")
+    return 0
+
+
+COMANDOS: dict[str, Comando] = {
+    "avancar": comando_avancar,
+    "erros": comando_erros,
+    "ensaio": comando_ensaio,
+    "fichas": comando_fichas,
+    "preparar": comando_preparar,
+    "publicar": comando_publicar,
+    "relatorio": comando_relatorio,
+    "revisar": comando_revisar,
+    "testar": comando_testar,
+}
+
+
+def executar(argumentos: Sequence[str], servicos: Servicos, ler_linha: LerLinha = input) -> int:
+    """Executa o comando pedido; recusa comando ausente ou desconhecido."""
+    if not argumentos:
+        print("uso: python -m fabrica <comando>", file=sys.stderr)
+        return 2
+    comando = argumentos[0]
+    funcao = COMANDOS.get(comando)
+    if funcao is None:
+        print(f"comando desconhecido: {comando}", file=sys.stderr)
+        return 2
+    return funcao(argumentos[1:], servicos, ler_linha)
+
+
+def main() -> int:
+    return executar(sys.argv[1:], montar_servicos(RAIZ))
+
+
+if __name__ == "__main__":
+    sys.exit(main())

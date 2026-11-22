@@ -1,0 +1,4 @@
+# Gasto do MVP (brief 002), em centavos de dólar. Congelado na rodada.
+
+alerta_centavos = 3000    # US$ 30, só avisa (ARQUITETURA §5.12.5)
+corte_centavos = 10000    # US$ 100, o orçamento do mês; não sobe

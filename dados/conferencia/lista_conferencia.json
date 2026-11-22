@@ -1,0 +1,272 @@
+{
+  "itens": [
+    {
+      "item": "estrutura",
+      "pergunta": "Os blocos obrigatórios da família, do perfil e do tipo estão presentes e na ordem?",
+      "quem": [
+        "programa"
+      ],
+      "eliminatorio": true,
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao",
+        "manifestacao_ar_negativo"
+      ]
+    },
+    {
+      "item": "citacao_fora_da_tabela",
+      "pergunta": "Toda citação resolvida está na tabela? (a citação não resolvida vira alerta e pergunta ao checklist e não reprova sozinha)",
+      "quem": [
+        "programa"
+      ],
+      "eliminatorio": true,
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao",
+        "manifestacao_ar_negativo"
+      ]
+    },
+    {
+      "item": "termos_inequivocos",
+      "pergunta": "A peça não traz nenhum termo da lista de termos inequívocos?",
+      "quem": [
+        "programa"
+      ],
+      "eliminatorio": true,
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao",
+        "manifestacao_ar_negativo"
+      ]
+    },
+    {
+      "item": "coerencia_ficha",
+      "pergunta": "A extração é igual à ficha, com as tolerâncias do Anexo D?",
+      "quem": [
+        "programa"
+      ],
+      "eliminatorio": true,
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao",
+        "manifestacao_ar_negativo"
+      ]
+    },
+    {
+      "item": "alcada",
+      "pergunta": "O valor da causa fica até 40 salários mínimos de 2026?",
+      "quem": [
+        "programa"
+      ],
+      "eliminatorio": true,
+      "tipos": [
+        "peticao_inicial_jec"
+      ]
+    },
+    {
+      "item": "prazo",
+      "pergunta": "A data da peça fica até o termo final do prazo da ficha, em dias úteis, sem sábados, domingos e feriados nacionais?",
+      "quem": [
+        "programa"
+      ],
+      "eliminatorio": true,
+      "tipos": [
+        "embargos_declaracao",
+        "manifestacao_ar_negativo"
+      ]
+    },
+    {
+      "item": "dado_real",
+      "pergunta": "A peça não traz nenhum dado real, pela detecção da ARQUITETURA 5.2?",
+      "quem": [
+        "programa"
+      ],
+      "eliminatorio": true,
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao",
+        "manifestacao_ar_negativo"
+      ]
+    },
+    {
+      "item": "marca",
+      "pergunta": "A linha \"DOCUMENTO SINTÉTICO — FICTÍCIO\" está presente?",
+      "quem": [
+        "programa"
+      ],
+      "eliminatorio": true,
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao",
+        "manifestacao_ar_negativo"
+      ]
+    },
+    {
+      "item": "semelhanca",
+      "pergunta": "A peça fica abaixo do limite registrado de semelhança com as já aprovadas do mesmo tipo?",
+      "quem": [
+        "programa"
+      ],
+      "eliminatorio": true,
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao",
+        "manifestacao_ar_negativo"
+      ]
+    },
+    {
+      "item": "cabimento",
+      "pergunta": "A peça é o instrumento certo para a situação da ficha?",
+      "quem": [
+        "haiku",
+        "opus"
+      ],
+      "eliminatorio": true,
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao",
+        "manifestacao_ar_negativo"
+      ]
+    },
+    {
+      "item": "competencia_enderecamento",
+      "pergunta": "O juízo está certo, inclusive pela alçada?",
+      "quem": [
+        "haiku",
+        "opus"
+      ],
+      "eliminatorio": true,
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao",
+        "manifestacao_ar_negativo"
+      ]
+    },
+    {
+      "item": "prazo_e_momento",
+      "pergunta": "A peça é compatível com a fase e o prazo da ficha?",
+      "quem": [
+        "haiku",
+        "opus"
+      ],
+      "eliminatorio": true,
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao",
+        "manifestacao_ar_negativo"
+      ]
+    },
+    {
+      "item": "legitimidade",
+      "pergunta": "Quem pede pode pedir?",
+      "quem": [
+        "haiku",
+        "opus"
+      ],
+      "eliminatorio": true,
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao",
+        "manifestacao_ar_negativo"
+      ]
+    },
+    {
+      "item": "pedidos",
+      "pergunta": "Os pedidos são compatíveis com o tipo, o rito e os fatos?",
+      "quem": [
+        "haiku",
+        "opus"
+      ],
+      "eliminatorio": true,
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao",
+        "manifestacao_ar_negativo"
+      ]
+    },
+    {
+      "item": "fundamento",
+      "pergunta": "Cada dispositivo citado sustenta a afirmação feita, comparado com o texto da tabela?",
+      "quem": [
+        "haiku",
+        "opus"
+      ],
+      "eliminatorio": true,
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao",
+        "manifestacao_ar_negativo"
+      ]
+    },
+    {
+      "item": "coerencia",
+      "pergunta": "Fatos, fundamentos e pedidos não se contradizem?",
+      "quem": [
+        "haiku",
+        "local",
+        "opus"
+      ],
+      "eliminatorio": true,
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao",
+        "manifestacao_ar_negativo"
+      ]
+    },
+    {
+      "item": "pecas_anteriores",
+      "pergunta": "A peça responde ao que a peça ou decisão anterior da ficha disse?",
+      "quem": [
+        "haiku",
+        "local",
+        "opus"
+      ],
+      "eliminatorio": true,
+      "tipos": [
+        "embargos_declaracao",
+        "manifestacao_ar_negativo"
+      ]
+    },
+    {
+      "item": "argumentacao_suficiente",
+      "pergunta": "Cada pedido tem fundamento de fato e de direito próprio, ligado aos fatos do caso?",
+      "quem": [
+        "haiku",
+        "opus"
+      ],
+      "eliminatorio": true,
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao"
+      ]
+    },
+    {
+      "item": "texto_generico",
+      "pergunta": "A peça usa os fatos concretos da ficha, ou caberia em qualquer caso?",
+      "quem": [
+        "haiku",
+        "local",
+        "opus"
+      ],
+      "eliminatorio": true,
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao"
+      ]
+    },
+    {
+      "item": "estilo",
+      "pergunta": "Notas de 1 a 5 para clareza, concisão e linguagem técnica.",
+      "quem": [
+        "haiku",
+        "opus"
+      ],
+      "eliminatorio": false,
+      "tipos": [
+        "peticao_inicial_jec",
+        "embargos_declaracao",
+        "manifestacao_ar_negativo"
+      ]
+    }
+  ]
+}
