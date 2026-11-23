@@ -83,8 +83,8 @@ palavras_por_trecho = 5   # ARQUITETURA §5.6
 
 [modelo_local]
 nome = "gemma3:27b"   # ARQUITETURA §2.1, §5.12.4 e §7.2
-etiqueta_completa = ""   # PENDENTE: o responsável informa (máquina de produção)
-digest = ""              # PENDENTE: o responsável informa (máquina de produção)
+etiqueta_completa = "gemma3:27b"   # conferido pelo responsável em 2026-11-23 (MacBook Pro M5, /api/tags do Ollama)
+digest = "6be2e2ba6843b9255820e2de2cbbe75cfdef0294ac7a531572e654d6e0eefe7d"   # conferido pelo responsável em 2026-11-23
 porta = 11434   # ARQUITETURA §2.1, §5.12.4 e §7.2
 num_ctx = 16384   # ARQUITETURA §2.1, §5.12.4 e §7.2
 num_ctx_alternativo = 32768   # ARQUITETURA §2.1, §5.12.4 e §7.2
@@ -95,8 +95,8 @@ porteiro_espera_maxima_minutos = 15   # ARQUITETURA §2.1, §5.12.4 e §7.2
 fracao_pecas_risco_baixo = 0.2           # 2 das 10 manifestações
 
 [janela_local]
-inicio = "22:00"   # PENDENTE: provisório ("a noite", PLAN); o responsável define
-fim = "06:00"      # PENDENTE: provisório; a janela tem de ter 24 horas ou menos
+inicio = "00:00"   # responsável, 2026-11-23: janela de 24 horas
+fim = "23:59"      # a regra de estado.py não aceita início igual ao fim; fica de fora só o último minuto do dia
 
 [valvula]
 espera_risco_medio_horas = 72   # ARQUITETURA §5.12.4

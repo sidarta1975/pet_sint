@@ -34,6 +34,7 @@ from fabrica.comum.modelo_local import ModeloLocal, Resultado
 from fabrica.conferencia import checklist, extracao, local, regras
 from fabrica.conferencia.regras import MARCA
 from fabrica.estado import FORA_DO_FORMATO, RefPeca
+from testes import apoio_config
 from testes.test_fichas import (
     RAIZ,
     Ambiente,
@@ -153,10 +154,10 @@ def amb(tmp_path: Path) -> Ambiente:
     shutil.copy(RAIZ / estruturas.RESERVADOS, raiz / estruturas.RESERVADOS)
     config = raiz / "config/config.toml"
     texto_config = config.read_text("utf-8")
-    texto_config = texto_config.replace(
-        'etiqueta_completa = ""', 'etiqueta_completa = "gemma3:27b"'
+    texto_config = apoio_config.provisorio(
+        texto_config, etiqueta_completa="gemma3:27b", digest="sha256:abc"
     )
-    config.write_text(texto_config.replace('digest = ""', 'digest = "sha256:abc"'), "utf-8")
+    config.write_text(texto_config, "utf-8")
     git(raiz, "commit", "-q", "-am", "modelo local")
     ambiente = Ambiente(raiz)
     assert estruturas.preparar(ambiente.arquivos, ambiente.servicos.config).passou

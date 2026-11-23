@@ -44,6 +44,7 @@ from fabrica.comum.modelo_local import PORTEIRO_CABE, ModeloLocal
 from fabrica.comum.registro import Registro
 from fabrica.conferencia.local import EtapaLocal
 from fabrica.estado import RefPeca, Servicos
+from testes import apoio_config
 from testes.test_conferencia_etapas import resposta_embargos
 from testes.test_fichas import INICIO, RAIZ, resposta_inicial, resposta_manifestacao
 
@@ -84,8 +85,8 @@ def montar_pasta(tmp_path: Path) -> Path:
     )
     caminho = raiz / "config/config.toml"
     texto = caminho.read_text("utf-8")
-    texto = texto.replace('etiqueta_completa = ""', 'etiqueta_completa = "gemma3:27b"')
-    caminho.write_text(texto.replace('digest = ""', 'digest = "sha256:falso"'), "utf-8")
+    texto = apoio_config.provisorio(texto, etiqueta_completa="gemma3:27b", digest="sha256:falso")
+    caminho.write_text(texto, "utf-8")
     (raiz / ".gitignore").write_text("saida/\n")
     git(raiz, "init", "-q")
     git(raiz, "config", "user.email", "teste@ficticio.example")

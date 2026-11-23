@@ -8,17 +8,19 @@ Cada linha: o ponto, o valor provisório em uso e o brief onde ele aparece. Nada
 
 | Ponto | Provisório em uso | Brief |
 |---|---|---|
-| Rodar o gate (`scripts/verificar.sh`) na máquina dele | O gate roda só na nuvem | 001 |
-| Os 5 comandos da conferência da máquina (Python, Ollama, porteiro, memória, disco) | Nenhum rodou; o modelo local é tratado como indisponível | 002 |
+| ~~Rodar o gate (`scripts/verificar.sh`) na máquina dele~~ | Resolvido em 2026-11-23: 1.180 testes passando no MacBook Pro M5 | 001, 026 |
+| ~~Os 5 comandos da conferência da máquina (Python, Ollama, porteiro, memória, disco)~~ | Resolvido em 2026-11-23 (relatório do 002, seção "Conferência da máquina") | 002, 026 |
 | Chave da API em `ANTHROPIC_API_KEY` | Sem chave: `ensaio` e `fichas` só gravam pedidos; `avancar` para pedindo a chave | 002, 015 |
 | `python -m fabrica preparar` na máquina, para ver `saida/preparacao/<tipo>_estrutura.md` | Rodou só na nuvem (sai sem erro) | 014 |
+| Bash 5 no Mac (`brew install bash`): o Bash 3.2 do macOS não tem o recurso que `scripts/entregar.sh` usa, e 4 testes de `test_entrega.py` falham com ele | Bash 5.3.20 instalado pelo Homebrew em 2026-11-23 | 026 |
 
 ## Valores do `config/config.toml`
 
 | Ponto | Provisório em uso | Brief |
 |---|---|---|
-| `modelo_local.etiqueta_completa` e `modelo_local.digest` do `gemma3:27b` | Vazios: modelo local indisponível, vale a válvula de escape | 002 |
-| Janela da conferência local (`janela_local.inicio` e `fim`) | 22:00 às 06:00 | 002 |
+| ~~`modelo_local.etiqueta_completa` e `modelo_local.digest` do `gemma3:27b`~~ | Resolvido em 2026-11-23: `gemma3:27b`, digest `6be2e2ba…eefe7d` | 002, 026 |
+| ~~Janela da conferência local (`janela_local.inicio` e `fim`)~~ | Resolvido em 2026-11-23: 24 horas, escrita como 00:00 às 23:59 | 002, 026 |
+| Janela de 24 horas: a regra de `estado.py` trata início igual ao fim como janela vazia | 00:00 às 23:59; fica de fora só o último minuto do dia | 026 |
 | Data da conferência da lista de DDDs inexistentes | 2026-11-21 | 002 |
 | Quantidade de peças por tipo | 10 | 002 |
 

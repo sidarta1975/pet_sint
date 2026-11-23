@@ -36,6 +36,7 @@ from fabrica.comum.gasto import ControleGasto
 from fabrica.comum.modelo_local import ModeloLocal
 from fabrica.comum.registro import Registro
 from fabrica.estado import FORA_DO_FORMATO, RefPeca, Servicos
+from testes import apoio_config
 
 RAIZ = Path(__file__).resolve().parent.parent
 # Horário local da máquina: 23h, dentro da janela provisória (22h às 6h).
@@ -396,8 +397,7 @@ def preparar(tmp_path: Path) -> Path:
         (tmp_path / pasta).mkdir(parents=True)
     shutil.copy(RAIZ / "config/gasto.toml", tmp_path / "config/gasto.toml")
     texto = (RAIZ / "config/config.toml").read_text(encoding="utf-8")
-    texto = texto.replace('etiqueta_completa = ""', 'etiqueta_completa = "gemma3:27b"', 1)
-    texto = texto.replace('digest = ""', 'digest = "sha256:abc"', 1)
+    texto = apoio_config.provisorio(texto, etiqueta_completa="gemma3:27b", digest="sha256:abc")
     (tmp_path / "config/config.toml").write_text(texto, encoding="utf-8")
     (tmp_path / "dados/catalogo/tipos.json").write_text(json.dumps(TIPOS), encoding="utf-8")
     CatalogoTipos.model_validate_json(json.dumps(TIPOS))

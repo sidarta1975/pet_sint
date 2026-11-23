@@ -15,6 +15,7 @@ from fabrica.comum.arquivos import Arquivos
 from fabrica.comum.formatos import ParteDoPedido, Pedido, Resposta, RespostaLocal, esquema_resposta
 from fabrica.comum.modelo_local import ModeloLocal
 from fabrica.comum.registro import Registro
+from testes import apoio_config
 
 RAIZ = Path(__file__).resolve().parent.parent
 INICIO = datetime.datetime(2026, 11, 21, 23, 0, tzinfo=datetime.UTC)
@@ -79,8 +80,7 @@ def preparar(tmp_path: Path, etiqueta: str = ETIQUETA, digest: str = "sha256:abc
     (tmp_path / "config").mkdir()
     shutil.copy(RAIZ / "config/gasto.toml", tmp_path / "config/gasto.toml")
     texto = (RAIZ / "config/config.toml").read_text(encoding="utf-8")
-    texto = texto.replace('etiqueta_completa = ""', f'etiqueta_completa = "{etiqueta}"', 1)
-    texto = texto.replace('digest = ""', f'digest = "{digest}"', 1)
+    texto = apoio_config.provisorio(texto, etiqueta_completa=etiqueta, digest=digest)
     (tmp_path / "config/config.toml").write_text(texto, encoding="utf-8")
     return tmp_path
 
@@ -276,10 +276,11 @@ def test_sem_etiqueta_ou_digest_indisponivel_sem_chamar(
     assert amb.porteiro.comandos == [] and amb.ollama.pedidos == []
 
 
-def test_configuracao_do_repositorio_esta_sem_etiqueta(tmp_path: Path) -> None:
+def test_configuracao_com_etiqueta_e_digest_vazios_fica_indisponivel(tmp_path: Path) -> None:
     (tmp_path / "config").mkdir()
-    for nome in ("config.toml", "gasto.toml"):
-        shutil.copy(RAIZ / "config" / nome, tmp_path / "config" / nome)
+    shutil.copy(RAIZ / "config/gasto.toml", tmp_path / "config/gasto.toml")
+    texto = (RAIZ / "config/config.toml").read_text(encoding="utf-8")
+    (tmp_path / "config/config.toml").write_text(apoio_config.provisorio(texto), "utf-8")
     amb = Ambiente(tmp_path, Porteiro([]), Ollama())
     assert not amb.local.disponivel_na_configuracao()
 

@@ -9,12 +9,13 @@
 
 ## Resumo
 
-- Fase atual: Fase 8 — Etapas com modelos (PLANO, seção 4). As Fases 1 a 7 terminaram com os briefs 001 a 014.
+- Fase atual: Fase 12 — Ensaio de três peças (PLANO, seção 4). As Fases 1 a 11 terminaram com os briefs 001 a 023; o 026 preparou a máquina de produção para o ensaio.
 - Repositório: `sidarta1975/pet_sint` (https://github.com/sidarta1975/pet_sint), criado pelo responsável em 2026-11-21. A construção (os briefs 001 a 023) roda em sessões do Claude Code na nuvem, que clonam o repositório; os testes na máquina do responsável e o ensaio ficam para quando ele estiver no computador.
-- Último brief concluído: 023 · Relatório do MVP (2026-11-21), entregue por `scripts/entregar.sh 023` no ramo `claude/project-thread-t7c3zg`, no mesmo pedido de integração para `main` (#2).
+- Último brief concluído: 026 · Testes independentes da configuração e conferência da máquina (2026-11-23), entregue por `scripts/entregar.sh 026` no ramo `claude/project-thread-t7c3zg`, no mesmo pedido de integração para `main` (#2).
 - Em execução: nada.
-- Próximos três: 024 · Ensaio de três peças; 025 · Rodada do MVP.
-- Último commit: `47c6937` (brief 022). O do 023 entra no Done pelo brief seguinte.
+- Próximos três: 024 · Ensaio de três peças; 025 · Rodada do MVP. Os textos dos dois já estão em `docs/briefs/`.
+- Último commit: `669b09a` (brief 023). O do 026 entra no Done pelo brief seguinte.
+- Máquina de produção: MacBook Pro M5, 48 GB de memória, com Python 3.12, Bash 5 do Homebrew, Ollama com `gemma3:27b` e `porteiro`, conferida em 2026-11-23.
 - Bloqueios: nenhum. O responsável autorizou, em 2026-11-21, seguir até o fim da fila sem novas aprovações; onde um brief pede resposta dele e ela não veio, vale o provisório escrito, registrado no relatório como decisão por falta de resposta.
 - Documentos de origem: arquitetura do MVP, versão 10 (2026-11-21); plano v15 (fechado); lista consolidada de peças. Arquitetura dada como pronta para virar instruções na revisão de 2026-11-21. Fila de briefs revista em 2026-11-21 (de 19 para 25 briefs).
 
@@ -31,12 +32,14 @@ Briefs previstos pela ordem de construção (PLANO, seção 4). Ainda não escri
 - Param pelo responsável: 002 (conferir a configuração), 014 (aprovar os dados e a estrutura montada), 024 (ensaio) e 025 (rodada). Dentro do 024 e do 025 há ainda a resposta às amostras pelo comando `revisar`, antes do teste dos conferentes; os briefs 021 e 022 só constroem o código, com dados falsos, e não esperam por ele.
 - Depois do ensaio aprovado, qualquer mudança em código, dados, instruções, `config.toml` ou `gasto.toml` obriga a um ensaio novo (ARQUITETURA 5.12.1): o comando `fichas` recusa a rodada. A conferência da configuração no 002 vale, portanto, para a rodada inteira.
 
+- Numeração: o 026 foi escrito depois dos textos do 024 e do 025 (versão 5, 2026-11-21) e por isso tem número maior, mas roda antes deles.
 - 024 · Ensaio de três peças, com o caminho dos erros em miniatura e a amostra reduzida; primeira conferência das instruções aos modelos: roteiro para o responsável e leitura do resultado (Fase 12) · não iniciado · — · —
 - 025 · Rodada do MVP: roteiro para o responsável e leitura do relatório (Fase 13) · não iniciado · — · —
 
 ## Done — últimos 30 dias
 
-- 023 · Relatório do MVP: relatorios.py, com todos os itens da ARQUITETURA 5.11 (Fase 11) · concluído · — · 2026-11-21
+- 026 · Testes independentes dos valores do config.toml (testes/apoio_config.py) e conferência da máquina no config.toml: etiqueta, digest e janela de 24 horas (Fase 12, preparação) · concluído · — · 2026-11-23
+- 023 · Relatório do MVP: relatorios.py, com todos os itens da ARQUITETURA 5.11 (Fase 11) · concluído · 669b09a · 2026-11-21
 - 022 · Teste dos conferentes, que recusa começar sem as duas amostras respondidas (Fase 11) · concluído · 47c6937 · 2026-11-21
 - 021 · Erros plantados pelo Opus e verificação do Sonnet, com plantar_erro.md e o sorteio das duas amostras, sem alterar revisao.py (Fase 11) · concluído · 3469ccb · 2026-11-21
 - 020 · Revisão em duas etapas e publicação: revisao.py com todos os tipos de cartão, inclusive os das amostras, publicacao.py, comando `revisar` e test_publicacao (Fase 10) · concluído · c96791b · 2026-11-21
@@ -62,12 +65,11 @@ Briefs previstos pela ordem de construção (PLANO, seção 4). Ainda não escri
 
 ## Pendências de Sidarta Borges
 
-- **Conferência da máquina do brief 002 (antes do ensaio).** No computador, rodar os cinco passos (no relatório `docs/docs/doc_002_configuracao_2026-11-21.md`) e informar o resultado de cada um, a etiqueta completa e o digest do `gemma3:27b`, e a janela da conferência local (provisória: 22h às 6h). Se o `gemma3:27b` não rodar na máquina, decidir antes do ensaio: outra máquina que rode o modelo, ou mudar a regra do risco alto na ARQUITETURA §5.12.4 (sem o modelo local, as peças de risco alto ficam em pausa e nem o ensaio nem a rodada fecham).
-- **Quando estiver no computador, rodar o gate na sua máquina** (`scripts/verificar.sh`, num clone de `sidarta1975/pet_sint` com Python 3.12), para confirmar que ele também passa ali. Não bloqueia os briefs de construção, que rodam na nuvem; precisa estar feito antes do ensaio (brief 024).
-- **Definir a janela da conferência local** (de 24 horas ou menos; o plano sugere a noite), para o `config.toml` do brief 002. Sem ela, o brief 002 usa a noite como valor e o registra como provisório.
-- **Deixar a chave da API da Claude numa variável de ambiente** da máquina que vai rodar a fábrica, antes do ensaio (brief 024). Nunca no repositório.
-- **Dizer se a máquina que vai rodar a fábrica tem o Ollama com `gemma3:27b` e o `porteiro`.** Não é obrigatório: sem eles, a válvula de escape cobre a ausência, mas o resultado tende a sair com a ressalva "sem conferente local estável".
-- Mais adiante, só ele pode: conferir os dois arquivos de configuração (brief 002); aprovar os dados e a estrutura montada de cada tipo (brief 014); rodar o ensaio, com o caminho dos erros em miniatura, e confirmar o formato nos cartões (brief 024); rodar a rodada do MVP, ler as 30 primeiras versões e conferir as duas amostras de cópias, cerca de 10 horas no total (brief 025); decidir se escala. Quem lê e aprova precisa ser advogado.
+- **Deixar a chave da API da Claude numa variável de ambiente** (`ANTHROPIC_API_KEY`) do Mac, antes do ensaio (brief 024). Nunca no repositório.
+- **Integrar o pedido #2 em `main`** (os briefs 001 a 023 e 026), condição do brief 024.
+- **Conferir na fonte oficial** os 56 textos de lei marcados "a conferir na fonte" e as faixas de CEP das 12 cidades (brief 014), antes do ensaio.
+- Mais adiante, só ele pode: rodar o ensaio, com o caminho dos erros em miniatura, e confirmar o formato nos cartões (brief 024); rodar a rodada do MVP, ler as 30 primeiras versões e conferir as duas amostras de cópias, cerca de 10 horas no total (brief 025); decidir se escala. Quem lê e aprova precisa ser advogado.
+- Resolvido em 2026-11-23: a conferência da máquina do brief 002 (relatório do 002, seção "Conferência da máquina"), o gate na máquina dele, a janela da conferência local (24 horas) e o modelo local na máquina (`gemma3:27b` e `porteiro`).
 
 ## Decisões em aberto
 

@@ -108,3 +108,17 @@ Quando ele responder, uma sessão seguinte deste mesmo brief: troca os valores c
 - **B. Janela da conferência local e data da lista de DDDs:** o responsável não informou. **Decisão tomada por falta de resposta:** ficam os valores provisórios já escritos (janela das 22:00 às 06:00; data da conferência dos DDDs 2026-11-21). Os comentários `# PENDENTE` continuam no arquivo, para que a troca seja fácil antes do ensaio.
 - **C. Conferência da máquina:** pendente. Os cinco comandos só rodam no computador do responsável, e a sessão na nuvem não os roda. Etiqueta e digest do `gemma3:27b` continuam vazios: enquanto estiverem vazios, o modelo local é tratado como indisponível e vale a válvula de escape (ARQUITETURA §5.12.4). Se a conferência mostrar que o `gemma3:27b` não roda na máquina, ele precisa decidir, antes do ensaio, entre outra máquina ou mudar a regra do risco alto (sem o modelo local, as peças de risco alto ficam em pausa e nem o ensaio nem a rodada fecham); a pendência está no `docs/PLAN.md`.
 - **10 ou 20 peças por tipo:** sem resposta; fica 10, o adotado.
+
+## Conferência da máquina (2026-11-23)
+
+Feita pelo responsável no computador de produção, um MacBook Pro M5 com 48 GB de memória e 104 GB livres no disco, sem gastar API. Os valores entraram no `config.toml` pelo brief 026, que tornou os testes independentes deles.
+
+1. `python3.12 --version`: Python 3.12.14, em `/opt/homebrew/bin/python3.12`. O Python padrão do Mac é o 3.14, que o `pyproject.toml` não aceita.
+2. `ollama list`: o `gemma3:27b` não estava instalado; `ollama pull gemma3:27b` baixou o modelo (cerca de 17 GB) e terminou com "success".
+3. Etiqueta e digest, lidos em `/api/tags` do Ollama: `gemma3:27b` e `6be2e2ba6843b9255820e2de2cbbe75cfdef0294ac7a531572e654d6e0eefe7d`.
+4. Teste de resposta com `num_ctx` 16.384: respondeu "Ok." em 13,7 segundos, 12,6 deles carregando o modelo na memória.
+5. `porteiro cabe gemma3:27b --porta 11434 --json`: código 0, razão "ja_carregado".
+
+- **Janela da conferência local:** o responsável escolheu 24 horas. Como a regra de `estado.py` trata início igual ao fim como janela vazia, ficou `00:00` a `23:59`; só o último minuto do dia fica de fora.
+- **Gate na máquina:** 1.180 testes passando, depois de instalar o Bash 5.3 pelo Homebrew (com o Bash 3.2 do macOS, 4 testes de `test_entrega.py` falhavam).
+- **Data da lista de DDDs e 10 peças por tipo:** sem mudança.

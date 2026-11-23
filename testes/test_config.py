@@ -12,6 +12,7 @@ import pytest
 from fabrica.comum import config
 from fabrica.comum.arquivos import Arquivos
 from fabrica.comum.config import ErroConfiguracao
+from testes import apoio_config
 
 RAIZ = Path(__file__).resolve().parent.parent
 
@@ -70,7 +71,9 @@ def test_leitura_entrega_todos_os_valores(raiz: Path) -> None:
     assert lida.geral.modelos.haiku.id == "claude-haiku-5-5"
     assert lida.geral.modelos.data_conferencia == datetime.date(2026, 11, 21)
     assert lida.geral.tarefas.redacao_risco_alto.esforco == "medium"
-    assert lida.geral.janela_local.inicio == datetime.time(22, 0)
+    assert lida.geral.janela_local.inicio == datetime.time.fromisoformat(
+        geral["janela_local"]["inicio"]
+    )
     assert lida.gasto.corte_centavos == 10000
 
 
@@ -87,6 +90,8 @@ def _como_json(geral: dict[str, Any]) -> dict[str, Any]:
 
 
 def test_pendente_vazio_lido_como_ausente(raiz: Path) -> None:
+    caminho = raiz / "config/config.toml"
+    caminho.write_text(apoio_config.provisorio(caminho.read_text("utf-8")), "utf-8")
     lida = config.carregar(Arquivos(raiz))
     assert lida.geral.modelo_local.etiqueta_completa is None
     assert lida.geral.modelo_local.digest is None
