@@ -94,6 +94,7 @@ pet_sint/
 │   │   └── adr_002_interface_das_etapas_2026-11-21.md       (acréscimo do método)
 │   ├── briefs/                    (briefs numerados, com _modelo.md)
 │   ├── docs/                      (relatórios, um por brief)
+│   ├── roteiros/                  (passo a passo do ensaio e da rodada para o responsável; acréscimo do método)
 │   └── historico/                 (fora da leitura obrigatória; consulta por busca)
 ├── scripts/                       (acréscimo do método)
 │   ├── verificar.sh               (o gate)

@@ -12,16 +12,16 @@
 - Fase atual: Fase 12 — Ensaio de três peças (PLANO, seção 4). As Fases 1 a 11 terminaram com os briefs 001 a 023; o 026 preparou a máquina de produção para o ensaio.
 - Repositório: `sidarta1975/pet_sint` (https://github.com/sidarta1975/pet_sint), criado pelo responsável em 2026-11-21. A construção (os briefs 001 a 023) roda em sessões do Claude Code na nuvem, que clonam o repositório; os testes na máquina do responsável e o ensaio ficam para quando ele estiver no computador.
 - Último brief concluído: 026 · Testes independentes da configuração e conferência da máquina (2026-11-23), entregue por `scripts/entregar.sh 026` no ramo `claude/project-thread-t7c3zg`, no mesmo pedido de integração para `main` (#2).
-- Em execução: nada.
-- Próximos três: 024 · Ensaio de três peças; 025 · Rodada do MVP. Os textos dos dois já estão em `docs/briefs/`.
-- Último commit: `669b09a` (brief 023). O do 026 entra no Done pelo brief seguinte.
+- Em execução: 024 · Ensaio de três peças, parado esperando o responsável: o roteiro está em `docs/roteiros/roteiro_ensaio_2026-11-21.md`.
+- Próximos três: 025 · Rodada do MVP, depois do ensaio aprovado. Os textos do 024 e do 025 estão em `docs/briefs/`.
+- Último commit: `95ae4d1` (brief 026).
 - Máquina de produção: MacBook Pro M5, 48 GB de memória, com Python 3.12, Bash 5 do Homebrew, Ollama com `gemma3:27b` e `porteiro`, conferida em 2026-11-23.
 - Bloqueios: nenhum. O responsável autorizou, em 2026-11-21, seguir até o fim da fila sem novas aprovações; onde um brief pede resposta dele e ela não veio, vale o provisório escrito, registrado no relatório como decisão por falta de resposta.
 - Documentos de origem: arquitetura do MVP, versão 10 (2026-11-21); plano v15 (fechado); lista consolidada de peças. Arquitetura dada como pronta para virar instruções na revisão de 2026-11-21. Fila de briefs revista em 2026-11-21 (de 19 para 25 briefs).
 
 ## Doing
 
-(nenhum brief em execução)
+- 024 · Ensaio de três peças: roteiro entregue; espera o responsável rodar o ensaio e enviar os arquivos · sem commit · — · 2026-11-23
 
 ## Backlog
 
@@ -33,12 +33,11 @@ Briefs previstos pela ordem de construção (PLANO, seção 4). Ainda não escri
 - Depois do ensaio aprovado, qualquer mudança em código, dados, instruções, `config.toml` ou `gasto.toml` obriga a um ensaio novo (ARQUITETURA 5.12.1): o comando `fichas` recusa a rodada. A conferência da configuração no 002 vale, portanto, para a rodada inteira.
 
 - Numeração: o 026 foi escrito depois dos textos do 024 e do 025 (versão 5, 2026-11-21) e por isso tem número maior, mas roda antes deles.
-- 024 · Ensaio de três peças, com o caminho dos erros em miniatura e a amostra reduzida; primeira conferência das instruções aos modelos: roteiro para o responsável e leitura do resultado (Fase 12) · não iniciado · — · —
 - 025 · Rodada do MVP: roteiro para o responsável e leitura do relatório (Fase 13) · não iniciado · — · —
 
 ## Done — últimos 30 dias
 
-- 026 · Testes independentes dos valores do config.toml (testes/apoio_config.py) e conferência da máquina no config.toml: etiqueta, digest e janela de 24 horas (Fase 12, preparação) · concluído · — · 2026-11-23
+- 026 · Testes independentes dos valores do config.toml (testes/apoio_config.py) e conferência da máquina no config.toml: etiqueta, digest e janela de 24 horas (Fase 12, preparação) · concluído · 95ae4d1 · 2026-11-23
 - 023 · Relatório do MVP: relatorios.py, com todos os itens da ARQUITETURA 5.11 (Fase 11) · concluído · 669b09a · 2026-11-21
 - 022 · Teste dos conferentes, que recusa começar sem as duas amostras respondidas (Fase 11) · concluído · 47c6937 · 2026-11-21
 - 021 · Erros plantados pelo Opus e verificação do Sonnet, com plantar_erro.md e o sorteio das duas amostras, sem alterar revisao.py (Fase 11) · concluído · 3469ccb · 2026-11-21
